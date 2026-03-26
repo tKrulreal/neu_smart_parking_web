@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Dashboard</h2>
+    <p>Xin chào, <strong>{{ current_user.full_name }}</strong> ({{ current_user.username }}).</p>
+    <p>Role: <strong>{{ current_user.role }}</strong></p>
+
+    {% if current_user.role == 'admin' %}
+        <p class="muted">Bạn đang đăng nhập với quyền admin.</p>
+    {% else %}
+        <p class="muted">Bạn đang đăng nhập với quyền student.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Đăng ký (Student)</h2>
+    <form method="post">
+        <label>Username</label>
+        <input name="username" value="{{ username or '' }}" autocomplete="username" required>
+
+        <label>Họ tên</label>
+        <input name="full_name" value="{{ full_name or '' }}" autocomplete="name" required>
+
+        <label>Mã sinh viên</label>
+        <input name="student_code" value="{{ student_code or '' }}" autocomplete="off">
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ email or '' }}" autocomplete="email">
+
+        <label>Số điện thoại</label>
+        <input name="phone" value="{{ phone or '' }}" autocomplete="tel">
+
+        <label>Mật khẩu</label>
+        <input type="password" name="password" autocomplete="new-password" required>
+
+        <label>Nhập lại mật khẩu</label>
+        <input type="password" name="password2" autocomplete="new-password" required>
+
+        <button type="submit">Tạo tài khoản</button>
+    </form>
+    <p class="muted">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
+</div>
+{% endblock %}
