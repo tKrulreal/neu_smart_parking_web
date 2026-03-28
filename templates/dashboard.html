@@ -8,6 +8,8 @@
 
     {% if current_user.role == 'admin' %}
         <p class="muted">Bạn đang đăng nhập với quyền admin.</p>
+    {% elif current_user.role == 'guard' %}
+        <p class="muted">Bạn đang đăng nhập với quyền guard.</p>
     {% else %}
         <p class="muted">Bạn đang đăng nhập với quyền student.</p>
     {% endif %}

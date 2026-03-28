@@ -23,6 +23,10 @@
         <a href="{{ url_for('index') }}">Trang chủ</a>
         {% if current_user %}
             <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            {% if current_user.role in ['admin', 'guard'] %}
+                <a href="{{ url_for('gate_in') }}">Gate In</a>
+                <a href="{{ url_for('gate_out') }}">Gate Out</a>
+            {% endif %}
             {% if current_user.role == 'admin' %}
                 <a href="{{ url_for('admin') }}">Admin</a>
             {% endif %}
