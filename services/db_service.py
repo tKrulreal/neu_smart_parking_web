@@ -29,7 +29,7 @@ def drop_all_tables(conn):
 
 def create_users_table(conn):
     conn.execute(text("""
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
@@ -46,7 +46,7 @@ def create_users_table(conn):
 
 def create_vehicles_table(conn):
     conn.execute(text("""
-        CREATE TABLE IF NOT EXISTS vehicles (
+        CREATE TABLE vehicles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             plate TEXT UNIQUE NOT NULL,
             student_code TEXT NOT NULL,
@@ -63,7 +63,7 @@ def create_vehicles_table(conn):
 
 def create_parking_log_table(conn):
     conn.execute(text("""
-        CREATE TABLE IF NOT EXISTS parking_log (
+        CREATE TABLE parking_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             plate TEXT NOT NULL,
             student_code TEXT NOT NULL,
@@ -81,7 +81,7 @@ def create_parking_log_table(conn):
 
 def create_plate_scan_log_table(conn):
     conn.execute(text("""
-        CREATE TABLE IF NOT EXISTS plate_scan_log (
+        CREATE TABLE plate_scan_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             image_path TEXT NOT NULL,
             raw_text TEXT,
@@ -98,7 +98,7 @@ def create_plate_scan_log_table(conn):
 
 def create_qr_logs_table(conn):
     conn.execute(text("""
-        CREATE TABLE IF NOT EXISTS qr_logs (
+        CREATE TABLE qr_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             student_code TEXT NOT NULL,
             qr_payload TEXT NOT NULL,
