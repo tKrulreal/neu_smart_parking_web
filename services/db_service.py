@@ -18,6 +18,54 @@ def ensure_directories():
     os.makedirs(Config.QR_FOLDER, exist_ok=True)
     os.makedirs(Config.EXPORT_FOLDER, exist_ok=True)
 
+def table_exists(conn, table_name: str) -> bool:
+    row = conn.execute(
+        text(
+            """
+            SELECT 1
+            FROM sqlite_master
+            WHERE type='table' AND name=:name
+            """
+        ),
+        {"name": table_name},
+    ).fetchone()
+    return bool(row)
+
+
+def users_table_allows_guard(conn) -> bool:
+    sql = conn.execute(
+        text(
+            """
+            SELECT sql
+            FROM sqlite_master
+            WHERE type='table' AND name='users'
+            """
+        )
+    ).scalar()
+    return bool(sql) and "guard" in str(sql).lower()
+
+
+def migrate_users_table_add_guard_role(conn) -> None:
+    if not table_exists(conn, "users"):
+        return
+    if users_table_allows_guard(conn):
+        return
+
+    conn.execute(text("ALTER TABLE users RENAME TO users_old"))
+    create_users_table(conn)
+    conn.execute(
+        text(
+            """
+            INSERT INTO users
+            (id, username, password_hash, full_name, role, student_code, email, phone, is_active, created_at)
+            SELECT
+                id, username, password_hash, full_name, role, student_code, email, phone, is_active, created_at
+            FROM users_old
+            """
+        )
+    )
+    conn.execute(text("DROP TABLE users_old"))
+
 
 def drop_all_tables(conn):
     conn.execute(text("DROP TABLE IF EXISTS qr_logs"))
@@ -34,7 +82,7 @@ def create_users_table(conn):
             username TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             full_name TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('admin', 'student')),
+            role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('admin', 'student', 'guard')),
             student_code TEXT UNIQUE,
             email TEXT UNIQUE,
             phone TEXT,
@@ -124,6 +172,7 @@ def create_indexes(conn):
 
 def seed_default_users(conn):
     admin_password = generate_password_hash("admin123")
+    guard_password = generate_password_hash("guard123")
     student_password = generate_password_hash("student123")
 
     existing = {row[0] for row in conn.execute(text("SELECT username FROM users")).fetchall()}
@@ -144,6 +193,25 @@ def seed_default_users(conn):
                 "student_code": None,
                 "email": "admin@neu.edu.vn",
                 "phone": "0123456789",
+            },
+        )
+
+    if "guard" not in existing:
+        conn.execute(
+            text(
+                """
+                INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
+                VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
+                """
+            ),
+            {
+                "username": "guard",
+                "password_hash": guard_password,
+                "full_name": "Security Guard",
+                "role": "guard",
+                "student_code": None,
+                "email": "guard@neu.edu.vn",
+                "phone": "0999999999",
             },
         )
 
@@ -213,6 +281,7 @@ def init_db():
     engine = get_engine()
 
     with engine.begin() as conn:
+        migrate_users_table_add_guard_role(conn)
         create_users_table(conn)
         create_vehicles_table(conn)
         create_parking_log_table(conn)

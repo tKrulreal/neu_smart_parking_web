@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from functools import wraps
 
 from flask import Flask, flash, g, redirect, render_template, request, session, url_for
 
@@ -13,6 +14,22 @@ app.config.from_object(Config)
 app.permanent_session_lifetime = timedelta(days=7)
 
 init_db()
+
+
+def roles_required(*roles: str):
+    def decorator(view):
+        @wraps(view)
+        def wrapped_view(*args, **kwargs):
+            if not g.user:
+                return redirect(url_for("login", next=request.path))
+            if g.user.get("role") not in roles:
+                flash("Bạn không có quyền truy cập trang này.", "error")
+                return redirect(url_for("dashboard"))
+            return view(*args, **kwargs)
+
+        return wrapped_view
+
+    return decorator
 
 
 @app.before_request
@@ -139,13 +156,21 @@ def logout():
 
 
 @app.route("/admin")
+@roles_required("admin")
 def admin():
-    if not g.user:
-        return redirect(url_for("login", next=request.path))
-    if g.user.get("role") != "admin":
-        flash("Bạn không có quyền truy cập trang này.", "error")
-        return redirect(url_for("dashboard"))
     return render_template("admin.html")
+
+
+@app.route("/gate-in")
+@roles_required("guard", "admin")
+def gate_in():
+    return render_template("gate_in.html")
+
+
+@app.route("/gate-out")
+@roles_required("guard", "admin")
+def gate_out():
+    return render_template("gate_out.html")
 
 
 if __name__ == "__main__":
