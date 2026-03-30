@@ -1,805 +1,113 @@
 <!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>vehicles - exported project</title>
-    <meta property="og:title" content="vehicles - exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý phương tiện</title>
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/vehicles.css') }}">
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+</head>
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./vehicles.css" rel="stylesheet" />
+<body>
+<div class="vehicles-container1">
 
-      <div class="vehicles-container1">
-        <div class="vehicles-thq-vehicles-elm">
-          <div class="vehicles-thq-background-decoration-elm">
-            <img
-              src="public/external/svg4045-1kr.svg"
-              alt="SVG4045"
-              class="vehicles-thq-svg-elm1"
-            />
-          </div>
-          <div class="vehicles-thq-main-content-elm">
-            <div class="vehicles-thq-header-top-nav-bar-elm">
-              <div class="vehicles-thq-container-elm10">
-                <div class="vehicles-thq-container-elm11">
-                  <div class="vehicles-thq-input-elm1">
-                    <div class="vehicles-thq-container-elm12">
-                      <span class="vehicles-thq-text-elm100">
-                        Tìm kiếm biển số xe...
-                      </span>
-                    </div>
-                  </div>
-                  <img
-                    src="public/external/container4045-lu4h.svg"
-                    alt="Container4045"
-                    class="vehicles-thq-container-elm13"
-                  />
-                </div>
-              </div>
-              <div class="vehicles-thq-container-elm14">
-                <img
-                  src="public/external/container4045-3gnpc.svg"
-                  alt="Container4045"
-                  class="vehicles-thq-container-elm15"
-                />
-                <img
-                  src="public/external/container4045-m909.svg"
-                  alt="Container4045"
-                  class="vehicles-thq-container-elm16"
-                />
-                <img
-                  src="public/external/container4045-bhi.svg"
-                  alt="Container4045"
-                  class="vehicles-thq-container-elm17"
-                />
-              </div>
-            </div>
-            <div class="vehicles-thq-section-content-canvas-elm">
-              <div class="vehicles-thq-page-header-action-elm">
-                <div class="vehicles-thq-container-elm18">
-                  <div class="vehicles-thq-heading2-elm">
-                    <span class="vehicles-thq-text-elm101">
-                      Quản lý Phương tiện
-                    </span>
-                  </div>
-                  <div class="vehicles-thq-container-elm19">
-                    <span class="vehicles-thq-text-elm102">
-                      Hệ thống quản lý xe ra vào Đại học Kinh tế Quốc dân (NEU).
-                    </span>
-                  </div>
-                </div>
-                <button class="vehicles-thq-button-elm10">
-                  <img
-                    src="public/external/buttonshadow4045-qpgq-200h.png"
-                    alt="Buttonshadow4045"
-                    class="vehicles-thq-buttonshadow-elm1"
-                  />
-                  <img
-                    src="public/external/container4045-q48.svg"
-                    alt="Container4045"
-                    class="vehicles-thq-container-elm20"
-                  />
-                  <span class="vehicles-thq-text-elm103">Thêm xe mới</span>
-                </button>
-              </div>
-              <div class="vehicles-thq-bento-grid-statistics-elm">
-                <div class="vehicles-thq-background-elm10">
-                  <div class="vehicles-thq-container-elm21">
-                    <span class="vehicles-thq-text-elm104">
-                      TỔNG PHƯƠNG TIỆN
-                    </span>
-                  </div>
-                  <div class="vehicles-thq-container-elm22">
-                    <div class="vehicles-thq-container-elm23">
-                      <span class="vehicles-thq-text-elm105">1,284</span>
-                    </div>
-                    <div class="vehicles-thq-margin-elm1">
-                      <span class="vehicles-thq-text-elm106">+12%</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="vehicles-thq-background-elm11">
-                  <div class="vehicles-thq-container-elm24">
-                    <span class="vehicles-thq-text-elm107">ĐANG TRONG BÃI</span>
-                  </div>
-                  <div class="vehicles-thq-container-elm25">
-                    <div class="vehicles-thq-container-elm26">
-                      <span class="vehicles-thq-text-elm108">432</span>
-                    </div>
-                    <div class="vehicles-thq-margin-elm2">
-                      <span class="vehicles-thq-text-elm109">33%</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="vehicles-thq-background-elm12">
-                  <div class="vehicles-thq-container-elm27">
-                    <span class="vehicles-thq-text-elm110">ĐANG CHỜ DUYỆT</span>
-                  </div>
-                  <div class="vehicles-thq-container-elm28">
-                    <div class="vehicles-thq-container-elm29">
-                      <span class="vehicles-thq-text-elm111">18</span>
-                    </div>
-                    <div class="vehicles-thq-margin-elm3">
-                      <span class="vehicles-thq-text-elm112">Cần xử lý</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="vehicles-thq-background-elm13">
-                  <div class="vehicles-thq-container-elm30">
-                    <span class="vehicles-thq-text-elm113">
-                      VI PHẠM HÔM NAY
-                    </span>
-                  </div>
-                  <div class="vehicles-thq-container-elm31">
-                    <div class="vehicles-thq-container-elm32">
-                      <span class="vehicles-thq-text-elm114">03</span>
-                    </div>
-                    <img
-                      src="public/external/margin4046-705u.svg"
-                      alt="Margin4046"
-                      class="vehicles-thq-margin-elm4"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="vehicles-thq-filters-section-elm">
-                <div class="vehicles-thq-background-shadow-elm1">
-                  <img
-                    src="public/external/container4046-jksw.svg"
-                    alt="Container4046"
-                    class="vehicles-thq-container-elm33"
-                  />
-                  <div class="vehicles-thq-container-elm34">
-                    <span class="vehicles-thq-text-elm115">Tất cả xe</span>
-                  </div>
-                </div>
-                <div class="vehicles-thq-container-elm35">
-                  <img
-                    src="public/external/container4046-0a8.svg"
-                    alt="Container4046"
-                    class="vehicles-thq-container-elm36"
-                  />
-                  <div class="vehicles-thq-container-elm37">
-                    <span class="vehicles-thq-text-elm116">Ô tô</span>
-                  </div>
-                </div>
-                <div class="vehicles-thq-container-elm38">
-                  <img
-                    src="public/external/container4046-a9nc.svg"
-                    alt="Container4046"
-                    class="vehicles-thq-container-elm39"
-                  />
-                  <div class="vehicles-thq-container-elm40">
-                    <span class="vehicles-thq-text-elm117">Xe máy</span>
-                  </div>
-                </div>
-                <div class="vehicles-thq-container-elm41">
-                  <img
-                    src="public/external/container4046-ue6.svg"
-                    alt="Container4046"
-                    class="vehicles-thq-container-elm42"
-                  />
-                  <div class="vehicles-thq-container-elm43">
-                    <span class="vehicles-thq-text-elm118">Xe điện</span>
-                  </div>
-                </div>
-                <div class="vehicles-thq-margin-elm5">
-                  <img
-                    src="public/external/verticaldivider4046-2w0n-200w.png"
-                    alt="VerticalDivider4046"
-                    class="vehicles-thq-vertical-divider-elm"
-                  />
-                </div>
-                <div class="vehicles-thq-container-elm44">
-                  <div class="vehicles-thq-container-elm45">
-                    <span class="vehicles-thq-text-elm119">Loại xe:</span>
-                  </div>
-                  <div class="vehicles-thq-options-elm1">
-                    <div class="vehicles-thq-imagefill-elm1">
-                      <img
-                        src="public/external/svg4046-zj08.svg"
-                        alt="SVG4046"
-                        class="vehicles-thq-svg-elm2"
-                      />
-                    </div>
-                    <div class="vehicles-thq-container-elm46">
-                      <span class="vehicles-thq-text-elm120">Tất cả</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="vehicles-thq-vehicle-table-section-elm">
-                <div class="vehicles-thq-container-elm47">
-                  <div class="vehicles-thq-table-elm">
-                    <div class="vehicles-thq-header-elm">
-                      <div class="vehicles-thq-row-elm">
-                        <div class="vehicles-thq-cell-elm1">
-                          <span class="vehicles-thq-text-elm121">ID</span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm2">
-                          <span class="vehicles-thq-text-elm122">Biển số</span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm3">
-                          <span class="vehicles-thq-text-elm123">
-                            <span>Mã sinh</span>
-                            <br />
-                            <span>viên</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm4">
-                          <span class="vehicles-thq-text-elm126">
-                            <span>Tên chủ</span>
-                            <br />
-                            <span>xe</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm5">
-                          <span class="vehicles-thq-text-elm129">
-                            <span>Loại</span>
-                            <br />
-                            <span>xe</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm6">
-                          <span class="vehicles-thq-text-elm132">
-                            <span>Hãng</span>
-                            <br />
-                            <span>xe</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm7">
-                          <span class="vehicles-thq-text-elm135">
-                            <span>Màu</span>
-                            <br />
-                            <span>xe</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm8">
-                          <span class="vehicles-thq-text-elm138">
-                            Trạng thái
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-cell-elm9">
-                          <span class="vehicles-thq-text-elm139">Thao tác</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="vehicles-thq-body-elm">
-                      <div class="vehicles-thq-row1-elm">
-                        <div class="vehicles-thq-data-elm10">
-                          <span class="vehicles-thq-text-elm140">
-                            <span>#VH-</span>
-                            <br />
-                            <span>9021</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm11">
-                          <div
-                            class="vehicles-thq-paragraph-background-border-elm1"
-                          >
-                            <span class="vehicles-thq-text-elm143">29A-</span>
-                            <span class="vehicles-thq-text-elm144">123.45</span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm12">
-                          <span class="vehicles-thq-text-elm145">11210045</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm13">
-                          <span class="vehicles-thq-text-elm146">
-                            <span>Nguyễn</span>
-                            <br />
-                            <span>Văn</span>
-                            <br />
-                            <span>Khải</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm14">
-                          <span class="vehicles-thq-text-elm150">Ô tô</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm15">
-                          <span class="vehicles-thq-text-elm151">Toyota</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm16">
-                          <span class="vehicles-thq-text-elm152">Trắng</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm17">
-                          <div class="vehicles-thq-overlay-elm1">
-                            <img
-                              src="public/external/background4046-92r-200h.png"
-                              alt="Background4046"
-                              class="vehicles-thq-background-elm14"
-                            />
-                            <span class="vehicles-thq-text-elm153">
-                              Đang trong bãi
-                            </span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm18">
-                          <button class="vehicles-thq-button-elm11"></button>
-                          <button class="vehicles-thq-button-elm12"></button>
-                        </div>
-                      </div>
-                      <div class="vehicles-thq-row2-elm">
-                        <div class="vehicles-thq-data-elm19">
-                          <span class="vehicles-thq-text-elm154">
-                            <span>#VH-</span>
-                            <br />
-                            <span>9022</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm20">
-                          <div
-                            class="vehicles-thq-paragraph-background-border-elm2"
-                          >
-                            <span class="vehicles-thq-text-elm157">30H-</span>
-                            <span class="vehicles-thq-text-elm158">888.88</span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm21">
-                          <span class="vehicles-thq-text-elm159">11215678</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm22">
-                          <span class="vehicles-thq-text-elm160">
-                            <span>Trần</span>
-                            <br />
-                            <span>Minh</span>
-                            <br />
-                            <span>Anh</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm23">
-                          <span class="vehicles-thq-text-elm164">
-                            <span>Xe</span>
-                            <br />
-                            <span>máy</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm24">
-                          <span class="vehicles-thq-text-elm167">Honda</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm25">
-                          <span class="vehicles-thq-text-elm168">
-                            <span>Đỏ</span>
-                            <br />
-                            <span>đen</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm26">
-                          <div class="vehicles-thq-overlay-elm2">
-                            <img
-                              src="public/external/background4047-zds9-200h.png"
-                              alt="Background4047"
-                              class="vehicles-thq-background-elm15"
-                            />
-                            <span class="vehicles-thq-text-elm171">
-                              Đang chờ duyệt
-                            </span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm27">
-                          <button class="vehicles-thq-button-elm13"></button>
-                          <button class="vehicles-thq-button-elm14"></button>
-                        </div>
-                      </div>
-                      <div class="vehicles-thq-row3-elm">
-                        <div class="vehicles-thq-data-elm28">
-                          <span class="vehicles-thq-text-elm172">
-                            <span>#VH-</span>
-                            <br />
-                            <span>9023</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm29">
-                          <div
-                            class="vehicles-thq-paragraph-background-border-elm3"
-                          >
-                            <span class="vehicles-thq-text-elm175">29L-</span>
-                            <span class="vehicles-thq-text-elm176">456.78</span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm30">
-                          <span class="vehicles-thq-text-elm177">11210921</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm31">
-                          <span class="vehicles-thq-text-elm178">
-                            <span>Lê</span>
-                            <br />
-                            <span>Quang</span>
-                            <br />
-                            <span>Hải</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm32">
-                          <span class="vehicles-thq-text-elm182">
-                            <span>Xe</span>
-                            <br />
-                            <span>điện</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm33">
-                          <span class="vehicles-thq-text-elm185">VinFast</span>
-                        </div>
-                        <div class="vehicles-thq-data-elm34">
-                          <span class="vehicles-thq-text-elm186">
-                            <span>Xanh</span>
-                            <br />
-                            <span>dương</span>
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-data-elm35">
-                          <div class="vehicles-thq-overlay-elm3">
-                            <img
-                              src="public/external/background4047-r50r-200h.png"
-                              alt="Background4047"
-                              class="vehicles-thq-background-elm16"
-                            />
-                            <span class="vehicles-thq-text-elm189">
-                              Đã rời bãi
-                            </span>
-                          </div>
-                        </div>
-                        <div class="vehicles-thq-data-elm36">
-                          <button class="vehicles-thq-button-elm15"></button>
-                          <button class="vehicles-thq-button-elm16"></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="vehicles-thq-pagination-elm">
-                  <div class="vehicles-thq-container-elm48">
-                    <span class="vehicles-thq-text-elm190">
-                      Hiển thị 10 trên 1,284 kết quả
-                    </span>
-                  </div>
-                  <div class="vehicles-thq-container-elm49">
-                    <button class="vehicles-thq-button-elm17">
-                      <img
-                        src="public/external/container4047-0ssd.svg"
-                        alt="Container4047"
-                        class="vehicles-thq-container-elm50"
-                      />
-                    </button>
-                    <button class="vehicles-thq-button-elm18">
-                      <img
-                        src="public/external/buttonshadow4047-689h-200h.png"
-                        alt="Buttonshadow4047"
-                        class="vehicles-thq-buttonshadow-elm2"
-                      />
-                    </button>
-                    <button class="vehicles-thq-button-elm19"></button>
-                    <button class="vehicles-thq-button-elm20"></button>
-                    <button class="vehicles-thq-button-elm21">
-                      <img
-                        src="public/external/container4047-z0qq.svg"
-                        alt="Container4047"
-                        class="vehicles-thq-container-elm51"
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="vehicles-thq-aside-side-nav-bar-elm">
-            <div class="vehicles-thq-container-elm52">
-              <div class="vehicles-thq-container-elm53">
-                <div class="vehicles-thq-container-elm54">
-                  <div class="vehicles-thq-background-elm17">
-                    <img
-                      src="public/external/container4047-pjoe.svg"
-                      alt="Container4047"
-                      class="vehicles-thq-container-elm55"
-                    />
-                  </div>
-                  <div class="vehicles-thq-container-elm56">
-                    <div class="vehicles-thq-heading1-elm">
-                      <span class="vehicles-thq-text-elm191">NEU Parking</span>
-                    </div>
-                    <div class="vehicles-thq-container-elm57">
-                      <span class="vehicles-thq-text-elm192">
-                        ĐH Kinh tế Quốc dân
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="vehicles-thq-navmargin-elm">
-                <div class="vehicles-thq-nav-elm">
-                  <div class="vehicles-thq-link-elm1">
-                    <img
-                      src="public/external/container4047-inn.svg"
-                      alt="Container4047"
-                      class="vehicles-thq-container-elm58"
-                    />
-                    <div class="vehicles-thq-container-elm59">
-                      <span class="vehicles-thq-text-elm193">Dashboard</span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-link-elm2">
-                    <img
-                      src="public/external/container4047-869d.svg"
-                      alt="Container4047"
-                      class="vehicles-thq-container-elm60"
-                    />
-                    <div class="vehicles-thq-container-elm61">
-                      <span class="vehicles-thq-text-elm194">Phương tiệ</span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-link-elm3">
-                    <img
-                      src="public/external/container4048-btqg.svg"
-                      alt="Container4048"
-                      class="vehicles-thq-container-elm62"
-                    />
-                    <div class="vehicles-thq-container-elm63">
-                      <span class="vehicles-thq-text-elm195">Vào cổng</span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-link-elm4">
-                    <img
-                      src="public/external/container4048-z5p.svg"
-                      alt="Container4048"
-                      class="vehicles-thq-container-elm64"
-                    />
-                    <div class="vehicles-thq-container-elm65">
-                      <span class="vehicles-thq-text-elm196">Ra cổng</span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-link-elm5">
-                    <img
-                      src="public/external/container4048-yo5.svg"
-                      alt="Container4048"
-                      class="vehicles-thq-container-elm66"
-                    />
-                    <div class="vehicles-thq-container-elm67">
-                      <span class="vehicles-thq-text-elm197">Lịch sử</span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-link-elm6">
-                    <img
-                      src="public/external/container4048-z3ob.svg"
-                      alt="Container4048"
-                      class="vehicles-thq-container-elm68"
-                    />
-                    <div class="vehicles-thq-container-elm69">
-                      <span class="vehicles-thq-text-elm198">Người dùng</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="vehicles-thq-horizontal-border-elm">
-                <div class="vehicles-thq-background-elm18">
-                  <div class="vehicles-thq-adminportrait-elm"></div>
-                  <div class="vehicles-thq-container-elm70">
-                    <div class="vehicles-thq-container-elm71">
-                      <span class="vehicles-thq-text-elm199">Admin NEU</span>
-                    </div>
-                    <div class="vehicles-thq-container-elm72">
-                      <span class="vehicles-thq-text-elm200">
-                        Quản trị viên
-                      </span>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-margin-elm6">
-                    <img
-                      src="public/external/container4048-wtpi.svg"
-                      alt="Container4048"
-                      class="vehicles-thq-container-elm73"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="vehicles-thq-modal-thm-sa-phngtin-elm">
-            <div class="vehicles-thq-background-shadow-elm2">
-              <div class="vehicles-thq-background-horizontal-border-elm">
-                <div class="vehicles-thq-heading3-elm">
-                  <span class="vehicles-thq-text-elm201">
-                    Thông tin phương tiện
-                  </span>
-                </div>
-                <button class="vehicles-thq-button-elm22"></button>
-              </div>
-              <div class="vehicles-thq-container-elm74">
-                <div class="vehicles-thq-form-elm">
-                  <div class="vehicles-thq-container-elm75">
-                    <div class="vehicles-thq-label-elm1">
-                      <span class="vehicles-thq-text-elm202">Biển số xe</span>
-                    </div>
-                    <div class="vehicles-thq-input-elm2">
-                      <div class="vehicles-thq-container-elm76">
-                        <span class="vehicles-thq-text-elm203">
-                          Ví dụ: 29A-123.45
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-container-elm77">
-                    <div class="vehicles-thq-label-elm2">
-                      <span class="vehicles-thq-text-elm204">Mã sinh viên</span>
-                    </div>
-                    <div class="vehicles-thq-input-elm3">
-                      <div class="vehicles-thq-container-elm78">
-                        <span class="vehicles-thq-text-elm205">
-                          Nhập mã sinh viên
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-container-elm79">
-                    <div class="vehicles-thq-label-elm3">
-                      <span class="vehicles-thq-text-elm206">
-                        Họ tên chủ xe
-                      </span>
-                    </div>
-                    <div class="vehicles-thq-input-elm4">
-                      <div class="vehicles-thq-container-elm80">
-                        <span class="vehicles-thq-text-elm207">
-                          Nhập họ và tên chủ xe
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-container-elm81">
-                    <div class="vehicles-thq-label-elm4">
-                      <span class="vehicles-thq-text-elm208">Loại xe</span>
-                    </div>
-                    <div class="vehicles-thq-options-elm2">
-                      <div class="vehicles-thq-imagefill-elm2"></div>
-                      <div class="vehicles-thq-container-elm82">
-                        <span class="vehicles-thq-text-elm209">Ô tô</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-container-elm83">
-                    <div class="vehicles-thq-label-elm5">
-                      <span class="vehicles-thq-text-elm210">Hãng xe</span>
-                    </div>
-                    <div class="vehicles-thq-input-elm5">
-                      <div class="vehicles-thq-container-elm84">
-                        <span class="vehicles-thq-text-elm211">
-                          Toyota, Honda, VinFast...
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-container-elm85">
-                    <div class="vehicles-thq-label-elm6">
-                      <span class="vehicles-thq-text-elm212">Màu xe</span>
-                    </div>
-                    <div class="vehicles-thq-input-elm6">
-                      <div class="vehicles-thq-container-elm86">
-                        <span class="vehicles-thq-text-elm213">
-                          Ví dụ: Đen, Trắng, Đỏ...
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="vehicles-thq-image-upload-elm">
-                    <div class="vehicles-thq-label-elm7">
-                      <span class="vehicles-thq-text-elm214">Ảnh xe</span>
-                    </div>
-                    <div class="vehicles-thq-background-border-elm">
-                      <div class="vehicles-thq-background-elm19"></div>
-                      <div class="vehicles-thq-container-elm87">
-                        <div class="vehicles-thq-container-elm88">
-                          <span class="vehicles-thq-text-elm215">
-                            Click để tải lên ảnh xe
-                          </span>
-                        </div>
-                        <div class="vehicles-thq-container-elm89">
-                          <span class="vehicles-thq-text-elm216">
-                            Định dạng PNG, JPG tối đa 5MB.
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="vehicles-thq-background-elm20">
-                <button class="vehicles-thq-button-elm23">
-                  <span class="vehicles-thq-text-elm217">Hủy bỏ</span>
-                </button>
-                <button class="vehicles-thq-button-elm24">
-                  <img
-                    src="public/external/buttonshadow4048-538n-200h.png"
-                    alt="Buttonshadow4048"
-                    class="vehicles-thq-buttonshadow-elm3"
-                  />
-                  <span class="vehicles-thq-text-elm218">Lưu thông tin</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a href="https://play.teleporthq.io/signup" class="vehicles-link">
-          <div aria-label="Sign up to TeleportHQ" class="vehicles-container2">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="vehicles-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="vehicles-text28">Built in TeleportHQ</span>
-          </div>
-        </a>
-      </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/vehicles"
-      />
-    </div>
-  </body>
+  <!-- HEADER -->
+  <div class="vehicles-thq-header-top-nav-bar-elm">
+    <form method="GET">
+      <input type="text" name="q" placeholder="Tìm kiếm biển số xe..." value="{{ request.args.get('q','') }}">
+      <button type="submit">Tìm</button>
+    </form>
+  </div>
+
+  <!-- TITLE -->
+  <div class="vehicles-thq-page-header-action-elm">
+    <h2>Quản lý Phương tiện</h2>
+
+    <a href="{{ url_for('add_vehicle') }}">
+      <button>+ Thêm xe mới</button>
+    </a>
+  </div>
+
+  <!-- STATS -->
+  <div class="vehicles-thq-bento-grid-statistics-elm">
+    <div>Tổng phương tiện: {{ total }}</div>
+    <div>Trong bãi: {{ in_parking }}</div>
+    <div>Chờ duyệt: {{ pending }}</div>
+    <div>Vi phạm hôm nay: {{ violation }}</div>
+  </div>
+
+  <!-- FILTER -->
+  <div>
+    <a href="{{ url_for('vehicles') }}">Tất cả</a> |
+    <a href="{{ url_for('vehicles', type='car') }}">Ô tô</a> |
+    <a href="{{ url_for('vehicles', type='motorbike') }}">Xe máy</a> |
+    <a href="{{ url_for('vehicles', type='electric') }}">Xe điện</a>
+  </div>
+
+  <!-- TABLE -->
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Biển số</th>
+        <th>MSSV</th>
+        <th>Chủ xe</th>
+        <th>Loại</th>
+        <th>Hãng</th>
+        <th>Màu</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for v in vehicles %}
+      <tr>
+        <td>#VH-{{ v.id }}</td>
+        <td>{{ v.plate }}</td>
+        <td>{{ v.student_id }}</td>
+        <td>{{ v.owner }}</td>
+        <td>{{ v.type }}</td>
+        <td>{{ v.brand }}</td>
+        <td>{{ v.color }}</td>
+
+        <td>
+          {% if v.status == 'in' %}
+            Đang trong bãi
+          {% elif v.status == 'pending' %}
+            Chờ duyệt
+          {% else %}
+            Đã rời bãi
+          {% endif %}
+        </td>
+
+        <td>
+          <a href="{{ url_for('edit_vehicle', id=v.id) }}">Sửa</a> |
+          <a href="{{ url_for('delete_vehicle', id=v.id) }}"
+             onclick="return confirm('Xóa xe này?')">Xóa</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- PAGINATION -->
+  <div style="margin-top:20px;">
+    {% if page > 1 %}
+      <a href="{{ url_for('vehicles', page=page-1) }}">← Prev</a>
+    {% endif %}
+
+    Trang {{ page }} / {{ total_pages }}
+
+    {% if page < total_pages %}
+      <a href="{{ url_for('vehicles', page=page+1) }}">Next →</a>
+    {% endif %}
+  </div>
+
+</div>
+</body>
 </html>

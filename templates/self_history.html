@@ -1,593 +1,126 @@
 <!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>self-history - exported project</title>
-    <meta property="og:title" content="self-history - exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+<html lang="en">
+<head>
+    <title>Lịch sử gửi xe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/self-history.css') }}">
+</head>
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+<body>
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
+<div class="self-history-container1">
+
+    <!-- SIDEBAR -->
     <div>
-      <link href="./self-history.css" rel="stylesheet" />
+        <h3>NEU Parking</h3>
+        <p>Student Portal</p>
 
-      <div class="self-history-container1">
-        <div class="self-history-thq-selfhistory-elm">
-          <div class="self-history-thq-main-content-area-elm">
-            <div class="self-history-thq-header-top-nav-bar-shell-elm">
-              <div class="self-history-thq-container-elm10">
-                <div class="self-history-thq-container-elm11">
-                  <div class="self-history-thq-input-elm">
-                    <div class="self-history-thq-container-elm12">
-                      <span class="self-history-thq-text-elm10">
-                        Tìm kiếm giao dịch...
-                      </span>
-                    </div>
-                  </div>
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3624"
-                    class="self-history-thq-container-elm13"
-                  />
-                </div>
-              </div>
-              <div class="self-history-thq-container-elm14">
-                <button class="self-history-thq-button-elm1">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3624"
-                    class="self-history-thq-container-elm15"
-                  />
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Background3624"
-                    class="self-history-thq-background-elm10"
-                  />
-                </button>
-                <button class="self-history-thq-button-elm2">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3624"
-                    class="self-history-thq-container-elm16"
-                  />
-                </button>
-              </div>
-            </div>
-            <div class="self-history-thq-canvas-elm">
-              <div class="self-history-thq-header-elm">
-                <div class="self-history-thq-heading2-elm">
-                  <span class="self-history-thq-text-elm11">
-                    Lịch sử gửi xe
-                  </span>
-                </div>
-                <div class="self-history-thq-container-elm17">
-                  <span class="self-history-thq-text-elm12">
-                    Theo dõi và quản lý lịch sử ra vào bãi xe của bạn.
-                  </span>
-                </div>
-              </div>
-              <div class="self-history-thq-summary-bento-section-elm">
-                <div class="self-history-thq-background-border-shadow-elm">
-                  <div class="self-history-thq-container-elm18">
-                    <div class="self-history-thq-container-elm19">
-                      <span class="self-history-thq-text-elm13">
-                        Số lượt gửi
-                      </span>
-                    </div>
-                    <div class="self-history-thq-heading3-elm1">
-                      <span class="self-history-thq-text-elm14">28</span>
-                    </div>
-                  </div>
-                  <div class="self-history-thq-margin-elm">
-                    <div class="self-history-thq-container-elm20">
-                      <div class="self-history-thq-background-elm11">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Background3624"
-                          class="self-history-thq-background-elm12"
-                        />
-                      </div>
-                      <div class="self-history-thq-container-elm21">
-                        <span class="self-history-thq-text-elm15">
-                          Hạn mức tháng: 40 lượt
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="self-history-thq-background-shadow-elm">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Decorativebackgroundelement3624"
-                    class="self-history-thq-decorativebackgroundelement-elm"
-                  />
-                  <div class="self-history-thq-container-elm22">
-                    <div class="self-history-thq-container-elm23">
-                      <div class="self-history-thq-container-elm24">
-                        <span class="self-history-thq-text-elm16">
-                          Tổng chi tiêu tháng này
-                        </span>
-                      </div>
-                      <div class="self-history-thq-heading3-elm2">
-                        <span class="self-history-thq-text-elm17">450000</span>
-                        <span class="self-history-thq-text-elm18">VND</span>
-                      </div>
-                    </div>
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="OverlayOverlayBlur3624"
-                      class="self-history-thq-overlay-overlay-blur-elm"
-                    />
-                  </div>
-                  <div class="self-history-thq-container-elm25">
-                    <div class="self-history-thq-overlay-elm1">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3624"
-                        class="self-history-thq-container-elm26"
-                      />
-                      <span class="self-history-thq-text-elm19">
-                        +12% so với tháng trước
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="self-history-thq-main-data-table-container-elm">
-                <div class="self-history-thq-overlay-elm2">
-                  <div class="self-history-thq-heading4-elm">
-                    <span class="self-history-thq-text-elm20">
-                      Danh sách chi tiết
-                    </span>
-                  </div>
-                  <div class="self-history-thq-container-elm27">
-                    <button class="self-history-thq-button-elm3">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3625"
-                        class="self-history-thq-container-elm28"
-                      />
-                      <span class="self-history-thq-text-elm21">Lọc</span>
-                    </button>
-                    <button class="self-history-thq-button-elm4">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3625"
-                        class="self-history-thq-container-elm29"
-                      />
-                      <span class="self-history-thq-text-elm22">
-                        Xuất báo cáo
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div class="self-history-thq-table-elm">
-                  <div class="self-history-thq-header-row-elm">
-                    <div class="self-history-thq-cell-elm1">
-                      <span class="self-history-thq-text-elm23">Biển số</span>
-                    </div>
-                    <div class="self-history-thq-cell-elm2">
-                      <span class="self-history-thq-text-elm24">
-                        Thời gian vào
-                      </span>
-                    </div>
-                    <div class="self-history-thq-cell-elm3">
-                      <span class="self-history-thq-text-elm25">
-                        Thời gian ra
-                      </span>
-                    </div>
-                    <div class="self-history-thq-cell-elm4">
-                      <span class="self-history-thq-text-elm26">
-                        Thời lượng
-                      </span>
-                    </div>
-                    <div class="self-history-thq-cell-elm5">
-                      <span class="self-history-thq-text-elm27">
-                        Phí dịch vụ
-                      </span>
-                    </div>
-                    <div class="self-history-thq-cell-elm6">
-                      <span class="self-history-thq-text-elm28">
-                        Trạng thái
-                      </span>
-                    </div>
-                  </div>
-                  <div class="self-history-thq-body-elm">
-                    <div class="self-history-thq-row1-active-elm">
-                      <div class="self-history-thq-data-elm10">
-                        <div class="self-history-thq-background-elm13">
-                          <span class="self-history-thq-text-elm29">
-                            29A-123.45
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm11">
-                        <div class="self-history-thq-container-elm30">
-                          <span class="self-history-thq-text-elm30">
-                            10:15, 24 Th10
-                          </span>
-                        </div>
-                        <div class="self-history-thq-container-elm31">
-                          <span class="self-history-thq-text-elm31">
-                            Khu vực A2
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm12">
-                        <span class="self-history-thq-text-elm32">
-                          Chưa xác định
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm13">
-                        <span class="self-history-thq-text-elm33">
-                          3 giờ 45 phút
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm14">
-                        <span class="self-history-thq-text-elm34">
-                          Đang tính...
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm15">
-                        <div class="self-history-thq-background-elm14">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Background3625"
-                            class="self-history-thq-background-elm15"
-                          />
-                          <span class="self-history-thq-text-elm35">
-                            Đang đỗ
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="self-history-thq-row2-elm">
-                      <div class="self-history-thq-data-elm16">
-                        <div class="self-history-thq-background-elm16">
-                          <span class="self-history-thq-text-elm36">
-                            29A-123.45
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm17">
-                        <div class="self-history-thq-container-elm32">
-                          <span class="self-history-thq-text-elm37">
-                            07:30, 23 Th10
-                          </span>
-                        </div>
-                        <div class="self-history-thq-container-elm33">
-                          <span class="self-history-thq-text-elm38">
-                            Khu vực B1
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm18">
-                        <span class="self-history-thq-text-elm39">
-                          17:45, 23 Th10
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm19">
-                        <span class="self-history-thq-text-elm40">
-                          10 giờ 15 phút
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm20">
-                        <span class="self-history-thq-text-elm41">
-                          15.000 VND
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm21">
-                        <div class="self-history-thq-background-elm17">
-                          <span class="self-history-thq-text-elm42">
-                            Đã hoàn tất
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="self-history-thq-row3-elm">
-                      <div class="self-history-thq-data-elm22">
-                        <div class="self-history-thq-background-elm18">
-                          <span class="self-history-thq-text-elm43">
-                            30E-999.88
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm23">
-                        <div class="self-history-thq-container-elm34">
-                          <span class="self-history-thq-text-elm44">
-                            13:20, 22 Th10
-                          </span>
-                        </div>
-                        <div class="self-history-thq-container-elm35">
-                          <span class="self-history-thq-text-elm45">
-                            Khu vực C4
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm24">
-                        <span class="self-history-thq-text-elm46">
-                          15:50, 22 Th10
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm25">
-                        <span class="self-history-thq-text-elm47">
-                          2 giờ 30 phút
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm26">
-                        <span class="self-history-thq-text-elm48">
-                          5.000 VND
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm27">
-                        <div class="self-history-thq-background-elm19">
-                          <span class="self-history-thq-text-elm49">
-                            Đã hoàn tất
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="self-history-thq-row4-elm">
-                      <div class="self-history-thq-data-elm28">
-                        <div class="self-history-thq-background-elm20">
-                          <span class="self-history-thq-text-elm50">
-                            29A-123.45
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm29">
-                        <div class="self-history-thq-container-elm36">
-                          <span class="self-history-thq-text-elm51">
-                            08:00, 22 Th10
-                          </span>
-                        </div>
-                        <div class="self-history-thq-container-elm37">
-                          <span class="self-history-thq-text-elm52">
-                            Khu vực B1
-                          </span>
-                        </div>
-                      </div>
-                      <div class="self-history-thq-data-elm30">
-                        <span class="self-history-thq-text-elm53">
-                          12:00, 22 Th10
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm31">
-                        <span class="self-history-thq-text-elm54">
-                          4 giờ 00 phút
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm32">
-                        <span class="self-history-thq-text-elm55">
-                          5.000 VND
-                        </span>
-                      </div>
-                      <div class="self-history-thq-data-elm33">
-                        <div class="self-history-thq-background-elm21">
-                          <span class="self-history-thq-text-elm56">
-                            Đã hoàn tất
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="self-history-thq-overlay-horizontal-border-elm">
-                  <div class="self-history-thq-container-elm38">
-                    <span class="self-history-thq-text-elm57">
-                      Hiển thị 1-4 trên tổng số 28 giao dịch
-                    </span>
-                  </div>
-                  <div class="self-history-thq-container-elm39">
-                    <button class="self-history-thq-button-elm5">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3626"
-                        class="self-history-thq-container-elm40"
-                      />
-                    </button>
-                    <button class="self-history-thq-button-elm6"></button>
-                    <button class="self-history-thq-button-elm7"></button>
-                    <button class="self-history-thq-button-elm8"></button>
-                    <button class="self-history-thq-button-elm9">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3626"
-                        class="self-history-thq-container-elm41"
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="self-history-thq-aside-side-nav-bar-shell-elm">
-            <div class="self-history-thq-container-elm42">
-              <div class="self-history-thq-heading1-elm">
-                <span class="self-history-thq-text-elm58">NEU Parking</span>
-              </div>
-              <div class="self-history-thq-container-elm43">
-                <span class="self-history-thq-text-elm59">Student Portal</span>
-              </div>
-            </div>
-            <div class="self-history-thq-nav-elm">
-              <div class="self-history-thq-link-elm1">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3626"
-                  class="self-history-thq-container-elm44"
-                />
-                <div class="self-history-thq-container-elm45">
-                  <span class="self-history-thq-text-elm60">Trang chủ</span>
-                </div>
-              </div>
-              <div class="self-history-thq-link-elm2">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3626"
-                  class="self-history-thq-container-elm46"
-                />
-                <div class="self-history-thq-container-elm47">
-                  <span class="self-history-thq-text-elm61">Xe của tôi</span>
-                </div>
-              </div>
-              <div class="self-history-thq-linkcsstransform-elm">
-                <div class="self-history-thq-link-elm3">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3626"
-                    class="self-history-thq-container-elm48"
-                  />
-                  <div class="self-history-thq-container-elm49">
-                    <span class="self-history-thq-text-elm62">
-                      Lịch sử gửi xe
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="self-history-thq-link-elm4">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3626"
-                  class="self-history-thq-container-elm50"
-                />
-                <div class="self-history-thq-container-elm51">
-                  <span class="self-history-thq-text-elm63">
-                    Đăng ký xe mới
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="self-history-thq-container-elm52">
-              <div class="self-history-thq-background-elm22">
-                <div class="self-history-thq-student-profile-picture-elm"></div>
-                <div class="self-history-thq-container-elm53">
-                  <div class="self-history-thq-container-elm54">
-                    <span class="self-history-thq-text-elm64">
-                      Nguyễn Văn A
-                    </span>
-                  </div>
-                  <div class="self-history-thq-container-elm55">
-                    <span class="self-history-thq-text-elm65">
-                      MSSV: 11210001
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a href="https://play.teleporthq.io/signup" class="self-history-link">
-          <div
-            aria-label="Sign up to TeleportHQ"
-            class="self-history-container2"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="self-history-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="self-history-text">Built in TeleportHQ</span>
-          </div>
-        </a>
-      </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/self-history"
-      />
+        <a href="{{ url_for('dashboard') }}">Trang chủ</a>
+        <a href="{{ url_for('my_vehicles') }}">Xe của tôi</a>
+        <a href="{{ url_for('history') }}"><b>Lịch sử gửi xe</b></a>
+        <a href="{{ url_for('add_vehicle') }}">Đăng ký xe mới</a>
+
+        <hr>
+
+        <p>{{ user.full_name }}</p>
+        <p>MSSV: {{ user.student_id }}</p>
     </div>
-  </body>
+
+    <!-- MAIN -->
+    <div>
+
+        <!-- HEADER -->
+        <h2>Lịch sử gửi xe</h2>
+        <p>Theo dõi và quản lý lịch sử ra vào bãi xe</p>
+
+        <!-- SEARCH + FILTER -->
+        <form method="GET">
+
+            <input type="text" name="q" placeholder="Tìm biển số / khu vực..." value="{{ request.args.get('q','') }}">
+
+            <select name="status">
+                <option value="">-- Trạng thái --</option>
+                <option value="active">Đang đỗ</option>
+                <option value="done">Hoàn tất</option>
+            </select>
+
+            <button type="submit">Lọc</button>
+
+            <a href="{{ url_for('export_history') }}">
+                <button type="button">Xuất CSV</button>
+            </a>
+
+        </form>
+
+        <!-- SUMMARY -->
+        <div>
+            <p>Số lượt gửi: <b>{{ total_sessions }}</b></p>
+            <p>Tổng chi tiêu: <b>{{ total_spent }} đ</b></p>
+        </div>
+
+        <!-- TABLE -->
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>Biển số</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Thời lượng</th>
+                <th>Phí</th>
+                <th>Trạng thái</th>
+            </tr>
+
+            {% for item in histories %}
+            <tr>
+                <td>{{ item.plate }}</td>
+                <td>
+                    {{ item.checkin_time }} <br>
+                    <small>{{ item.area }}</small>
+                </td>
+                <td>
+                    {% if item.checkout_time %}
+                        {{ item.checkout_time }}
+                    {% else %}
+                        --
+                    {% endif %}
+                </td>
+                <td>{{ item.duration }}</td>
+                <td>
+                    {% if item.fee %}
+                        {{ item.fee }} đ
+                    {% else %}
+                        Đang tính...
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.status == 'active' %}
+                        Đang đỗ
+                    {% else %}
+                        Đã hoàn tất
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- PAGINATION -->
+        <div>
+            {% if page > 1 %}
+                <a href="?page={{ page-1 }}">← Prev</a>
+            {% endif %}
+
+            <span>Trang {{ page }}</span>
+
+            {% if has_next %}
+                <a href="?page={{ page+1 }}">Next →</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+</body>
 </html>

@@ -1,602 +1,134 @@
-<!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>gate-out - exported project</title>
-    <meta property="og:title" content="gate-out - exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+{% extends "base.html" %}
+{% block content %}
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+<div class="container-fluid">
+  <div class="row">
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+    <!-- SIDEBAR -->
+    <div class="col-2 bg-dark text-white p-3">
+      <h4>NEU Smart</h4>
+      <p>Guard Terminal</p>
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./gate-out.css" rel="stylesheet" />
-
-      <div class="gate-out-container1">
-        <div class="gate-out-thq-gateout-elm">
-          <div class="gate-out-thq-main-elm">
-            <div class="gate-out-thq-header-top-nav-bar-authority-json-elm">
-              <div class="gate-out-thq-container-elm10">
-                <div class="gate-out-thq-heading2-elm">
-                  <span class="gate-out-thq-text-elm10">
-                    Cổng 1 - Exit Terminal
-                  </span>
-                </div>
-                <div class="gate-out-thq-container-elm11">
-                  <span class="gate-out-thq-text-elm11">
-                    National Economics University
-                  </span>
-                </div>
-              </div>
-              <div class="gate-out-thq-container-elm12">
-                <div class="gate-out-thq-background-elm10">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Background3634"
-                    class="gate-out-thq-background-elm11"
-                  />
-                  <div class="gate-out-thq-container-elm13">
-                    <span class="gate-out-thq-text-elm12">LIVE SYSTEM</span>
-                  </div>
-                </div>
-                <div class="gate-out-thq-container-elm14">
-                  <button class="gate-out-thq-button-elm1">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container3634"
-                      class="gate-out-thq-container-elm15"
-                    />
-                  </button>
-                  <button class="gate-out-thq-button-elm2">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container3634"
-                      class="gate-out-thq-container-elm16"
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="gate-out-thq-main-content-area-architectural-flow-elm">
-              <div class="gate-out-thq-left-side-scanning-evidence-elm">
-                <div class="gate-out-thq-bento-gridfor-scanners-elm">
-                  <div class="gate-out-thq-plate-upload-elm">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="PlateUploadshadow3634"
-                      class="gate-out-thq-plate-uploadshadow-elm"
-                    />
-                    <div class="gate-out-thq-container-elm17">
-                      <div class="gate-out-thq-heading3-elm1">
-                        <span class="gate-out-thq-text-elm13">
-                          License Plate Capture
-                        </span>
-                      </div>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3634"
-                        class="gate-out-thq-container-elm18"
-                      />
-                    </div>
-                    <div class="gate-out-thq-background-border-elm1">
-                      <div class="gate-out-thq-license-plate-elm"></div>
-                      <div class="gate-out-thq-overlay-overlay-blur-elm">
-                        <div class="gate-out-thq-background-elm12">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="OverlayShadow3634"
-                            class="gate-out-thq-overlay-shadow-elm"
-                          />
-                          <div class="gate-out-thq-container-elm19">
-                            <span class="gate-out-thq-text-elm14">
-                              RE-CAPTURE
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gate-out-thq-container-elm20">
-                      <div class="gate-out-thq-background-elm13">
-                        <div class="gate-out-thq-container-elm21">
-                          <span class="gate-out-thq-text-elm15">
-                            Detected Plate
-                          </span>
-                        </div>
-                        <span class="gate-out-thq-text-elm16">
-                          29B1 - 888.88
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="gate-out-thq-qr-upload-elm">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="QRUploadshadow3634"
-                      class="gate-out-thq-qr-uploadshadow-elm"
-                    />
-                    <div class="gate-out-thq-container-elm22">
-                      <div class="gate-out-thq-heading3-elm2">
-                        <span class="gate-out-thq-text-elm17">
-                          Student QR Code
-                        </span>
-                      </div>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3634"
-                        class="gate-out-thq-container-elm23"
-                      />
-                    </div>
-                    <div class="gate-out-thq-background-border-elm2">
-                      <div class="gate-out-thq-container-elm24">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Container3634"
-                          class="gate-out-thq-container-elm25"
-                        />
-                        <div class="gate-out-thq-container-elm26">
-                          <span class="gate-out-thq-text-elm18">
-                            <span>Click to scan student QR card</span>
-                            <br />
-                            <span>or upload image</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gate-out-thq-container-elm27">
-                      <div class="gate-out-thq-background-elm14">
-                        <div class="gate-out-thq-container-elm28">
-                          <span class="gate-out-thq-text-elm21">
-                            Student ID
-                          </span>
-                        </div>
-                        <span class="gate-out-thq-text-elm22">11215678</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="gate-out-thq-verification-data-comparison-section-elm"
-                >
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="VerificationDataComparisonSectionshadow3635"
-                    class="gate-out-thq-verification-data-comparison-sectionshadow-elm"
-                  />
-                  <div class="gate-out-thq-heading3-elm3">
-                    <span class="gate-out-thq-text-elm23">
-                      Cross-Reference Validation
-                    </span>
-                  </div>
-                  <div class="gate-out-thq-container-elm29">
-                    <div class="gate-out-thq-background-elm15">
-                      <div class="gate-out-thq-container-elm30">
-                        <div class="gate-out-thq-overlay-elm1">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm31"
-                          />
-                        </div>
-                        <div class="gate-out-thq-container-elm32">
-                          <div class="gate-out-thq-container-elm33">
-                            <span class="gate-out-thq-text-elm24">
-                              Entry Records
-                            </span>
-                          </div>
-                          <div class="gate-out-thq-container-elm34">
-                            <span class="gate-out-thq-text-elm25">
-                              Checked in at 07:45 AM today
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="gate-out-thq-container-elm35">
-                        <div class="gate-out-thq-overlay-elm2">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm36"
-                          />
-                          <span class="gate-out-thq-text-elm26">MATCHED</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gate-out-thq-background-elm16">
-                      <div class="gate-out-thq-container-elm37">
-                        <div class="gate-out-thq-overlay-elm3">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm38"
-                          />
-                        </div>
-                        <div class="gate-out-thq-container-elm39">
-                          <div class="gate-out-thq-container-elm40">
-                            <span class="gate-out-thq-text-elm27">
-                              Identity Check
-                            </span>
-                          </div>
-                          <div class="gate-out-thq-container-elm41">
-                            <span class="gate-out-thq-text-elm28">
-                              Nguyen Van A - Faculty of IT
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="gate-out-thq-container-elm42">
-                        <div class="gate-out-thq-overlay-elm4">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm43"
-                          />
-                          <span class="gate-out-thq-text-elm29">MATCHED</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gate-out-thq-background-elm17">
-                      <div class="gate-out-thq-container-elm44">
-                        <div class="gate-out-thq-overlay-elm5">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm45"
-                          />
-                        </div>
-                        <div class="gate-out-thq-container-elm46">
-                          <div class="gate-out-thq-container-elm47">
-                            <span class="gate-out-thq-text-elm30">
-                              Vehicle ID
-                            </span>
-                          </div>
-                          <div class="gate-out-thq-container-elm48">
-                            <span class="gate-out-thq-text-elm31">
-                              Honda Airblade - Dark Blue
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="gate-out-thq-container-elm49">
-                        <div class="gate-out-thq-overlay-elm6">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3635"
-                            class="gate-out-thq-container-elm50"
-                          />
-                          <span class="gate-out-thq-text-elm32">MATCHED</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="gate-out-thq-right-side-action-financials-elm">
-                <div class="gate-out-thq-status-decision-card-elm">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="StatusDecisionCardshadow3635"
-                    class="gate-out-thq-status-decision-cardshadow-elm"
-                  />
-                  <div class="gate-out-thq-container-elm51">
-                    <div class="gate-out-thq-overlay-elm7">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3635"
-                        class="gate-out-thq-container-elm52"
-                      />
-                    </div>
-                    <div class="gate-out-thq-heading4-elm">
-                      <span class="gate-out-thq-text-elm33">Status Ready</span>
-                    </div>
-                    <div class="gate-out-thq-container-elm53">
-                      <span class="gate-out-thq-text-elm34">
-                        <span>Validation completed</span>
-                        <br />
-                        <span>successfully</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="gate-out-thq-container-elm54">
-                    <div class="gate-out-thq-parking-fee-display-elm">
-                      <div class="gate-out-thq-container-elm55">
-                        <div class="gate-out-thq-container-elm56">
-                          <span class="gate-out-thq-text-elm37">
-                            <span>Total Parking</span>
-                            <br />
-                            <span>Fee</span>
-                          </span>
-                        </div>
-                        <div class="gate-out-thq-container-elm57">
-                          <span class="gate-out-thq-text-elm40">
-                            <span>Auto-</span>
-                            <br />
-                            <span>calculated</span>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="gate-out-thq-paragraph-elm">
-                        <span class="gate-out-thq-text-elm43">3,000</span>
-                        <span class="gate-out-thq-text-elm44">VND</span>
-                      </div>
-                      <div class="gate-out-thq-horizontal-border-elm1">
-                        <div class="gate-out-thq-container-elm58">
-                          <span class="gate-out-thq-text-elm45">
-                            Duration: 8h 12m
-                          </span>
-                        </div>
-                        <div class="gate-out-thq-container-elm59">
-                          <span class="gate-out-thq-text-elm46">
-                            Rate: Student Day
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="gate-out-thq-decision-badge-elm">
-                      <span class="gate-out-thq-text-elm47">CHO RA</span>
-                    </div>
-                    <button class="gate-out-thq-button-main-cta-elm">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="ButtonMainCTAshadow3635"
-                        class="gate-out-thq-button-main-ct-ashadow-elm"
-                      />
-                      <span class="gate-out-thq-text-elm48">
-                        Xác thực và cho xe ra
-                      </span>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3635"
-                        class="gate-out-thq-container-elm60"
-                      />
-                    </button>
-                    <button class="gate-out-thq-button-elm3">
-                      <span class="gate-out-thq-text-elm49">TỪ CHỐI RA</span>
-                    </button>
-                  </div>
-                  <div class="gate-out-thq-meta-data-elm">
-                    <div class="gate-out-thq-background-elm18">
-                      <div class="gate-out-thq-container-elm61">
-                        <span class="gate-out-thq-text-elm50">Device</span>
-                      </div>
-                      <span class="gate-out-thq-text-elm51">
-                        Cam_GateOut_01
-                      </span>
-                    </div>
-                    <div class="gate-out-thq-background-elm19">
-                      <div class="gate-out-thq-container-elm62">
-                        <span class="gate-out-thq-text-elm52">Timestamp</span>
-                      </div>
-                      <span class="gate-out-thq-text-elm53">16:42:15</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="gate-out-thq-quick-actions-warnings-elm">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Icon3635"
-                    class="gate-out-thq-icon-elm"
-                  />
-                  <div class="gate-out-thq-container-elm63">
-                    <div class="gate-out-thq-container-elm64">
-                      <span class="gate-out-thq-text-elm54">Operator Note</span>
-                    </div>
-                    <div class="gate-out-thq-container-elm65">
-                      <span class="gate-out-thq-text-elm55">
-                        <span>Vehicle is currently registered for</span>
-                        <br />
-                        <span>overnight parking. System will auto-</span>
-                        <br />
-                        <span>charge for next period if not cleared</span>
-                        <br />
-                        <span>by 11:00 PM.</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="gate-out-thq-aside-side-nav-bar-authority-json-elm">
-            <div class="gate-out-thq-margin-elm">
-              <div class="gate-out-thq-container-elm66">
-                <div class="gate-out-thq-heading1-elm">
-                  <span class="gate-out-thq-text-elm60">NEU Smart</span>
-                </div>
-                <div class="gate-out-thq-container-elm67">
-                  <span class="gate-out-thq-text-elm61">Guard Terminal</span>
-                </div>
-              </div>
-            </div>
-            <div class="gate-out-thq-nav-elm">
-              <div class="gate-out-thq-link-elm1">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm68"
-                />
-                <div class="gate-out-thq-container-elm69">
-                  <span class="gate-out-thq-text-elm62">Dashboard</span>
-                </div>
-              </div>
-              <div class="gate-out-thq-link-elm2">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm70"
-                />
-                <div class="gate-out-thq-container-elm71">
-                  <span class="gate-out-thq-text-elm63">Gate In</span>
-                </div>
-              </div>
-              <div class="gate-out-thq-linkcsstransform-elm">
-                <div class="gate-out-thq-link-elm3">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3636"
-                    class="gate-out-thq-container-elm72"
-                  />
-                  <div class="gate-out-thq-container-elm73">
-                    <span class="gate-out-thq-text-elm64">Gate Out</span>
-                  </div>
-                </div>
-              </div>
-              <div class="gate-out-thq-link-elm4">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm74"
-                />
-                <div class="gate-out-thq-container-elm75">
-                  <span class="gate-out-thq-text-elm65">History</span>
-                </div>
-              </div>
-            </div>
-            <div class="gate-out-thq-horizontal-border-elm2">
-              <button class="gate-out-thq-buttonmargin-elm"></button>
-              <button class="gate-out-thq-button-elm4">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Buttonshadow3636"
-                  class="gate-out-thq-buttonshadow-elm"
-                />
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm76"
-                />
-                <span class="gate-out-thq-text-elm66">New Entry</span>
-              </button>
-
-              <div class="gate-out-thq-link-elm5">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm77"
-                />
-                <div class="gate-out-thq-container-elm78">
-                  <span class="gate-out-thq-text-elm67">Settings</span>
-                </div>
-              </div>
-              <div class="gate-out-thq-link-elm6">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3636"
-                  class="gate-out-thq-container-elm79"
-                />
-                <div class="gate-out-thq-container-elm80">
-                  <span class="gate-out-thq-text-elm68">Logout</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a href="https://play.teleporthq.io/signup" class="gate-out-link">
-          <div aria-label="Sign up to TeleportHQ" class="gate-out-container2">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="gate-out-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="gate-out-text8">Built in TeleportHQ</span>
-          </div>
-        </a>
-      </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/gate-out"
-      />
+      <ul class="nav flex-column">
+        <li class="nav-item"><a href="/" class="nav-link text-white">Dashboard</a></li>
+        <li class="nav-item"><a href="/gate-in" class="nav-link text-white">Gate In</a></li>
+        <li class="nav-item"><a href="/gate-out" class="nav-link text-warning">Gate Out</a></li>
+        <li class="nav-item"><a href="/history" class="nav-link text-white">History</a></li>
+      </ul>
     </div>
-  </body>
-</html>
+
+    <!-- MAIN -->
+    <div class="col-10 p-4">
+
+      <!-- HEADER -->
+      <div class="d-flex justify-content-between mb-4">
+        <div>
+          <h3>Cổng 1 - Exit Terminal</h3>
+          <p>National Economics University</p>
+        </div>
+        <div class="badge bg-success">LIVE SYSTEM</div>
+      </div>
+
+      <div class="row">
+
+        <!-- LEFT: SCAN -->
+        <div class="col-md-7">
+
+          <!-- License Plate -->
+          <div class="card mb-3 p-3">
+            <h5>License Plate Capture</h5>
+
+            <form method="POST" enctype="multipart/form-data">
+              <input type="file" name="plate_image" class="form-control mb-2">
+              <button class="btn btn-primary">Scan Plate</button>
+            </form>
+
+            <p class="mt-2">
+              Detected Plate:
+              <strong>{{ plate or "Chưa có" }}</strong>
+            </p>
+          </div>
+
+          <!-- QR -->
+          <div class="card mb-3 p-3">
+            <h5>Student QR Code</h5>
+
+            <form method="POST" enctype="multipart/form-data">
+              <input type="file" name="qr_image" class="form-control mb-2">
+              <button class="btn btn-primary">Scan QR</button>
+            </form>
+
+            <p class="mt-2">
+              Student ID:
+              <strong>{{ student_id or "Chưa có" }}</strong>
+            </p>
+          </div>
+
+          <!-- VALIDATION -->
+          <div class="card p-3">
+            <h5>Cross-Reference Validation</h5>
+
+            <ul>
+              <li>Entry Record: {{ entry_time or "Không có" }}</li>
+              <li>Identity: {{ student_name or "Unknown" }}</li>
+              <li>Vehicle: {{ vehicle or "Unknown" }}</li>
+            </ul>
+
+            <strong class="text-success">
+              {{ "MATCHED" if is_valid else "NOT MATCHED" }}
+            </strong>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: RESULT -->
+        <div class="col-md-5">
+
+          <div class="card p-3">
+
+            <h5>Status</h5>
+            <p>{{ "Ready" if is_valid else "Error" }}</p>
+
+            <hr>
+
+            <h5>Parking Fee</h5>
+            <h3>{{ fee or 0 }} VND</h3>
+
+            <p>Duration: {{ duration or "--" }}</p>
+            <p>Rate: {{ rate or "--" }}</p>
+
+            <hr>
+
+            <div class="d-flex gap-2">
+              <form method="POST" action="/confirm-out">
+                <button class="btn btn-success">Cho ra</button>
+              </form>
+
+              <form method="POST" action="/deny-out">
+                <button class="btn btn-danger">Từ chối</button>
+              </form>
+            </div>
+
+            <hr>
+
+            <small>
+              Device: Cam_GateOut_01 <br>
+              Time: {{ current_time }}
+            </small>
+
+          </div>
+
+          <!-- NOTE -->
+          <div class="alert alert-warning mt-3">
+            Xe đang đăng ký qua đêm. Có thể phát sinh phí thêm.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

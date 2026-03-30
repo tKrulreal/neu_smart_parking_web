@@ -1,524 +1,80 @@
-<!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>exported project</title>
-    <meta property="og:title" content="exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+{% extends 'base.html' %}
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+{% block title %}Trang chủ{% endblock %}
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+{% block content %}
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./index.css" rel="stylesheet" />
+<div class="indexhtml-container1">
 
-      <div class="indexhtml-container1">
-        <div class="indexhtml-thq-indexhtml-elm">
-          <div class="indexhtml-thq-main-content-canvas-elm">
-            <div class="indexhtml-thq-feature-grid-section-elm">
-              <div class="indexhtml-thq-container-elm10">
-                <div class="indexhtml-thq-container-elm11">
-                  <div class="indexhtml-thq-paragraph-elm">
-                    <span class="indexhtml-thq-text-elm10">
-                      Tính năng cốt lõi
-                    </span>
-                    <span class="indexhtml-thq-text-elm11">
-                      Nền tảng Quản lý Thông minh
-                    </span>
-                  </div>
-                </div>
-                <div class="indexhtml-thq-container-elm12">
-                  <div class="indexhtml-thq-feature1-elm">
-                    <div class="indexhtml-thq-background-elm10">
-                      <img
-                        src="public/container3623-uiyk.svg"
-                        alt="Container3623"
-                        class="indexhtml-thq-container-elm13"
-                      />
-                    </div>
-                    <div class="indexhtml-thq-heading3-elm1">
-                      <span class="indexhtml-thq-text-elm12">
-                        Quản lý xe vào/ra
-                      </span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm14">
-                      <span class="indexhtml-thq-text-elm13">
-                        <span>Hệ thống ghi nhận thời gian thực mọi</span>
-                        <br />
-                        <span>phương tiện di chuyển qua cổng với độ trễ</span>
-                        <br />
-                        <span>cực thấp.</span>
-                      </span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm15">
-                      <span class="indexhtml-thq-text-elm17">Xem chi tiết</span>
-                      <img
-                        src="public/container3624-qdgd.svg"
-                        alt="Container3624"
-                        class="indexhtml-thq-container-elm16"
-                      />
-                    </div>
-                  </div>
-                  <div class="indexhtml-thq-feature2-elm">
-                    <div class="indexhtml-thq-background-elm11">
-                      <img
-                        src="public/container3624-5dsn.svg"
-                        alt="Container3624"
-                        class="indexhtml-thq-container-elm17"
-                      />
-                    </div>
-                    <div class="indexhtml-thq-heading3-elm2">
-                      <span class="indexhtml-thq-text-elm18">Xác thực QR</span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm18">
-                      <span class="indexhtml-thq-text-elm19">
-                        <span>Quét mã QR cá nhân trên ứng dụng sinh</span>
-                        <br />
-                        <span>viên để xác thực nhanh chóng mà không</span>
-                        <br />
-                        <span>cần thẻ vật lý.</span>
-                      </span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm19">
-                      <span class="indexhtml-thq-text-elm23">Xem chi tiết</span>
-                      <img
-                        src="public/container3625-l35r.svg"
-                        alt="Container3625"
-                        class="indexhtml-thq-container-elm20"
-                      />
-                    </div>
-                  </div>
-                  <div class="indexhtml-thq-feature3-elm">
-                    <div class="indexhtml-thq-background-elm12">
-                      <img
-                        src="public/container3626-v54o.svg"
-                        alt="Container3626"
-                        class="indexhtml-thq-container-elm21"
-                      />
-                    </div>
-                    <div class="indexhtml-thq-heading3-elm3">
-                      <span class="indexhtml-thq-text-elm24">
-                        Thống kê bãi xe
-                      </span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm22">
-                      <span class="indexhtml-thq-text-elm25">
-                        <span>Báo cáo chi tiết về mật độ đỗ xe, doanh</span>
-                        <br />
-                        <span>thu và lưu lượng theo từng khung giờ trong</span>
-                        <br />
-                        <span>ngày.</span>
-                      </span>
-                    </div>
-                    <div class="indexhtml-thq-container-elm23">
-                      <span class="indexhtml-thq-text-elm29">Xem chi tiết</span>
-                      <img
-                        src="public/container3626-0oud.svg"
-                        alt="Container3626"
-                        class="indexhtml-thq-container-elm24"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="indexhtml-thq-hero-section-architectural-flow-elm">
-              <div class="indexhtml-thq-container-elm25">
-                <div class="indexhtml-thq-visual-anchor-elm">
-                  <img
-                    src="public/backgroundblur3627-n9n-300w.png"
-                    alt="BackgroundBlur3627"
-                    class="indexhtml-thq-background-blur-elm1"
-                  />
-                  <img
-                    src="public/backgroundblur3627-ybzr-300h.png"
-                    alt="BackgroundBlur3627"
-                    class="indexhtml-thq-background-blur-elm2"
-                  />
-                  <div class="indexhtml-thq-background-shadow-elm">
-                    <div
-                      class="indexhtml-thq-ab6a-xu-djlr-ml49-fzsp-y7-rlba-iy-od-ltjjz-n-uwy-j69nqiry-hn2qz-elm"
-                    ></div>
-                    <div class="indexhtml-thq-floating-glass-metric-elm">
-                      <img
-                        src="public/floatingglassmetricshadow3627-pfy-200h.png"
-                        alt="FloatingGlassMetricshadow3627"
-                        class="indexhtml-thq-floating-glass-metricshadow-elm"
-                      />
-                      <div class="indexhtml-thq-container-elm26">
-                        <div class="indexhtml-thq-container-elm27">
-                          <span class="indexhtml-thq-text-elm30">
-                            Tỷ lệ trống
-                          </span>
-                        </div>
-                        <div class="indexhtml-thq-container-elm28">
-                          <span class="indexhtml-thq-text-elm31">84%</span>
-                        </div>
-                      </div>
-                      <img
-                        src="public/border3628-n6c-200h.png"
-                        alt="Border3628"
-                        class="indexhtml-thq-border-elm"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="indexhtml-thq-container-elm29">
-                  <div class="indexhtml-thq-heading1-elm">
-                    <span class="indexhtml-thq-text-elm32">
-                      <span class="indexhtml-thq-text-elm33">
-                        Hệ thống Đỗ xe
-                      </span>
-                      <br />
-                      <span>Thông minh</span>
-                      <br />
-                      <span>NEU</span>
-                    </span>
-                  </div>
-                  <div class="indexhtml-thq-container-elm30">
-                    <span class="indexhtml-thq-text-elm36">
-                      <span>
-                        Giải pháp quản lý bãi đỗ xe hiện đại tại Đại học Kinh
-                      </span>
-                      <br />
-                      <span>
-                        tế Quốc dân. Tự động hóa hoàn toàn với công nghệ
-                      </span>
-                      <br />
-                      <span>tiên tiến nhất.</span>
-                    </span>
-                  </div>
-                  <div class="indexhtml-thq-bento-hero-features-elm">
-                    <div class="indexhtml-thq-background-elm13">
-                      <img
-                        src="public/container3629-96sr.svg"
-                        alt="Container3629"
-                        class="indexhtml-thq-container-elm31"
-                      />
-                      <div class="indexhtml-thq-container-elm32">
-                        <span class="indexhtml-thq-text-elm40">
-                          Xác thực QR
-                        </span>
-                      </div>
-                    </div>
-                    <div class="indexhtml-thq-background-elm14">
-                      <img
-                        src="public/container3629-nyfh.svg"
-                        alt="Container3629"
-                        class="indexhtml-thq-container-elm33"
-                      />
-                      <div class="indexhtml-thq-container-elm34">
-                        <span class="indexhtml-thq-text-elm41">
-                          Nhận diện biển số
-                        </span>
-                      </div>
-                    </div>
-                    <div class="indexhtml-thq-background-elm15">
-                      <img
-                        src="public/container3630-fs4.svg"
-                        alt="Container3630"
-                        class="indexhtml-thq-container-elm35"
-                      />
-                      <div class="indexhtml-thq-container-elm36">
-                        <span class="indexhtml-thq-text-elm42">
-                          Dashboard thống kê
-                        </span>
-                      </div>
-                    </div>
-                    <div class="indexhtml-thq-background-elm16">
-                      <img
-                        src="public/container3630-spd.svg"
-                        alt="Container3630"
-                        class="indexhtml-thq-container-elm37"
-                      />
-                      <div class="indexhtml-thq-container-elm38">
-                        <span class="indexhtml-thq-text-elm43">
-                          Quản lý xe ra vào
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="indexhtml-thq-button-elm1">
-                    <img
-                      src="public/buttonshadow3631-b6xj-200h.png"
-                      alt="Buttonshadow3631"
-                      class="indexhtml-thq-buttonshadow-elm1"
-                    />
-                    <span class="indexhtml-thq-text-elm44">Khám phá ngay</span>
-                    <img
-                      src="public/container3631-3s0x.svg"
-                      alt="Container3631"
-                      class="indexhtml-thq-container-elm39"
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="indexhtml-thq-dynamic-data-section-editorial-style-elm">
-              <div class="indexhtml-thq-container-elm40">
-                <div class="indexhtml-thq-container-elm41">
-                  <div class="indexhtml-thq-heading2-elm1">
-                    <span class="indexhtml-thq-text-elm45">
-                      <span>Hiệu suất tối đa,</span>
-                      <br />
-                      <span>Quản lý tối giản.</span>
-                    </span>
-                  </div>
-                  <div class="indexhtml-thq-container-elm42">
-                    <div class="indexhtml-thq-container-elm43">
-                      <div class="indexhtml-thq-margin-elm1">
-                        <img
-                          src="public/background3632-h92-200h.png"
-                          alt="Background3632"
-                          class="indexhtml-thq-background-elm17"
-                        />
-                      </div>
-                      <div class="indexhtml-thq-container-elm44">
-                        <div class="indexhtml-thq-heading4-elm1">
-                          <span class="indexhtml-thq-text-elm48">
-                            Tự động nhận diện biển số (ANPR)
-                          </span>
-                        </div>
-                        <div class="indexhtml-thq-container-elm45">
-                          <span class="indexhtml-thq-text-elm49">
-                            Độ chính xác lên tới 99.8% trong mọi điều kiện thời
-                            tiết và ánh sáng.
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="indexhtml-thq-container-elm46">
-                      <div class="indexhtml-thq-margin-elm2">
-                        <img
-                          src="public/background3633-cc2v-200h.png"
-                          alt="Background3633"
-                          class="indexhtml-thq-background-elm18"
-                        />
-                      </div>
-                      <div class="indexhtml-thq-container-elm47">
-                        <div class="indexhtml-thq-heading4-elm2">
-                          <span class="indexhtml-thq-text-elm50">
-                            Hệ thống thanh toán không chạm
-                          </span>
-                        </div>
-                        <div class="indexhtml-thq-container-elm48">
-                          <span class="indexhtml-thq-text-elm51">
-                            Tích hợp ví điện tử và tài khoản sinh viên NEU ID.
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="indexhtml-thq-container-elm49">
-                      <div class="indexhtml-thq-margin-elm3">
-                        <img
-                          src="public/background3634-u8vj-200h.png"
-                          alt="Background3634"
-                          class="indexhtml-thq-background-elm19"
-                        />
-                      </div>
-                      <div class="indexhtml-thq-container-elm50">
-                        <div class="indexhtml-thq-heading4-elm3">
-                          <span class="indexhtml-thq-text-elm52">
-                            Cảnh báo thông minh
-                          </span>
-                        </div>
-                        <div class="indexhtml-thq-container-elm51">
-                          <span class="indexhtml-thq-text-elm53">
-                            Phát hiện và thông báo ngay lập tức các trường hợp
-                            vi phạm hoặc đỗ sai quy định.
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="indexhtml-thq-overlay-shadow-elm">
-                  <div
-                    class="indexhtml-thq-ab6a-xu-b0b-cj95qy-l-gcs-rhxqq56pdmoyqnti-hu-y5x1oc-ec48k4d-elm"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="indexhtml-thq-cta-final-section-elm">
-              <img
-                src="public/gradient3634-c6k2-400h.png"
-                alt="Gradient3634"
-                class="indexhtml-thq-gradient-elm"
-              />
-              <div class="indexhtml-thq-container-elm52">
-                <div class="indexhtml-thq-heading2-elm2">
-                  <span class="indexhtml-thq-text-elm54">
-                    <span>Sẵn sàng trải nghiệm dịch vụ đỗ xe thế</span>
-                    <br />
-                    <span>hệ mới?</span>
-                  </span>
-                </div>
-                <div class="indexhtml-thq-container-elm53">
-                  <span class="indexhtml-thq-text-elm57">
-                    <span>
-                      Gia nhập hệ thống ngay hôm nay để nhận thông báo về chỗ
-                      trống và quản lý
-                    </span>
-                    <br />
-                    <span>phương tiện của bạn dễ dàng hơn bao giờ hết.</span>
-                  </span>
-                </div>
-                <div class="indexhtml-thq-container-elm54">
-                  <button class="indexhtml-thq-button-elm2">
-                    <img
-                      src="public/buttonshadow3635-jqa-200h.png"
-                      alt="Buttonshadow3635"
-                      class="indexhtml-thq-buttonshadow-elm2"
-                    />
-                    <span class="indexhtml-thq-text-elm60">Đăng ký ngay</span>
-                  </button>
-                  <button class="indexhtml-thq-button-elm3">
-                    <span class="indexhtml-thq-text-elm61">Liên hệ hỗ trợ</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="indexhtml-thq-footer-elm">
-            <div class="indexhtml-thq-container-elm55">
-              <div class="indexhtml-thq-container-elm56">
-                <span class="indexhtml-thq-text-elm62">
-                  © 2024 NEU Smart Parking System. All rights reserved.
-                </span>
-              </div>
-              <div class="indexhtml-thq-container-elm57">
-                <div class="indexhtml-thq-link-elm1">
-                  <span class="indexhtml-thq-text-elm63">Privacy Policy</span>
-                </div>
-                <div class="indexhtml-thq-link-elm2">
-                  <span class="indexhtml-thq-text-elm64">Terms of Service</span>
-                </div>
-                <div class="indexhtml-thq-link-elm3">
-                  <span class="indexhtml-thq-text-elm65">Campus Map</span>
-                </div>
-                <div class="indexhtml-thq-link-elm4">
-                  <span class="indexhtml-thq-text-elm66">Help Center</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="indexhtml-thq-nav-top-app-bar-elm">
-            <div class="indexhtml-thq-container-elm58">
-              <div class="indexhtml-thq-container-elm59">
-                <span class="indexhtml-thq-text-elm67">NEU Smart Parking</span>
-              </div>
-              <div class="indexhtml-thq-container-elm60">
-                <div class="indexhtml-thq-link-elm5">
-                  <span class="indexhtml-thq-text-elm68">Home</span>
-                </div>
-                <div class="indexhtml-thq-linkmargin-elm1">
-                  <span class="indexhtml-thq-text-elm69">About</span>
-                </div>
-                <div class="indexhtml-thq-linkmargin-elm2">
-                  <span class="indexhtml-thq-text-elm70">Pricing</span>
-                </div>
-                <div class="indexhtml-thq-linkmargin-elm3">
-                  <span class="indexhtml-thq-text-elm71">Contact</span>
-                </div>
-              </div>
-              <div class="indexhtml-thq-container-elm61">
-                <button class="indexhtml-thq-button-elm4">
-                  <span class="indexhtml-thq-text-elm72">Login</span>
-                </button>
-                <button class="indexhtml-thq-button-elm5">
-                  <img
-                    src="public/buttonshadow3639-6eyi-200h.png"
-                    alt="Buttonshadow3639"
-                    class="indexhtml-thq-buttonshadow-elm3"
-                  />
-                  <span class="indexhtml-thq-text-elm73">Đăng ký</span>
-                </button>
-              </div>
-            </div>
-          </div>
+  <!-- HERO -->
+  <div class="indexhtml-thq-hero-section-architectural-flow-elm">
+    <div class="indexhtml-thq-container-elm25">
+
+      <div class="indexhtml-thq-container-elm29">
+        <div class="indexhtml-thq-heading1-elm">
+          <span>
+            Hệ thống Đỗ xe Thông minh NEU
+          </span>
         </div>
-        <a href="https://play.teleporthq.io/signup" class="indexhtml-link">
-          <div aria-label="Sign up to TeleportHQ" class="indexhtml-container2">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="indexhtml-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="indexhtml-text23">Built in TeleportHQ</span>
-          </div>
+
+        <div>
+          <span>
+            Giải pháp quản lý bãi đỗ xe hiện đại tại NEU
+          </span>
+        </div>
+
+        <a href="{{ url_for('dashboard') }}">
+          <button class="indexhtml-thq-button-elm1">
+            Khám phá ngay
+          </button>
         </a>
       </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/"
-      />
+
     </div>
-  </body>
-</html>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="indexhtml-thq-feature-grid-section-elm">
+    <div>
+
+      <div>
+        <h3>Tính năng cốt lõi</h3>
+      </div>
+
+      <div>
+
+        <div>
+          <h4>Quản lý xe vào/ra</h4>
+          <p>Ghi nhận thời gian thực</p>
+        </div>
+
+        <div>
+          <h4>Xác thực QR</h4>
+          <p>Không cần thẻ vật lý</p>
+        </div>
+
+        <div>
+          <h4>Thống kê</h4>
+          <p>Báo cáo doanh thu & lưu lượng</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="indexhtml-thq-cta-final-section-elm">
+    <div>
+      <h2>Sẵn sàng trải nghiệm?</h2>
+
+      <a href="{{ url_for('register') }}">
+        <button>Đăng ký ngay</button>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

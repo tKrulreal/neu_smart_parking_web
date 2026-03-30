@@ -1,600 +1,109 @@
 <!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>my-vehicle - exported project</title>
-    <meta property="og:title" content="my-vehicle - exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Xe của tôi - NEU Parking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='my-vehicle.css') }}">
+</head>
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+<body>
+<div class="container">
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+    <!-- HEADER -->
+    <header class="header">
+        <h2>NEU Smart Parking</h2>
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./my-vehicle.css" rel="stylesheet" />
+        <nav>
+            <a href="/dashboard">Bảng điều khiển</a>
+            <a href="/my-vehicle" class="active">Phương tiện</a>
+            <a href="/history">Lịch sử</a>
+        </nav>
 
-      <div class="my-vehicle-container1">
-        <div class="my-vehicle-thq-myvehicle-elm">
-          <div class="my-vehicle-thq-header-top-navigation-bar-elm">
-            <div class="my-vehicle-thq-container-elm10">
-              <div class="my-vehicle-thq-container-elm11">
-                <span class="my-vehicle-thq-text-elm10">NEU Smart Parking</span>
-              </div>
-              <div class="my-vehicle-thq-nav-elm1">
-                <div class="my-vehicle-thq-link-elm10">
-                  <span class="my-vehicle-thq-text-elm11">Bảng điều khiển</span>
-                </div>
-                <div class="my-vehicle-thq-link-elm11">
-                  <span class="my-vehicle-thq-text-elm12">Phương tiện</span>
-                </div>
-                <div class="my-vehicle-thq-link-elm12">
-                  <span class="my-vehicle-thq-text-elm13">Lịch sử</span>
-                </div>
-              </div>
-            </div>
-            <div class="my-vehicle-thq-container-elm12">
-              <div class="my-vehicle-thq-container-elm13">
-                <div class="my-vehicle-thq-input-elm">
-                  <div class="my-vehicle-thq-container-elm14">
-                    <span class="my-vehicle-thq-text-elm14">
-                      Tìm kiếm xe...
-                    </span>
-                  </div>
-                </div>
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm15"
-                />
-              </div>
-              <button class="my-vehicle-thq-button-elm1">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm16"
-                />
-              </button>
-              <div class="my-vehicle-thq-background-elm10">
-                <div class="my-vehicle-thq-framenhidinngidng-elm"></div>
-              </div>
-            </div>
-          </div>
-          <div class="my-vehicle-thq-aside-side-navigation-bar-elm">
-            <div class="my-vehicle-thq-margin-elm1">
-              <div class="my-vehicle-thq-container-elm17">
-                <div class="my-vehicle-thq-heading2-elm">
-                  <span class="my-vehicle-thq-text-elm15">Quản trị NEU</span>
-                </div>
-                <div class="my-vehicle-thq-container-elm18">
-                  <span class="my-vehicle-thq-text-elm16">
-                    Hệ thống đỗ xe thông minh
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="my-vehicle-thq-nav-elm2">
-              <div class="my-vehicle-thq-link-elm13">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm19"
-                />
-                <div class="my-vehicle-thq-container-elm20">
-                  <span class="my-vehicle-thq-text-elm17">Bảng điều khiển</span>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-linkcsstransform-elm">
-                <div class="my-vehicle-thq-link-elm14">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3620"
-                    class="my-vehicle-thq-container-elm21"
-                  />
-                  <div class="my-vehicle-thq-container-elm22">
-                    <span class="my-vehicle-thq-text-elm18">Phương tiện</span>
-                  </div>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-link-elm15">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm23"
-                />
-                <div class="my-vehicle-thq-container-elm24">
-                  <span class="my-vehicle-thq-text-elm19">Cổng vào</span>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-link-elm16">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm25"
-                />
-                <div class="my-vehicle-thq-container-elm26">
-                  <span class="my-vehicle-thq-text-elm20">Cổng ra</span>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-link-elm17">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm27"
-                />
-                <div class="my-vehicle-thq-container-elm28">
-                  <span class="my-vehicle-thq-text-elm21">Lịch sử</span>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-link-elm18">
-                <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
-                  alt="Container3620"
-                  class="my-vehicle-thq-container-elm29"
-                />
-                <div class="my-vehicle-thq-container-elm30">
-                  <span class="my-vehicle-thq-text-elm22">Người dùng</span>
-                </div>
-              </div>
-            </div>
-            <div class="my-vehicle-thq-margin-elm2">
-              <div class="my-vehicle-thq-horizontal-border-elm1">
-                <button class="my-vehicle-thq-buttonmargin-elm"></button>
-                <button class="my-vehicle-thq-button-elm2">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Buttonshadow3620"
-                    class="my-vehicle-thq-buttonshadow-elm"
-                  />
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3620"
-                    class="my-vehicle-thq-container-elm31"
-                  />
-                  <span class="my-vehicle-thq-text-elm23">
-                    Thêm phương tiện mới
-                  </span>
-                </button>
-
-                <div class="my-vehicle-thq-link-elm19">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3620"
-                    class="my-vehicle-thq-container-elm32"
-                  />
-                  <div class="my-vehicle-thq-container-elm33">
-                    <span class="my-vehicle-thq-text-elm24">Cài đặt</span>
-                  </div>
-                </div>
-                <div class="my-vehicle-thq-link-elm20">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container3620"
-                    class="my-vehicle-thq-container-elm34"
-                  />
-                  <div class="my-vehicle-thq-container-elm35">
-                    <span class="my-vehicle-thq-text-elm25">Đăng xuất</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-vehicle-thq-container-elm36">
-            <div class="my-vehicle-thq-main-content-area-elm">
-              <div class="my-vehicle-thq-header-section-elm">
-                <div class="my-vehicle-thq-container-elm37">
-                  <div class="my-vehicle-thq-heading1-elm">
-                    <span class="my-vehicle-thq-text-elm26">Xe của tôi</span>
-                  </div>
-                  <div class="my-vehicle-thq-container-elm38">
-                    <span class="my-vehicle-thq-text-elm27">
-                      <span>
-                        Quản lý các phương tiện đã đăng ký trong hệ thống bãi đỗ
-                        xe Đại
-                      </span>
-                      <br />
-                      <span>học Kinh tế Quốc dân.</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="my-vehicle-thq-container-elm39">
-                  <div class="my-vehicle-thq-background-elm11">
-                    <div class="my-vehicle-thq-container-elm40">
-                      <span class="my-vehicle-thq-text-elm30">02</span>
-                    </div>
-                    <div class="my-vehicle-thq-container-elm41">
-                      <span class="my-vehicle-thq-text-elm31">Đã đăng ký</span>
-                    </div>
-                  </div>
-                  <div class="my-vehicle-thq-background-elm12">
-                    <div class="my-vehicle-thq-container-elm42">
-                      <span class="my-vehicle-thq-text-elm32">01</span>
-                    </div>
-                    <div class="my-vehicle-thq-container-elm43">
-                      <span class="my-vehicle-thq-text-elm33">Trong bãi</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="my-vehicle-thq-bento-gridof-vehicles-elm">
-                <div class="my-vehicle-thq-main-vehicle-card-elm">
-                  <div class="my-vehicle-thq-background-elm13">
-                    <div class="my-vehicle-thq-xemy-honda-sh-elm"></div>
-                    <div class="my-vehicle-thq-background-elm14">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3621"
-                        class="my-vehicle-thq-container-elm44"
-                      />
-                      <span class="my-vehicle-thq-text-elm34">MẶC ĐỊNH</span>
-                    </div>
-                    <div class="my-vehicle-thq-background-elm15">
-                      <div class="my-vehicle-thq-heading3-elm1">
-                        <span class="my-vehicle-thq-text-elm35">
-                          Honda SH 150i
-                        </span>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm45">
-                        <span class="my-vehicle-thq-text-elm36">
-                          Đăng ký ngày 12/10/2023
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="my-vehicle-thq-container-elm46">
-                    <div class="my-vehicle-thq-container-elm47">
-                      <div class="my-vehicle-thq-label-elm1">
-                        <span class="my-vehicle-thq-text-elm37">
-                          Biển số xe
-                        </span>
-                      </div>
-                      <div
-                        class="my-vehicle-thq-background-vertical-border-elm"
-                      >
-                        <span class="my-vehicle-thq-text-elm38">
-                          29-G1 888.88
-                        </span>
-                      </div>
-                    </div>
-                    <div class="my-vehicle-thq-container-elm48">
-                      <div class="my-vehicle-thq-label-elm2">
-                        <span class="my-vehicle-thq-text-elm39">
-                          Trạng thái hiện tại
-                        </span>
-                      </div>
-                      <div class="my-vehicle-thq-background-elm16">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Background3621"
-                          class="my-vehicle-thq-background-elm17"
-                        />
-                        <span class="my-vehicle-thq-text-elm40">
-                          Đang trong bãi (Khu A)
-                        </span>
-                      </div>
-                    </div>
-                    <div class="my-vehicle-thq-horizontal-border-elm2">
-                      <button class="my-vehicle-thq-button-elm3">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Container3621"
-                          class="my-vehicle-thq-container-elm49"
-                        />
-                        <span class="my-vehicle-thq-text-elm41">
-                          Sửa thông tin
-                        </span>
-                      </button>
-                      <button class="my-vehicle-thq-button-elm4">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Container3621"
-                          class="my-vehicle-thq-container-elm50"
-                        />
-                        <span class="my-vehicle-thq-text-elm42">
-                          Lịch sử ra vào
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div class="my-vehicle-thq-stats-secondary-card-column-elm">
-                  <div class="my-vehicle-thq-quick-info-card-elm">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="OverlayBlur3621"
-                      class="my-vehicle-thq-overlay-blur-elm"
-                    />
-                    <div class="my-vehicle-thq-container-elm51">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Icon3621"
-                        class="my-vehicle-thq-icon-elm"
-                      />
-                      <div class="my-vehicle-thq-heading4-elm1">
-                        <span class="my-vehicle-thq-text-elm43">
-                          Số dư tài khoản
-                        </span>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm52">
-                        <span class="my-vehicle-thq-text-elm44">150.000đ</span>
-                      </div>
-                      <button class="my-vehicle-thq-button-elm5">
-                        <span class="my-vehicle-thq-text-elm45">
-                          Nạp thêm tiền
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="my-vehicle-thq-notification-card-elm">
-                    <div class="my-vehicle-thq-heading4-elm2">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3621"
-                        class="my-vehicle-thq-container-elm53"
-                      />
-                      <span class="my-vehicle-thq-text-elm46">
-                        Thông báo mới
-                      </span>
-                    </div>
-                    <div class="my-vehicle-thq-container-elm54">
-                      <div
-                        class="my-vehicle-thq-background-vertical-border-shadow-elm1"
-                      >
-                        <div class="my-vehicle-thq-container-elm55">
-                          <span class="my-vehicle-thq-text-elm47">
-                            Cảnh báo đỗ xe
-                          </span>
-                        </div>
-                        <div class="my-vehicle-thq-container-elm56">
-                          <span class="my-vehicle-thq-text-elm48">
-                            Xe 29-G1 888.88 đỗ sai vị trí tại tầng 2.
-                          </span>
-                        </div>
-                      </div>
-                      <div
-                        class="my-vehicle-thq-background-vertical-border-shadow-elm2"
-                      >
-                        <div class="my-vehicle-thq-container-elm57">
-                          <span class="my-vehicle-thq-text-elm49">
-                            Giao dịch thành công
-                          </span>
-                        </div>
-                        <div class="my-vehicle-thq-container-elm58">
-                          <span class="my-vehicle-thq-text-elm50">
-                            Gia hạn vé tháng thành công.
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="my-vehicle-thq-secondary-vehicle-list-asymmetric-tablelikelayout-elm"
-                >
-                  <div class="my-vehicle-thq-container-elm59">
-                    <div class="my-vehicle-thq-heading3-elm2">
-                      <span class="my-vehicle-thq-text-elm51">
-                        Phương tiện khác
-                      </span>
-                    </div>
-                    <button class="my-vehicle-thq-button-elm6">
-                      <span class="my-vehicle-thq-text-elm52">Xem tất cả</span>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container3621"
-                        class="my-vehicle-thq-container-elm60"
-                      />
-                    </button>
-                  </div>
-                  <div class="my-vehicle-thq-container-elm61">
-                    <div class="my-vehicle-thq-vehicle-item1-elm">
-                      <div class="my-vehicle-thq-background-elm18">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Container3621"
-                          class="my-vehicle-thq-container-elm62"
-                        />
-                      </div>
-                      <div class="my-vehicle-thq-container-elm63">
-                        <div class="my-vehicle-thq-heading5-elm1">
-                          <span class="my-vehicle-thq-text-elm53">
-                            VinFast Klara S
-                          </span>
-                        </div>
-                        <div class="my-vehicle-thq-container-elm64">
-                          <span class="my-vehicle-thq-text-elm54">
-                            Xe máy điện • Trắng
-                          </span>
-                        </div>
-                      </div>
-                      <div class="my-vehicle-thq-paragraph-elm1">
-                        <span class="my-vehicle-thq-text-elm55">Biển số</span>
-                        <span class="my-vehicle-thq-text-elm56">
-                          29-E1 123.45
-                        </span>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm65">
-                        <div class="my-vehicle-thq-label-elm3">
-                          <span class="my-vehicle-thq-text-elm57">
-                            Trạng thái
-                          </span>
-                        </div>
-                        <div class="my-vehicle-thq-container-elm66">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Background3621"
-                            class="my-vehicle-thq-background-elm19"
-                          />
-                          <span class="my-vehicle-thq-text-elm58">
-                            Ngoại tuyến
-                          </span>
-                        </div>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm67">
-                        <button class="my-vehicle-thq-button-elm7">
-                          <img
-                            src="https://play.teleporthq.io/static/svg/default-img.svg"
-                            alt="Container3622"
-                            class="my-vehicle-thq-container-elm68"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                    <div
-                      class="my-vehicle-thq-vehicle-item2-incompleteregistrationstate-elm"
-                    >
-                      <div class="my-vehicle-thq-background-elm20">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Container3622"
-                          class="my-vehicle-thq-container-elm69"
-                        />
-                      </div>
-                      <div class="my-vehicle-thq-container-elm70">
-                        <div class="my-vehicle-thq-heading5-elm2">
-                          <span class="my-vehicle-thq-text-elm59">Mazda 3</span>
-                        </div>
-                        <div class="my-vehicle-thq-container-elm71">
-                          <span class="my-vehicle-thq-text-elm60">
-                            Ô tô • Đỏ
-                          </span>
-                        </div>
-                      </div>
-                      <div class="my-vehicle-thq-paragraph-elm2">
-                        <span class="my-vehicle-thq-text-elm61">Biển số</span>
-                        <span class="my-vehicle-thq-text-elm62">
-                          30F-999.99
-                        </span>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm72">
-                        <span class="my-vehicle-thq-text-elm63">
-                          Trạng thái
-                        </span>
-                        <div class="my-vehicle-thq-background-elm21">
-                          <span class="my-vehicle-thq-text-elm64">
-                            Chờ duyệt
-                          </span>
-                        </div>
-                      </div>
-                      <div class="my-vehicle-thq-container-elm73">
-                        <button class="my-vehicle-thq-button-elm8">
-                          <span class="my-vehicle-thq-text-elm65">
-                            Hoàn tất hồ sơ
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="search-box">
+            <input type="text" placeholder="Tìm kiếm xe...">
         </div>
-        <a href="https://play.teleporthq.io/signup" class="my-vehicle-link">
-          <div aria-label="Sign up to TeleportHQ" class="my-vehicle-container2">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="my-vehicle-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="my-vehicle-text2">Built in TeleportHQ</span>
-          </div>
-        </a>
-      </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/my-vehicle"
-      />
-    </div>
-  </body>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h3>Quản trị NEU</h3>
+        <p>Hệ thống đỗ xe</p>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/vehicles">Quản lý xe</a>
+        <a href="/checkin">Cổng vào</a>
+        <a href="/checkout">Cổng ra</a>
+        <a href="/history">Lịch sử</a>
+
+        <hr>
+
+        <a href="/my-new-vehicle" class="btn">+ Thêm phương tiện</a>
+        <a href="#">Cài đặt</a>
+        <a href="/logout">Đăng xuất</a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TITLE -->
+        <div class="page-header">
+            <h1>Xe của tôi</h1>
+            <p>Quản lý các phương tiện đã đăng ký</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="card">
+                <h2>{{ total_vehicle }}</h2>
+                <p>Đã đăng ký</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ in_parking }}</h2>
+                <p>Trong bãi</p>
+            </div>
+        </div>
+
+        <!-- MAIN VEHICLE -->
+        <div class="main-vehicle">
+
+            <h3>{{ main_vehicle.name }}</h3>
+            <p>Đăng ký ngày {{ main_vehicle.created_at }}</p>
+
+            <div class="info">
+                <p><strong>Biển số:</strong> {{ main_vehicle.plate }}</p>
+                <p><strong>Trạng thái:</strong> {{ main_vehicle.status }}</p>
+            </div>
+
+            <div class="actions">
+                <a href="/edit_vehicle/{{ main_vehicle.id }}">Sửa</a>
+                <a href="/history/{{ main_vehicle.id }}">Lịch sử</a>
+            </div>
+
+        </div>
+
+        <!-- OTHER VEHICLES -->
+        <div class="other-vehicles">
+            <h3>Phương tiện khác</h3>
+
+            {% for v in vehicles %}
+            <div class="vehicle-item">
+                <h4>{{ v.name }}</h4>
+                <p>{{ v.type }} • {{ v.color }}</p>
+                <p><strong>{{ v.plate }}</strong></p>
+
+                <span class="status">{{ v.status }}</span>
+
+                {% if v.status == "Chờ duyệt" %}
+                    <a href="/complete/{{ v.id }}">Hoàn tất hồ sơ</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+    </main>
+
+</div>
+</body>
 </html>

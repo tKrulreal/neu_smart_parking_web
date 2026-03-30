@@ -1,767 +1,136 @@
 <!DOCTYPE html>
-<html lang="english">
-  <head>
-    <title>exported project</title>
-    <meta property="og:title" content="exported project" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta property="twitter:card" content="summary_large_image" />
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý người dùng</title>
 
-    <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-    </style>
-    <style data-tag="default-style-sheet">
-      html {
-        font-family: Inter;
-        font-size: 16px;
-      }
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user_management.css') }}">
 
-      body {
-        font-weight: 400;
-        font-style:normal;
-        text-decoration: none;
-        text-transform: none;
-        letter-spacing: normal;
-        line-height: 1.15;
-        color: var(--dl-color-theme-neutral-dark);
-        background: var(--dl-color-theme-neutral-light);
+</head>
 
-        fill: var(--dl-color-theme-neutral-dark);
-      }
-    </style>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/animate.css@4.1.1/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-      data-tag="font"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
-    />
-  </head>
-  <body>
-    <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./index.css" rel="stylesheet" />
+<body>
 
-      <div class="user-manage-container1">
-        <div class="user-manage-thq-usersmanage-elm">
-          <div class="user-manage-thq-main-content-canvas-elm">
-            <div class="user-manage-thq-header-top-app-bar-elm">
-              <div class="user-manage-thq-container-elm10">
-                <div class="user-manage-thq-heading1-elm"></div>
-                <div class="user-manage-thq-container-elm11">
-                  <div class="user-manage-thq-container-elm12">
-                    <div class="user-manage-thq-input-elm">
-                      <div class="user-manage-thq-container-elm13">
-                        <span class="user-manage-thq-text-elm10">
-                          Tìm Username hoặc Mã sinh viên...
-                        </span>
-                      </div>
-                    </div>
-                    <div class="user-manage-thq-container-elm14">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container4038"
-                        class="user-manage-thq-container-elm15"
-                      />
-                    </div>
-                  </div>
-                  <div class="user-manage-thq-vertical-border-elm">
-                    <button class="user-manage-thq-button-elm10">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container4038"
-                        class="user-manage-thq-container-elm16"
-                      />
-                    </button>
-                    <button class="user-manage-thq-button-elm11">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container4038"
-                        class="user-manage-thq-container-elm17"
-                      />
-                    </button>
-                    <div class="user-manage-thq-container-elm18">
-                      <div
-                        class="user-manage-thq-admin-profile-avatar-elm"
-                      ></div>
-                      <div class="user-manage-thq-container-elm19">
-                        <div class="user-manage-thq-container-elm20">
-                          <span class="user-manage-thq-text-elm11">
-                            Admin NEU
-                          </span>
-                        </div>
-                        <div class="user-manage-thq-container-elm21">
-                          <span class="user-manage-thq-text-elm12">
-                            Super Admin
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="user-manage-thq-container-elm22">
-              <div class="user-manage-thq-stats-row-architectural-flow-elm">
-                <div
-                  class="user-manage-thq-background-vertical-border-shadow-elm1"
-                >
-                  <div class="user-manage-thq-container-elm23">
-                    <span class="user-manage-thq-text-elm13">
-                      Tổng người dùng
-                    </span>
-                  </div>
-                  <div class="user-manage-thq-container-elm24">
-                    <div class="user-manage-thq-container-elm25">
-                      <span class="user-manage-thq-text-elm14">12,482</span>
-                    </div>
-                    <div class="user-manage-thq-margin-elm1">
-                      <span class="user-manage-thq-text-elm15">
-                        <span>+12% tháng</span>
-                        <br />
-                        <span>này</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="user-manage-thq-background-vertical-border-shadow-elm2"
-                >
-                  <div class="user-manage-thq-container-elm26">
-                    <span class="user-manage-thq-text-elm18">
-                      Đang hoạt động
-                    </span>
-                  </div>
-                  <div class="user-manage-thq-container-elm27">
-                    <div class="user-manage-thq-container-elm28">
-                      <span class="user-manage-thq-text-elm19">11,904</span>
-                    </div>
-                    <div class="user-manage-thq-margin-elm2">
-                      <span class="user-manage-thq-text-elm20">95.3%</span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="user-manage-thq-background-vertical-border-shadow-elm3"
-                >
-                  <div class="user-manage-thq-container-elm29">
-                    <span class="user-manage-thq-text-elm21">
-                      Tài khoản khóa
-                    </span>
-                  </div>
-                  <div class="user-manage-thq-container-elm30">
-                    <div class="user-manage-thq-container-elm31">
-                      <span class="user-manage-thq-text-elm22">578</span>
-                    </div>
-                    <div class="user-manage-thq-margin-elm3">
-                      <span class="user-manage-thq-text-elm23">
-                        Cần xem xét
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="user-manage-thq-background-vertical-border-shadow-elm4"
-                >
-                  <div class="user-manage-thq-container-elm32">
-                    <span class="user-manage-thq-text-elm24">Yêu cầu mới</span>
-                  </div>
-                  <div class="user-manage-thq-container-elm33">
-                    <div class="user-manage-thq-container-elm34">
-                      <span class="user-manage-thq-text-elm25">24</span>
-                    </div>
-                    <div class="user-manage-thq-margin-elm4">
-                      <span class="user-manage-thq-text-elm26">
-                        Đang chờ duyệt
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="user-manage-thq-management-section-elm">
-                <div class="user-manage-thq-table-header-filters-elm">
-                  <div class="user-manage-thq-container-elm35">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Background4039"
-                      class="user-manage-thq-background-elm10"
-                    />
-                    <div class="user-manage-thq-background-elm11">
-                      <button class="user-manage-thq-button-elm12">
-                        <span class="user-manage-thq-text-elm27">Tất cả</span>
-                      </button>
-                      <button class="user-manage-thq-button-elm13">
-                        <span class="user-manage-thq-text-elm28">Admin</span>
-                      </button>
-                      <button class="user-manage-thq-button-elm14">
-                        <span class="user-manage-thq-text-elm29">Bảo vệ</span>
-                      </button>
-                      <button class="user-manage-thq-button-elm15">
-                        <span class="user-manage-thq-text-elm30">
-                          Sinh viên
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                  <button class="user-manage-thq-button-elm16">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Buttonshadow4039"
-                      class="user-manage-thq-buttonshadow-elm1"
-                    />
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container4039"
-                      class="user-manage-thq-container-elm36"
-                    />
-                    <span class="user-manage-thq-text-elm31">
-                      Thêm người dùng mới
-                    </span>
-                  </button>
-                </div>
-                <div class="user-manage-thq-data-table-table-elm">
-                  <div class="user-manage-thq-header-row-elm">
-                    <div class="user-manage-thq-cell-elm1">
-                      <span class="user-manage-thq-text-elm32">ID</span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm2">
-                      <span class="user-manage-thq-text-elm33">Người dùng</span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm3">
-                      <span class="user-manage-thq-text-elm34">
-                        <span>Mã sinh</span>
-                        <br />
-                        <span>viên</span>
-                      </span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm4">
-                      <span class="user-manage-thq-text-elm37">Vai trò</span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm5">
-                      <span class="user-manage-thq-text-elm38">Email</span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm6">
-                      <span class="user-manage-thq-text-elm39">
-                        <span>Trạng</span>
-                        <br />
-                        <span>thái</span>
-                      </span>
-                    </div>
-                    <div class="user-manage-thq-cell-elm7">
-                      <span class="user-manage-thq-text-elm42">Thao tác</span>
-                    </div>
-                  </div>
-                  <div class="user-manage-thq-body-elm">
-                    <div class="user-manage-thq-row1-elm">
-                      <div class="user-manage-thq-data-elm10">
-                        <span class="user-manage-thq-text-elm43">#001</span>
-                      </div>
-                      <div class="user-manage-thq-data-elm11">
-                        <div class="user-manage-thq-background-elm12">
-                          <span class="user-manage-thq-text-elm44">NH</span>
-                        </div>
-                        <div class="user-manage-thq-container-elm37">
-                          <div class="user-manage-thq-container-elm38">
-                            <span class="user-manage-thq-text-elm45">
-                              <span>Nguyen Van</span>
-                              <br />
-                              <span>Hung</span>
-                            </span>
-                          </div>
-                          <div class="user-manage-thq-container-elm39">
-                            <span class="user-manage-thq-text-elm48">
-                              hungnv_admin
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Data4039"
-                        class="user-manage-thq-data-elm12"
-                      />
-                      <div class="user-manage-thq-data-elm13">
-                        <div class="user-manage-thq-background-elm13">
-                          <span class="user-manage-thq-text-elm49">Admin</span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm14">
-                        <span class="user-manage-thq-text-elm50">
-                          hungnv@neu.edu.vn
-                        </span>
-                      </div>
-                      <div class="user-manage-thq-data-elm15">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Background4039"
-                          class="user-manage-thq-background-elm14"
-                        />
-                        <div class="user-manage-thq-container-elm40">
-                          <span class="user-manage-thq-text-elm51">
-                            <span>Đang hoạt</span>
-                            <br />
-                            <span>động</span>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm16">
-                        <button class="user-manage-thq-button-elm17"></button>
-                        <button class="user-manage-thq-button-elm18"></button>
-                      </div>
-                    </div>
-                    <div class="user-manage-thq-row2-elm">
-                      <div class="user-manage-thq-data-elm17">
-                        <span class="user-manage-thq-text-elm54">#042</span>
-                      </div>
-                      <div class="user-manage-thq-data-elm18">
-                        <div class="user-manage-thq-background-elm15">
-                          <span class="user-manage-thq-text-elm55">TM</span>
-                        </div>
-                        <div class="user-manage-thq-container-elm41">
-                          <div class="user-manage-thq-container-elm42">
-                            <span class="user-manage-thq-text-elm56">
-                              <span>Tran Minh</span>
-                              <br />
-                              <span>Manh</span>
-                            </span>
-                          </div>
-                          <div class="user-manage-thq-container-elm43">
-                            <span class="user-manage-thq-text-elm59">
-                              manhtm_security
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Data4040"
-                        class="user-manage-thq-data-elm19"
-                      />
-                      <div class="user-manage-thq-data-elm20">
-                        <div class="user-manage-thq-background-elm16">
-                          <span class="user-manage-thq-text-elm60">Bảo vệ</span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm21">
-                        <span class="user-manage-thq-text-elm61">
-                          manhtm.bv@neu.edu.vn
-                        </span>
-                      </div>
-                      <div class="user-manage-thq-data-elm22">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Background4040"
-                          class="user-manage-thq-background-elm17"
-                        />
-                        <div class="user-manage-thq-container-elm44">
-                          <span class="user-manage-thq-text-elm62">
-                            <span>Đang hoạt</span>
-                            <br />
-                            <span>động</span>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm23">
-                        <button class="user-manage-thq-button-elm19"></button>
-                        <button class="user-manage-thq-button-elm20"></button>
-                      </div>
-                    </div>
-                    <div class="user-manage-thq-row3-elm">
-                      <div class="user-manage-thq-data-elm24">
-                        <span class="user-manage-thq-text-elm65">#129</span>
-                      </div>
-                      <div class="user-manage-thq-data-elm25">
-                        <div class="user-manage-thq-background-elm18">
-                          <span class="user-manage-thq-text-elm66">AL</span>
-                        </div>
-                        <div class="user-manage-thq-container-elm45">
-                          <div class="user-manage-thq-container-elm46">
-                            <span class="user-manage-thq-text-elm67">
-                              An Khanh Linh
-                            </span>
-                          </div>
-                          <div class="user-manage-thq-container-elm47">
-                            <span class="user-manage-thq-text-elm68">
-                              linhak_112001
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm26">
-                        <span class="user-manage-thq-text-elm69">11200452</span>
-                      </div>
-                      <div class="user-manage-thq-data-elm27">
-                        <div class="user-manage-thq-paragraph-background-elm">
-                          <span class="user-manage-thq-text-elm70">Sinh</span>
-                          <span class="user-manage-thq-text-elm71">viên</span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm28">
-                        <span class="user-manage-thq-text-elm72">
-                          linhak.sv@neu.edu.vn
-                        </span>
-                      </div>
-                      <div class="user-manage-thq-data-elm29">
-                        <img
-                          src="https://play.teleporthq.io/static/svg/default-img.svg"
-                          alt="Background4040"
-                          class="user-manage-thq-background-elm19"
-                        />
-                        <div class="user-manage-thq-container-elm48">
-                          <span class="user-manage-thq-text-elm73">
-                            Đã khóa
-                          </span>
-                        </div>
-                      </div>
-                      <div class="user-manage-thq-data-elm30">
-                        <button class="user-manage-thq-button-elm21"></button>
-                        <button class="user-manage-thq-button-elm22"></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="user-manage-thq-pagination-elm">
-                  <div class="user-manage-thq-container-elm49">
-                    <span class="user-manage-thq-text-elm74">
-                      Hiển thị 1 - 10 trong tổng số 12,482 người dùng
-                    </span>
-                  </div>
-                  <div class="user-manage-thq-container-elm50">
-                    <button class="user-manage-thq-button-elm23">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container4041"
-                        class="user-manage-thq-container-elm51"
-                      />
-                    </button>
-                    <button class="user-manage-thq-button-elm24"></button>
-                    <button class="user-manage-thq-button-elm25"></button>
-                    <button class="user-manage-thq-button-elm26"></button>
-                    <div class="user-manage-thq-container-elm52">
-                      <span class="user-manage-thq-text-elm75">...</span>
-                    </div>
-                    <button class="user-manage-thq-button-elm27">
-                      <span class="user-manage-thq-text-elm76">1248</span>
-                    </button>
-                    <button class="user-manage-thq-button-elm28">
-                      <img
-                        src="https://play.teleporthq.io/static/svg/default-img.svg"
-                        alt="Container4041"
-                        class="user-manage-thq-container-elm53"
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="user-manage-thq-contextual-help-system-status-section-bento-grid-style-elm"
-              >
-                <div class="user-manage-thq-background-elm20">
-                  <div class="user-manage-thq-container-elm54">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="BackgroundShadow4041"
-                      class="user-manage-thq-background-shadow-elm1"
-                    />
-                    <div class="user-manage-thq-container-elm55">
-                      <div class="user-manage-thq-container-elm56">
-                        <span class="user-manage-thq-text-elm77">
-                          Đồng bộ dữ liệu
-                        </span>
-                      </div>
-                      <div class="user-manage-thq-container-elm57">
-                        <span class="user-manage-thq-text-elm78">
-                          Vừa xong (11:45 AM)
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="user-manage-thq-background-elm21">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Background4041"
-                      class="user-manage-thq-background-elm22"
-                    />
-                  </div>
-                  <div class="user-manage-thq-container-elm58">
-                    <span class="user-manage-thq-text-elm79">
-                      <span>Dữ liệu người dùng đang được đồng bộ hóa với</span>
-                      <br />
-                      <span>hệ thống quản lý sinh viên NEU.</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-background-shadow-elm2">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm59"
-                  />
-                  <div class="user-manage-thq-container-elm60">
-                    <div class="user-manage-thq-heading3-elm">
-                      <span class="user-manage-thq-text-elm82">
-                        Chính sách Bảo mật mới
-                      </span>
-                    </div>
-                    <div class="user-manage-thq-container-elm61">
-                      <span class="user-manage-thq-text-elm83">
-                        <span>
-                          Hệ thống vừa cập nhật phương thức xác thực 2 lớp cho
-                          tất cả tài
-                        </span>
-                        <br />
-                        <span>
-                          khoản quản trị và bảo vệ. Vui lòng hướng dẫn nhân viên
-                          cập nhật
-                        </span>
-                        <br />
-                        <span>thông tin.</span>
-                      </span>
-                    </div>
-                    <button class="user-manage-thq-button-elm29">
-                      <span class="user-manage-thq-text-elm87">
-                        Xem hướng dẫn
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="user-manage-thq-aside-side-nav-bar-shell-elm">
-            <div class="user-manage-thq-container-elm62">
-              <div class="user-manage-thq-brand-identitymargin-elm">
-                <div class="user-manage-thq-brand-identity-elm">
-                  <div class="user-manage-thq-background-elm23">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="OverlayShadow4041"
-                      class="user-manage-thq-overlay-shadow-elm"
-                    />
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container4041"
-                      class="user-manage-thq-container-elm63"
-                    />
-                  </div>
-                  <div class="user-manage-thq-container-elm64">
-                    <div class="user-manage-thq-heading2-elm">
-                      <span class="user-manage-thq-text-elm88">NEU Admin</span>
-                    </div>
-                    <div class="user-manage-thq-container-elm65">
-                      <span class="user-manage-thq-text-elm89">
-                        System Controller
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="user-manage-thq-main-navigation-elm">
-                <div class="user-manage-thq-link-elm1">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm66"
-                  />
-                  <div class="user-manage-thq-container-elm67">
-                    <span class="user-manage-thq-text-elm90">Dashboard</span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-link-elm2">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm68"
-                  />
-                  <div class="user-manage-thq-container-elm69">
-                    <span class="user-manage-thq-text-elm91">
-                      <span>User</span>
-                      <br />
-                      <span>Management</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-link-elm3">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm70"
-                  />
-                  <div class="user-manage-thq-container-elm71">
-                    <span class="user-manage-thq-text-elm94">
-                      <span>Zone</span>
-                      <br />
-                      <span>Monitoring</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-link-elm4">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm72"
-                  />
-                  <div class="user-manage-thq-container-elm73">
-                    <span class="user-manage-thq-text-elm97">
-                      <span>Transaction</span>
-                      <br />
-                      <span>History</span>
-                    </span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-link-elm5">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm74"
-                  />
-                  <div class="user-manage-thq-container-elm75">
-                    <span class="user-manage-thq-text-elm100">
-                      Security Logs
-                    </span>
-                  </div>
-                </div>
-                <div class="user-manage-thq-link-elm6">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm76"
-                  />
-                  <div class="user-manage-thq-container-elm77">
-                    <span class="user-manage-thq-text-elm101">Reports</span>
-                  </div>
-                </div>
-              </div>
-              <div class="user-manage-thq-cta-footer-elm">
-                <button class="user-manage-thq-button-elm30">
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Buttonshadow4041"
-                    class="user-manage-thq-buttonshadow-elm2"
-                  />
-                  <img
-                    src="https://play.teleporthq.io/static/svg/default-img.svg"
-                    alt="Container4041"
-                    class="user-manage-thq-container-elm78"
-                  />
-                  <span class="user-manage-thq-text-elm102">Add New Guard</span>
-                </button>
-                <div class="user-manage-thq-container-elm79">
-                  <div class="user-manage-thq-link-elm7">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container4041"
-                      class="user-manage-thq-container-elm80"
-                    />
-                    <div class="user-manage-thq-container-elm81">
-                      <span class="user-manage-thq-text-elm103">Support</span>
-                    </div>
-                  </div>
-                  <div class="user-manage-thq-link-elm8">
-                    <img
-                      src="https://play.teleporthq.io/static/svg/default-img.svg"
-                      alt="Container4041"
-                      class="user-manage-thq-container-elm82"
-                    />
-                    <div class="user-manage-thq-container-elm83">
-                      <span class="user-manage-thq-text-elm104">Logout</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            class="user-manage-thq-floating-action-button-fab-contextualto-screen-primary-ac-elm"
-          ></button>
-          <button class="user-manage-thq-button-elm31">
-            <img
-              src="https://play.teleporthq.io/static/svg/default-img.svg"
-              alt="Container4042"
-              class="user-manage-thq-container-elm84"
-            />
-          </button>
-        </div>
-        <a href="https://play.teleporthq.io/signup" class="user-manage-link">
-          <div
-            aria-label="Sign up to TeleportHQ"
-            class="user-manage-container2"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 19 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="user-manage-icon1"
-            >
-              <path
-                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
-                fill="#B23ADE"
-              ></path>
-              <path
-                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
-                fill="#FF5C5C"
-              ></path>
-              <path
-                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
-                fill="#2874DE"
-              ></path>
-            </svg>
-            <span class="user-manage-text23">Built in TeleportHQ</span>
-          </div>
-        </a>
+<div class="user-manage-container1">
+
+  <!-- SIDEBAR -->
+  <div class="user-manage-thq-aside-side-nav-bar-shell-elm">
+    <div class="user-manage-thq-container-elm62">
+
+      <div class="user-manage-thq-brand-identity-elm">
+        <span>NEU Admin</span>
       </div>
-      <link
-        rel="canonical"
-        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/"
-      />
+
+      <div class="user-manage-thq-main-navigation-elm">
+        <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('admin.user_management') }}" style="font-weight:bold;">User Management</a>
+        <a href="#">Zone Monitoring</a>
+        <a href="#">Transaction History</a>
+      </div>
+
+      <div style="margin-top:20px;">
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+      </div>
+
     </div>
-  </body>
+  </div>
+
+  <!-- MAIN -->
+  <div class="user-manage-thq-main-content-canvas-elm">
+
+    <!-- HEADER -->
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+      <h2>Quản lý người dùng</h2>
+
+      <form method="GET">
+        <input type="text" name="q" placeholder="Tìm username / MSSV..." value="{{ request.args.get('q','') }}">
+        <button type="submit">Tìm</button>
+      </form>
+    </div>
+
+    <!-- STATS -->
+    <div style="display:flex; gap:20px; margin-bottom:30px;">
+      <div>Tổng: {{ total_users }}</div>
+      <div>Hoạt động: {{ active_users }}</div>
+      <div>Đã khóa: {{ locked_users }}</div>
+    </div>
+
+    <!-- FILTER -->
+    <div style="margin-bottom:20px;">
+      <a href="?role=all">Tất cả</a> |
+      <a href="?role=admin">Admin</a> |
+      <a href="?role=guard">Bảo vệ</a> |
+      <a href="?role=student">Sinh viên</a>
+    </div>
+
+    <!-- TABLE -->
+    <table border="1" width="100%" cellpadding="8">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên</th>
+          <th>MSSV</th>
+          <th>Vai trò</th>
+          <th>Email</th>
+          <th>Trạng thái</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>#{{ user.id }}</td>
+
+          <td>
+            {{ user.full_name }} <br>
+            <small>{{ user.username }}</small>
+          </td>
+
+          <td>{{ user.student_code or '-' }}</td>
+
+          <td>{{ user.role }}</td>
+
+          <td>{{ user.email }}</td>
+
+          <td>
+            {% if user.is_active %}
+              <span style="color:green;">Hoạt động</span>
+            {% else %}
+              <span style="color:red;">Đã khóa</span>
+            {% endif %}
+          </td>
+
+          <td>
+            <a href="{{ url_for('admin.edit_user', user_id=user.id) }}">Sửa</a> |
+
+            {% if user.is_active %}
+              <a href="{{ url_for('admin.lock_user', user_id=user.id) }}">Khóa</a>
+            {% else %}
+              <a href="{{ url_for('admin.unlock_user', user_id=user.id) }}">Mở</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div style="margin-top:20px;">
+      {% if page > 1 %}
+        <a href="?page={{ page-1 }}">Previous</a>
+      {% endif %}
+
+      Trang {{ page }} / {{ total_pages }}
+
+      {% if page < total_pages %}
+        <a href="?page={{ page+1 }}">Next</a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+</body>
 </html>
