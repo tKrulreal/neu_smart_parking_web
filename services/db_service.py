@@ -3,15 +3,68 @@ from sqlalchemy import create_engine, text
 from werkzeug.security import generate_password_hash
 from config import Config
 
+_ENGINE = None
+
 
 def get_engine():
-    return create_engine(Config.DATABASE_URL, future=True)
+    global _ENGINE
+    if _ENGINE is None:
+        _ENGINE = create_engine(Config.DATABASE_URL, future=True)
+    return _ENGINE
 
 
 def ensure_directories():
     os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
     os.makedirs(Config.QR_FOLDER, exist_ok=True)
     os.makedirs(Config.EXPORT_FOLDER, exist_ok=True)
+
+def table_exists(conn, table_name: str) -> bool:
+    row = conn.execute(
+        text(
+            """
+            SELECT 1
+            FROM sqlite_master
+            WHERE type='table' AND name=:name
+            """
+        ),
+        {"name": table_name},
+    ).fetchone()
+    return bool(row)
+
+
+def users_table_allows_guard(conn) -> bool:
+    sql = conn.execute(
+        text(
+            """
+            SELECT sql
+            FROM sqlite_master
+            WHERE type='table' AND name='users'
+            """
+        )
+    ).scalar()
+    return bool(sql) and "guard" in str(sql).lower()
+
+
+def migrate_users_table_add_guard_role(conn) -> None:
+    if not table_exists(conn, "users"):
+        return
+    if users_table_allows_guard(conn):
+        return
+
+    conn.execute(text("ALTER TABLE users RENAME TO users_old"))
+    create_users_table(conn)
+    conn.execute(
+        text(
+            """
+            INSERT INTO users
+            (id, username, password_hash, full_name, role, student_code, email, phone, is_active, created_at)
+            SELECT
+                id, username, password_hash, full_name, role, student_code, email, phone, is_active, created_at
+            FROM users_old
+            """
+        )
+    )
+    conn.execute(text("DROP TABLE users_old"))
 
 
 def drop_all_tables(conn):
@@ -24,12 +77,12 @@ def drop_all_tables(conn):
 
 def create_users_table(conn):
     conn.execute(text("""
-        CREATE TABLE users (
+        CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             full_name TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'student',
+            role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('admin', 'student', 'guard')),
             student_code TEXT UNIQUE,
             email TEXT UNIQUE,
             phone TEXT,
@@ -41,7 +94,7 @@ def create_users_table(conn):
 
 def create_vehicles_table(conn):
     conn.execute(text("""
-        CREATE TABLE vehicles (
+        CREATE TABLE IF NOT EXISTS vehicles (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             plate TEXT UNIQUE NOT NULL,
             student_code TEXT NOT NULL,
@@ -58,7 +111,7 @@ def create_vehicles_table(conn):
 
 def create_parking_log_table(conn):
     conn.execute(text("""
-        CREATE TABLE parking_log (
+        CREATE TABLE IF NOT EXISTS parking_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             plate TEXT NOT NULL,
             student_code TEXT NOT NULL,
@@ -76,7 +129,7 @@ def create_parking_log_table(conn):
 
 def create_plate_scan_log_table(conn):
     conn.execute(text("""
-        CREATE TABLE plate_scan_log (
+        CREATE TABLE IF NOT EXISTS plate_scan_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             image_path TEXT NOT NULL,
             raw_text TEXT,
@@ -93,7 +146,7 @@ def create_plate_scan_log_table(conn):
 
 def create_qr_logs_table(conn):
     conn.execute(text("""
-        CREATE TABLE qr_logs (
+        CREATE TABLE IF NOT EXISTS qr_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             student_code TEXT NOT NULL,
             qr_payload TEXT NOT NULL,
@@ -122,49 +175,69 @@ def seed_default_users(conn):
     guard_password = generate_password_hash("guard123")
     student_password = generate_password_hash("student123")
 
-    conn.execute(text("""
-        INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
-        VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
-    """), {
-        "username": "admin",
-        "password_hash": admin_password,
-        "full_name": "System Administrator",
-        "role": "admin",
-        "student_code": None,
-        "email": "admin@neu.edu.vn",
-        "phone": "0123456789"
-    })
+    existing = {row[0] for row in conn.execute(text("SELECT username FROM users")).fetchall()}
 
-    conn.execute(text("""
-        INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
-        VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
-    """), {
-        "username": "guard1",
-        "password_hash": guard_password,
-        "full_name": "Parking Guard",
-        "role": "guard",
-        "student_code": None,
-        "email": "guard1@neu.edu.vn",
-        "phone": "0988888888"
-    })
+    if "admin" not in existing:
+        conn.execute(
+            text(
+                """
+                INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
+                VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
+                """
+            ),
+            {
+                "username": "admin",
+                "password_hash": admin_password,
+                "full_name": "System Administrator",
+                "role": "admin",
+                "student_code": None,
+                "email": "admin@neu.edu.vn",
+                "phone": "0123456789",
+            },
+        )
 
-    conn.execute(text("""
-        INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
-        VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
-    """), {
-        "username": "student1",
-        "password_hash": student_password,
-        "full_name": "Nguyen Van A",
-        "role": "student",
-        "student_code": "20211234",
-        "email": "20211234@st.neu.edu.vn",
-        "phone": "0911111111"
-    })
+    if "guard" not in existing:
+        conn.execute(
+            text(
+                """
+                INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
+                VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
+                """
+            ),
+            {
+                "username": "guard",
+                "password_hash": guard_password,
+                "full_name": "Security Guard",
+                "role": "guard",
+                "student_code": None,
+                "email": "guard@neu.edu.vn",
+                "phone": "0999999999",
+            },
+        )
+
+    if "student1" not in existing:
+        conn.execute(
+            text(
+                """
+                INSERT INTO users (username, password_hash, full_name, role, student_code, email, phone)
+                VALUES (:username, :password_hash, :full_name, :role, :student_code, :email, :phone)
+                """
+            ),
+            {
+                "username": "student1",
+                "password_hash": student_password,
+                "full_name": "Nguyen Van A",
+                "role": "student",
+                "student_code": "20211234",
+                "email": "20211234@st.neu.edu.vn",
+                "phone": "0911111111",
+            },
+        )
 
 
 def seed_default_vehicles(conn):
     conn.execute(text("""
-        INSERT INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
+        INSERT OR IGNORE INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
         VALUES (:plate, :student_code, :owner_name, :vehicle_type, :brand, :color, :image_path)
     """), {
         "plate": "29-G1 333.33",
@@ -177,7 +250,7 @@ def seed_default_vehicles(conn):
     })
 
     conn.execute(text("""
-        INSERT INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
+        INSERT OR IGNORE INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
         VALUES (:plate, :student_code, :owner_name, :vehicle_type, :brand, :color, :image_path)
     """), {
         "plate": "30-A1 111.11",
@@ -190,7 +263,7 @@ def seed_default_vehicles(conn):
     })
 
     conn.execute(text("""
-        INSERT INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
+        INSERT OR IGNORE INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
         VALUES (:plate, :student_code, :owner_name, :vehicle_type, :brand, :color, :image_path)
     """), {
         "plate": "88-C3 888.88",
@@ -204,6 +277,24 @@ def seed_default_vehicles(conn):
 
 
 def init_db():
+    ensure_directories()
+    engine = get_engine()
+
+    with engine.begin() as conn:
+        migrate_users_table_add_guard_role(conn)
+        create_users_table(conn)
+        create_vehicles_table(conn)
+        create_parking_log_table(conn)
+        create_plate_scan_log_table(conn)
+        create_qr_logs_table(conn)
+        create_indexes(conn)
+        seed_default_users(conn)
+        seed_default_vehicles(conn)
+
+    print("Database initialized successfully.")
+
+
+def recreate_db():
     ensure_directories()
     engine = get_engine()
 
@@ -222,4 +313,4 @@ def init_db():
 
 
 if __name__ == "__main__":
-    init_db()
+    recreate_db()
