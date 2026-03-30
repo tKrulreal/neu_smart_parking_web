@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="english">
+  <head>
+    <title>self-dashboard - exported project</title>
+    <meta property="og:title" content="self-dashboard - exported project" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-theme-neutral-dark);
+        background: var(--dl-color-theme-neutral-light);
+
+        fill: var(--dl-color-theme-neutral-dark);
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/animate.css@4.1.1/animate.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
+    />
+  </head>
+  <body>
+    <link rel="stylesheet" href="./style.css" />
+    <div>
+      <link href="./self-dashboard.css" rel="stylesheet" />
+
+      <div class="self-dashboard-container1">
+        <div class="self-dashboard-thq-selfdashboard-elm">
+          <div class="self-dashboard-thq-header-top-app-bar-elm">
+            <div class="self-dashboard-thq-container-elm10">
+              <span class="self-dashboard-thq-text-elm10">
+                NEU Smart Parking
+              </span>
+            </div>
+            <div class="self-dashboard-thq-container-elm11">
+              <button class="self-dashboard-thq-button-elm1">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3936"
+                  class="self-dashboard-thq-container-elm12"
+                />
+              </button>
+              <button class="self-dashboard-thq-button-elm2">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3936"
+                  class="self-dashboard-thq-container-elm13"
+                />
+              </button>
+            </div>
+          </div>
+          <div class="self-dashboard-thq-container-elm14">
+            <div class="self-dashboard-thq-aside-side-nav-desktop-elm">
+              <div class="self-dashboard-thq-nav-elm">
+                <div class="self-dashboard-thq-link-elm1">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Margin3936"
+                    class="self-dashboard-thq-margin-elm1"
+                  />
+                  <div class="self-dashboard-thq-container-elm15">
+                    <span class="self-dashboard-thq-text-elm11">
+                      Bảng điều khiển
+                    </span>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-link-elm2">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Margin3936"
+                    class="self-dashboard-thq-margin-elm2"
+                  />
+                  <div class="self-dashboard-thq-container-elm16">
+                    <span class="self-dashboard-thq-text-elm12">
+                      Xe của tôi
+                    </span>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-link-elm3">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Margin3936"
+                    class="self-dashboard-thq-margin-elm3"
+                  />
+                  <div class="self-dashboard-thq-container-elm17">
+                    <span class="self-dashboard-thq-text-elm13">Mã QR</span>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-link-elm4">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Margin3936"
+                    class="self-dashboard-thq-margin-elm4"
+                  />
+                  <div class="self-dashboard-thq-container-elm18">
+                    <span class="self-dashboard-thq-text-elm14">Lịch sử</span>
+                  </div>
+                </div>
+              </div>
+              <div class="self-dashboard-thq-margin-elm5">
+                <div class="self-dashboard-thq-overlay-border-elm">
+                  <div class="self-dashboard-thq-container-elm19">
+                    <span class="self-dashboard-thq-text-elm15">
+                      Hỗ trợ sinh viên
+                    </span>
+                  </div>
+                  <div class="self-dashboard-thq-container-elm20">
+                    <span class="self-dashboard-thq-text-elm16">
+                      <span>Gặp sự cố? Liên hệ tổ bảo vệ tại sảnh</span>
+                      <br />
+                      <span>nhà A1 hoặc gọi hotline 1900xxxx.</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="self-dashboard-thq-main-content-canvas-elm">
+              <div class="self-dashboard-thq-welcome-section-elm">
+                <div class="self-dashboard-thq-container-elm21">
+                  <div class="self-dashboard-thq-heading1-elm">
+                    <span class="self-dashboard-thq-text-elm19">
+                      Chào mừng, Nguyễn Văn A!
+                    </span>
+                  </div>
+                  <div class="self-dashboard-thq-container-elm22">
+                    <span class="self-dashboard-thq-text-elm20">
+                      Hôm nay là Thứ Hai, ngày 24 tháng 5, 2024
+                    </span>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-container-elm23">
+                  <button class="self-dashboard-thq-button-elm3">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3936"
+                      class="self-dashboard-thq-container-elm24"
+                    />
+                    <span class="self-dashboard-thq-text-elm21">
+                      Đăng ký xe mới
+                    </span>
+                  </button>
+                  <button class="self-dashboard-thq-button-elm4">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Buttonshadow3937"
+                      class="self-dashboard-thq-buttonshadow-elm"
+                    />
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3937"
+                      class="self-dashboard-thq-container-elm25"
+                    />
+                    <span class="self-dashboard-thq-text-elm22">Nạp số dư</span>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="self-dashboard-thq-section-quick-stats-bento-grid-elm"
+              >
+                <div class="self-dashboard-thq-background-elm10">
+                  <div class="self-dashboard-thq-overlay-elm1">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3937"
+                      class="self-dashboard-thq-container-elm26"
+                    />
+                  </div>
+                  <div class="self-dashboard-thq-container-elm27">
+                    <div class="self-dashboard-thq-container-elm28">
+                      <span class="self-dashboard-thq-text-elm23">
+                        Xe đã đăng ký
+                      </span>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm29"></div>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-background-elm11">
+                  <div class="self-dashboard-thq-overlay-elm2">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3937"
+                      class="self-dashboard-thq-container-elm30"
+                    />
+                  </div>
+                  <div class="self-dashboard-thq-container-elm31">
+                    <div class="self-dashboard-thq-container-elm32">
+                      <span class="self-dashboard-thq-text-elm24">
+                        Trạng thái
+                      </span>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm33">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Background3937"
+                        class="self-dashboard-thq-background-elm12"
+                      />
+                      <div class="self-dashboard-thq-container-elm34">
+                        <span class="self-dashboard-thq-text-elm25">
+                          <span>Đang gửi (Khu</span>
+                          <br />
+                          <span>A)</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-background-elm13">
+                  <div class="self-dashboard-thq-overlay-elm3">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3937"
+                      class="self-dashboard-thq-container-elm35"
+                    />
+                  </div>
+                  <div class="self-dashboard-thq-container-elm36">
+                    <div class="self-dashboard-thq-container-elm37">
+                      <span class="self-dashboard-thq-text-elm28">
+                        Số dư tài khoản
+                      </span>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm38">
+                      <span class="self-dashboard-thq-text-elm29">
+                        150.000đ
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="self-dashboard-thq-active-vehicle-activity-area-elm">
+                <div class="self-dashboard-thq-recent-activity-elm">
+                  <div class="self-dashboard-thq-container-elm39">
+                    <div class="self-dashboard-thq-heading3-elm1">
+                      <span class="self-dashboard-thq-text-elm30">
+                        Hoạt động gần đây
+                      </span>
+                    </div>
+                    <div class="self-dashboard-thq-link-elm5">
+                      <span class="self-dashboard-thq-text-elm31">
+                        Xem tất cả
+                      </span>
+                    </div>
+                  </div>
+                  <div class="self-dashboard-thq-background-elm14">
+                    <div class="self-dashboard-thq-table-elm">
+                      <div class="self-dashboard-thq-header-elm">
+                        <div class="self-dashboard-thq-row-elm1">
+                          <div class="self-dashboard-thq-cell-elm1">
+                            <span class="self-dashboard-thq-text-elm32">
+                              Ngày
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-cell-elm2">
+                            <span class="self-dashboard-thq-text-elm33">
+                              Khu vực
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-cell-elm3">
+                            <span class="self-dashboard-thq-text-elm34">
+                              Phí
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-cell-elm4">
+                            <span class="self-dashboard-thq-text-elm35">
+                              Trạng thái
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="self-dashboard-thq-body-elm">
+                        <div class="self-dashboard-thq-row-elm2">
+                          <div class="self-dashboard-thq-data-elm10">
+                            <span class="self-dashboard-thq-text-elm36">
+                              23/05/2024
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm11">
+                            <span class="self-dashboard-thq-text-elm37">
+                              Khu A - Tòa A1
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm12">
+                            <span class="self-dashboard-thq-text-elm38">
+                              3.000đ
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm13">
+                            <div
+                              class="self-dashboard-thq-paragraph-background-elm1"
+                            >
+                              <span class="self-dashboard-thq-text-elm39">
+                                ĐÃ THANH
+                              </span>
+                              <span class="self-dashboard-thq-text-elm40">
+                                TOÁN
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="self-dashboard-thq-row-elm3">
+                          <div class="self-dashboard-thq-data-elm14">
+                            <span class="self-dashboard-thq-text-elm41">
+                              22/05/2024
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm15">
+                            <span class="self-dashboard-thq-text-elm42">
+                              Khu B - Tòa B1
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm16">
+                            <span class="self-dashboard-thq-text-elm43">
+                              3.000đ
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm17">
+                            <div
+                              class="self-dashboard-thq-paragraph-background-elm2"
+                            >
+                              <span class="self-dashboard-thq-text-elm44">
+                                ĐÃ THANH
+                              </span>
+                              <span class="self-dashboard-thq-text-elm45">
+                                TOÁN
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="self-dashboard-thq-row-elm4">
+                          <div class="self-dashboard-thq-data-elm18">
+                            <span class="self-dashboard-thq-text-elm46">
+                              21/05/2024
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm19">
+                            <span class="self-dashboard-thq-text-elm47">
+                              <span>Khu A - Tòa Nhà</span>
+                              <br />
+                              <span>Trung Tâm</span>
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm20">
+                            <span class="self-dashboard-thq-text-elm50">
+                              5.000đ
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm21">
+                            <div
+                              class="self-dashboard-thq-paragraph-background-elm3"
+                            >
+                              <span class="self-dashboard-thq-text-elm51">
+                                ĐÃ THANH
+                              </span>
+                              <span class="self-dashboard-thq-text-elm52">
+                                TOÁN
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="self-dashboard-thq-row-elm5">
+                          <div class="self-dashboard-thq-data-elm22">
+                            <span class="self-dashboard-thq-text-elm53">
+                              20/05/2024
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm23">
+                            <span class="self-dashboard-thq-text-elm54">
+                              Khu C
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm24">
+                            <span class="self-dashboard-thq-text-elm55">
+                              3.000đ
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm25">
+                            <div
+                              class="self-dashboard-thq-paragraph-background-elm4"
+                            >
+                              <span class="self-dashboard-thq-text-elm56">
+                                ĐÃ THANH
+                              </span>
+                              <span class="self-dashboard-thq-text-elm57">
+                                TOÁN
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="self-dashboard-thq-row-elm6">
+                          <div class="self-dashboard-thq-data-elm26">
+                            <span class="self-dashboard-thq-text-elm58">
+                              19/05/2024
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm27">
+                            <span class="self-dashboard-thq-text-elm59">
+                              Khu A - Tòa A1
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm28">
+                            <span class="self-dashboard-thq-text-elm60">
+                              3.000đ
+                            </span>
+                          </div>
+                          <div class="self-dashboard-thq-data-elm29">
+                            <div
+                              class="self-dashboard-thq-paragraph-background-elm5"
+                            >
+                              <span class="self-dashboard-thq-text-elm61">
+                                ĐÃ THANH
+                              </span>
+                              <span class="self-dashboard-thq-text-elm62">
+                                TOÁN
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-active-vehicle-card-elm">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="OverlayBlur3938"
+                    class="self-dashboard-thq-overlay-blur-elm"
+                  />
+                  <div class="self-dashboard-thq-container-elm40">
+                    <div class="self-dashboard-thq-container-elm41">
+                      <div class="self-dashboard-thq-overlay-elm4">
+                        <span class="self-dashboard-thq-text-elm63">
+                          Xe đang trong bãi
+                        </span>
+                      </div>
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Icon3938"
+                        class="self-dashboard-thq-icon-elm"
+                      />
+                    </div>
+                    <div class="self-dashboard-thq-container-elm42">
+                      <div class="self-dashboard-thq-container-elm43">
+                        <span class="self-dashboard-thq-text-elm64">
+                          Biển số xe
+                        </span>
+                      </div>
+                      <div class="self-dashboard-thq-heading2-elm">
+                        <span class="self-dashboard-thq-text-elm65">
+                          29A-123.45
+                        </span>
+                      </div>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm44">
+                      <div class="self-dashboard-thq-container-elm45">
+                        <div class="self-dashboard-thq-container-elm46">
+                          <span class="self-dashboard-thq-text-elm66">
+                            Giờ vào
+                          </span>
+                        </div>
+                        <div class="self-dashboard-thq-container-elm47">
+                          <span class="self-dashboard-thq-text-elm67">
+                            08:15 AM
+                          </span>
+                        </div>
+                      </div>
+                      <div class="self-dashboard-thq-container-elm48">
+                        <div class="self-dashboard-thq-container-elm49">
+                          <span class="self-dashboard-thq-text-elm68">
+                            Thời lượng
+                          </span>
+                        </div>
+                        <div class="self-dashboard-thq-container-elm50">
+                          <span class="self-dashboard-thq-text-elm69">
+                            3h 20m
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="self-dashboard-thq-horizontal-border-elm">
+                      <button class="self-dashboard-thq-button-elm5">
+                        <img
+                          src="https://play.teleporthq.io/static/svg/default-img.svg"
+                          alt="Container3938"
+                          class="self-dashboard-thq-container-elm51"
+                        />
+                        <span class="self-dashboard-thq-text-elm70">
+                          Xuất trình mã QR
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="self-dashboard-thq-visualization-section-elm">
+                <div class="self-dashboard-thq-background-elm15">
+                  <div class="self-dashboard-thq-heading3-elm2">
+                    <span class="self-dashboard-thq-text-elm71">
+                      Mật độ bãi gửi xe (Live)
+                    </span>
+                  </div>
+                  <div class="self-dashboard-thq-container-elm52">
+                    <div class="self-dashboard-thq-container-elm53">
+                      <div class="self-dashboard-thq-container-elm54">
+                        <div class="self-dashboard-thq-container-elm55">
+                          <span class="self-dashboard-thq-text-elm72">
+                            Khu A (Nhà A1)
+                          </span>
+                        </div>
+                        <div class="self-dashboard-thq-container-elm56">
+                          <span class="self-dashboard-thq-text-elm73">
+                            92% Đầy
+                          </span>
+                        </div>
+                      </div>
+                      <div class="self-dashboard-thq-background-elm16">
+                        <img
+                          src="https://play.teleporthq.io/static/svg/default-img.svg"
+                          alt="Background3938"
+                          class="self-dashboard-thq-background-elm17"
+                        />
+                      </div>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm57">
+                      <div class="self-dashboard-thq-container-elm58">
+                        <div class="self-dashboard-thq-container-elm59">
+                          <span class="self-dashboard-thq-text-elm74">
+                            Khu B (Nhà B1)
+                          </span>
+                        </div>
+                        <div class="self-dashboard-thq-container-elm60">
+                          <span class="self-dashboard-thq-text-elm75">
+                            45% Trống
+                          </span>
+                        </div>
+                      </div>
+                      <div class="self-dashboard-thq-background-elm18">
+                        <img
+                          src="https://play.teleporthq.io/static/svg/default-img.svg"
+                          alt="Background3938"
+                          class="self-dashboard-thq-background-elm19"
+                        />
+                      </div>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm61">
+                      <div class="self-dashboard-thq-container-elm62">
+                        <div class="self-dashboard-thq-container-elm63">
+                          <span class="self-dashboard-thq-text-elm76">
+                            Khu C (Sân bóng)
+                          </span>
+                        </div>
+                        <div class="self-dashboard-thq-container-elm64">
+                          <span class="self-dashboard-thq-text-elm77">
+                            70% Trống
+                          </span>
+                        </div>
+                      </div>
+                      <div class="self-dashboard-thq-background-elm20">
+                        <img
+                          src="https://play.teleporthq.io/static/svg/default-img.svg"
+                          alt="Background3938"
+                          class="self-dashboard-thq-background-elm21"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="self-dashboard-thq-container-elm65">
+                  <div class="self-dashboard-thq-neu-campus-map-elm"></div>
+                  <div class="self-dashboard-thq-background-elm22">
+                    <div class="self-dashboard-thq-container-elm66">
+                      <span class="self-dashboard-thq-text-elm78">
+                        Vị trí đỗ xe của bạn
+                      </span>
+                    </div>
+                    <div class="self-dashboard-thq-container-elm67">
+                      <span class="self-dashboard-thq-text-elm79">
+                        Khu A - Vị trí A-42. Gần lối ra cổng Trần Đại Nghĩa.
+                      </span>
+                    </div>
+                    <button
+                      class="self-dashboard-thq-buttonmarginalignflexstart-elm"
+                    ></button>
+                    <button
+                      class="self-dashboard-thq-buttonmargin-elm"
+                    ></button>
+                    <button class="self-dashboard-thq-button-elm6">
+                      <span class="self-dashboard-thq-text-elm80">
+                        Chỉ đường
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="https://play.teleporthq.io/signup" class="self-dashboard-link">
+          <div
+            aria-label="Sign up to TeleportHQ"
+            class="self-dashboard-container2"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 19 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="self-dashboard-icon1"
+            >
+              <path
+                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
+                fill="#B23ADE"
+              ></path>
+              <path
+                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
+                fill="#FF5C5C"
+              ></path>
+              <path
+                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
+                fill="#2874DE"
+              ></path>
+            </svg>
+            <span class="self-dashboard-text4">Built in TeleportHQ</span>
+          </div>
+        </a>
+      </div>
+      <link
+        rel="canonical"
+        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/self-dashboard"
+      />
+    </div>
+  </body>
+</html>

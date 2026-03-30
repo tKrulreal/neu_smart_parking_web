@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="english">
+  <head>
+    <title>student-qr - exported project</title>
+    <meta property="og:title" content="student-qr - exported project" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-theme-neutral-dark);
+        background: var(--dl-color-theme-neutral-light);
+
+        fill: var(--dl-color-theme-neutral-dark);
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/animate.css@4.1.1/animate.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
+    />
+  </head>
+  <body>
+    <link rel="stylesheet" href="./style.css" />
+    <div>
+      <link href="./student-qr.css" rel="stylesheet" />
+
+      <div class="student-qr-container1">
+        <div class="student-qr-thq-qr-elm">
+          <div class="student-qr-thq-aside-side-nav-bar-hiddenonprint-elm">
+            <div class="student-qr-thq-margin-elm1">
+              <div class="student-qr-thq-container-elm10">
+                <div class="student-qr-thq-heading2-elm">
+                  <span class="student-qr-thq-text-elm10">Student Portal</span>
+                </div>
+                <div class="student-qr-thq-container-elm11">
+                  <span class="student-qr-thq-text-elm11">NEU Campus</span>
+                </div>
+              </div>
+            </div>
+            <div class="student-qr-thq-navmargin-elm">
+              <div class="student-qr-thq-nav-elm">
+                <div class="student-qr-thq-link-elm10">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3616"
+                    class="student-qr-thq-container-elm12"
+                  />
+                  <div class="student-qr-thq-container-elm13">
+                    <span class="student-qr-thq-text-elm12">Dashboard</span>
+                  </div>
+                </div>
+                <div class="student-qr-thq-link-elm11">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3616"
+                    class="student-qr-thq-container-elm14"
+                  />
+                  <div class="student-qr-thq-container-elm15">
+                    <span class="student-qr-thq-text-elm13">Map View</span>
+                  </div>
+                </div>
+                <div class="student-qr-thq-link-elm12">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3616"
+                    class="student-qr-thq-container-elm16"
+                  />
+                  <div class="student-qr-thq-container-elm17">
+                    <span class="student-qr-thq-text-elm14">My QR Code</span>
+                  </div>
+                </div>
+                <div class="student-qr-thq-link-elm13">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3616"
+                    class="student-qr-thq-container-elm18"
+                  />
+                  <div class="student-qr-thq-container-elm19">
+                    <span class="student-qr-thq-text-elm15">My Bookings</span>
+                  </div>
+                </div>
+                <div class="student-qr-thq-link-elm14">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3617"
+                    class="student-qr-thq-container-elm20"
+                  />
+                  <div class="student-qr-thq-container-elm21">
+                    <span class="student-qr-thq-text-elm16">Vehicles</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="student-qr-thq-margin-elm2">
+              <div class="student-qr-thq-horizontal-border-elm1">
+                <div class="student-qr-thq-link-elm15">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3617"
+                    class="student-qr-thq-container-elm22"
+                  />
+                  <div class="student-qr-thq-container-elm23">
+                    <span class="student-qr-thq-text-elm17">Settings</span>
+                  </div>
+                </div>
+                <div class="student-qr-thq-link-elm16">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3617"
+                    class="student-qr-thq-container-elm24"
+                  />
+                  <div class="student-qr-thq-container-elm25">
+                    <span class="student-qr-thq-text-elm18">Logout</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="student-qr-thq-main-content-canvas-elm">
+            <div class="student-qr-thq-header-section-elm">
+              <div class="student-qr-thq-container-elm26">
+                <div class="student-qr-thq-heading1-elm">
+                  <span class="student-qr-thq-text-elm19">Mã QR Sinh Viên</span>
+                </div>
+                <div class="student-qr-thq-container-elm27">
+                  <span class="student-qr-thq-text-elm20">
+                    Sử dụng mã này để ra vào cổng bãi đỗ xe NEU.
+                  </span>
+                </div>
+              </div>
+              <div class="student-qr-thq-container-elm28">
+                <button class="student-qr-thq-button-elm1">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3617"
+                    class="student-qr-thq-container-elm29"
+                  />
+                  <span class="student-qr-thq-text-elm21">In mã QR</span>
+                </button>
+                <button class="student-qr-thq-button-elm2">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3617"
+                    class="student-qr-thq-container-elm30"
+                  />
+                  <span class="student-qr-thq-text-elm22">Tạo lại mã QR</span>
+                </button>
+              </div>
+            </div>
+            <div class="student-qr-thq-main-layout-bento-style-elm">
+              <div class="student-qr-thq-left-column-student-vehicle-info-elm">
+                <div class="student-qr-thq-profile-card-elm">
+                  <span class="student-qr-thq-text-elm23">Nguyễn Văn An</span>
+                  <div class="student-qr-thq-margin-elm3">
+                    <div class="student-qr-thq-container-elm31">
+                      <span class="student-qr-thq-text-elm24">
+                        MSSV: 11223344
+                      </span>
+                    </div>
+                  </div>
+                  <div class="student-qr-thq-horizontal-border-elm2">
+                    <div class="student-qr-thq-container-elm32">
+                      <div class="student-qr-thq-label-elm1">
+                        <span class="student-qr-thq-text-elm25">
+                          Phương tiện đăng ký
+                        </span>
+                      </div>
+                      <div class="student-qr-thq-background-elm1">
+                        <img
+                          src="https://play.teleporthq.io/static/svg/default-img.svg"
+                          alt="Container3617"
+                          class="student-qr-thq-container-elm33"
+                        />
+                        <div class="student-qr-thq-container-elm34">
+                          <span class="student-qr-thq-text-elm26">
+                            29-G1 123.45
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="student-qr-thq-container-elm35">
+                      <div class="student-qr-thq-label-elm2">
+                        <span class="student-qr-thq-text-elm27">Loại vé</span>
+                      </div>
+                      <div class="student-qr-thq-container-elm36">
+                        <span class="student-qr-thq-text-elm28">
+                          Vé tháng sinh viên (Zone A)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="student-qr-thq-margin-elm4">
+                    <div class="student-qr-thq-container-elm37">
+                      <div class="student-qr-thq-border-elm1">
+                        <div class="student-qr-thq-student-portrait-elm"></div>
+                      </div>
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="BackgroundBorder3617"
+                        class="student-qr-thq-background-border-elm1"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="student-qr-thq-status-banner-elm">
+                  <div class="student-qr-thq-background-elm2">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3617"
+                      class="student-qr-thq-container-elm38"
+                    />
+                  </div>
+                  <div class="student-qr-thq-container-elm39">
+                    <div class="student-qr-thq-container-elm40">
+                      <span class="student-qr-thq-text-elm29">
+                        Mã QR có hiệu lực
+                      </span>
+                    </div>
+                    <div class="student-qr-thq-container-elm41">
+                      <span class="student-qr-thq-text-elm30">
+                        Hạn dùng đến: 31/12/2024
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="student-qr-thq-right-column-the-qr-code-surface-elm">
+                <div class="student-qr-thq-qr-code-container-elm">
+                  <div class="student-qr-thq-background-elm3">
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="OverlayShadow3617"
+                      class="student-qr-thq-overlay-shadow-elm"
+                    />
+                    <div class="student-qr-thq-background-elm4">
+                      <div
+                        class="student-qr-thq-personal-student-qr-code-elm"
+                      ></div>
+                    </div>
+                  </div>
+                  <img
+                    src="."
+                    alt="ScanningAnimationSimulationDecor3617"
+                    class="student-qr-thq-scanning-animation-simulation-decor-elm"
+                  />
+                  <img
+                    src="."
+                    alt="Border3617"
+                    class="student-qr-thq-border-elm2"
+                  />
+                  <img
+                    src="."
+                    alt="Border3617"
+                    class="student-qr-thq-border-elm3"
+                  />
+                  <img
+                    src="."
+                    alt="Border3617"
+                    class="student-qr-thq-border-elm4"
+                  />
+                </div>
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Overlay3617"
+                  class="student-qr-thq-overlay-elm"
+                />
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="DecorativeBackgroundElements3617"
+                  class="student-qr-thq-decorative-background-elements-elm"
+                />
+                <div class="student-qr-thq-margin-elm5">
+                  <div class="student-qr-thq-container-elm42">
+                    <div class="student-qr-thq-background-elm5">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Container3617"
+                        class="student-qr-thq-container-elm43"
+                      />
+                      <span class="student-qr-thq-text-elm31">
+                        MÃ ĐÃ ĐƯỢC MÃ HÓA AN TOÀN
+                      </span>
+                    </div>
+                    <div class="student-qr-thq-heading3-elm">
+                      <span class="student-qr-thq-text-elm32">
+                        Quét tại đầu đọc thẻ
+                      </span>
+                    </div>
+                    <div class="student-qr-thq-container-elm44">
+                      <span class="student-qr-thq-text-elm33">
+                        <span>
+                          Vui lòng giữ mã QR cách camera đầu đọc khoảng 15-
+                        </span>
+                        <br />
+                        <span>
+                          20cm. Đảm bảo độ sáng màn hình điện thoại ở mức cao
+                        </span>
+                        <br />
+                        <span>nhất.</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="student-qr-thq-notes-section-elm">
+              <div class="student-qr-thq-background-border-elm2">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3617"
+                  class="student-qr-thq-container-elm45"
+                />
+                <div class="student-qr-thq-container-elm46">
+                  <div class="student-qr-thq-heading4-elm1">
+                    <span class="student-qr-thq-text-elm37">Ngày hiệu lực</span>
+                  </div>
+                  <div class="student-qr-thq-container-elm47">
+                    <span class="student-qr-thq-text-elm38">
+                      <span>Mã QR này được tạo vào lúc 08:30 ngày</span>
+                      <br />
+                      <span>
+                        20/05/2024. Mã có giá trị sử dụng cho đến khi bạn
+                      </span>
+                      <br />
+                      <span>yêu cầu cấp lại mã mới.</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="student-qr-thq-background-border-elm3">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3618"
+                  class="student-qr-thq-container-elm48"
+                />
+                <div class="student-qr-thq-container-elm49">
+                  <div class="student-qr-thq-heading4-elm2">
+                    <span class="student-qr-thq-text-elm42">Cách sử dụng</span>
+                  </div>
+                  <div class="student-qr-thq-container-elm50">
+                    <span class="student-qr-thq-text-elm43">
+                      <span>
+                        Khi đến cổng ra/vào, chỉ cần mở trang này hoặc
+                      </span>
+                      <br />
+                      <span>
+                        bản in. Không chia sẻ mã QR này cho người khác
+                      </span>
+                      <br />
+                      <span>để đảm bảo an ninh tài sản.</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="student-qr-thq-footer-hiddenonprint-elm">
+            <div class="student-qr-thq-container-elm51">
+              <div class="student-qr-thq-container-elm52">
+                <span class="student-qr-thq-text-elm47">
+                  © 2024 NEU Smart Parking System. All rights reserved.
+                </span>
+              </div>
+              <div class="student-qr-thq-container-elm53">
+                <div class="student-qr-thq-link-elm17">
+                  <span class="student-qr-thq-text-elm48">Privacy Policy</span>
+                </div>
+                <div class="student-qr-thq-link-elm18">
+                  <span class="student-qr-thq-text-elm49">
+                    Terms of Service
+                  </span>
+                </div>
+                <div class="student-qr-thq-link-elm19">
+                  <span class="student-qr-thq-text-elm50">Campus Map</span>
+                </div>
+                <div class="student-qr-thq-link-elm20">
+                  <span class="student-qr-thq-text-elm51">Help Center</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="student-qr-thq-top-nav-bar-elm">
+            <div class="student-qr-thq-container-elm54">
+              <div class="student-qr-thq-container-elm55">
+                <span class="student-qr-thq-text-elm52">NEU Smart Parking</span>
+              </div>
+              <div class="student-qr-thq-container-elm56">
+                <div class="student-qr-thq-link-elm21">
+                  <span class="student-qr-thq-text-elm53">Home</span>
+                </div>
+                <div class="student-qr-thq-link-elm22">
+                  <span class="student-qr-thq-text-elm54">About</span>
+                </div>
+                <div class="student-qr-thq-link-elm23">
+                  <span class="student-qr-thq-text-elm55">Pricing</span>
+                </div>
+                <div class="student-qr-thq-link-elm24">
+                  <span class="student-qr-thq-text-elm56">Contact</span>
+                </div>
+              </div>
+              <div class="student-qr-thq-container-elm57">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Button3618"
+                  class="student-qr-thq-button-elm3"
+                />
+                <div class="student-qr-thq-background-elm6">
+                  <span class="student-qr-thq-text-elm57">JD</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="https://play.teleporthq.io/signup" class="student-qr-link">
+          <div aria-label="Sign up to TeleportHQ" class="student-qr-container2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 19 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="student-qr-icon1"
+            >
+              <path
+                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
+                fill="#B23ADE"
+              ></path>
+              <path
+                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
+                fill="#FF5C5C"
+              ></path>
+              <path
+                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
+                fill="#2874DE"
+              ></path>
+            </svg>
+            <span class="student-qr-text7">Built in TeleportHQ</span>
+          </div>
+        </a>
+      </div>
+      <link
+        rel="canonical"
+        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/student-qr"
+      />
+    </div>
+  </body>
+</html>

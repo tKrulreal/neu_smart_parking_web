@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="english">
+  <head>
+    <title>gate-in - exported project</title>
+    <meta property="og:title" content="gate-in - exported project" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-theme-neutral-dark);
+        background: var(--dl-color-theme-neutral-light);
+
+        fill: var(--dl-color-theme-neutral-dark);
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/animate.css@4.1.1/animate.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
+    />
+  </head>
+  <body>
+    <link rel="stylesheet" href="./style.css" />
+    <div>
+      <link href="./gate-in.css" rel="stylesheet" />
+
+      <div class="gate-in-container1">
+        <div class="gate-in-thq-gatein-elm">
+          <div class="gate-in-thq-main-content-area-elm">
+            <div class="gate-in-thq-header-top-nav-bar-elm">
+              <div class="gate-in-thq-container-elm10">
+                <div class="gate-in-thq-container-elm11">
+                  <span class="gate-in-thq-text-elm10">Cổng 2 - NEU Entry</span>
+                </div>
+                <div class="gate-in-thq-background-elm1">
+                  <span class="gate-in-thq-text-elm11">Active</span>
+                </div>
+              </div>
+              <div class="gate-in-thq-container-elm12">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3632"
+                  class="gate-in-thq-container-elm13"
+                />
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="VerticalDivider3632"
+                  class="gate-in-thq-vertical-divider-elm"
+                />
+                <div class="gate-in-thq-container-elm14">
+                  <div class="gate-in-thq-container-elm15">
+                    <div class="gate-in-thq-container-elm16">
+                      <span class="gate-in-thq-text-elm12">Nguyễn Văn An</span>
+                    </div>
+                    <div class="gate-in-thq-container-elm17">
+                      <span class="gate-in-thq-text-elm13">
+                        Security Officer
+                      </span>
+                    </div>
+                  </div>
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3632"
+                    class="gate-in-thq-container-elm18"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="gate-in-thq-content-canvas-elm">
+              <div class="gate-in-thq-page-header-section-elm">
+                <div class="gate-in-thq-container-elm19">
+                  <div class="gate-in-thq-heading2-elm">
+                    <span class="gate-in-thq-text-elm14">
+                      Vehicle Entry Management
+                    </span>
+                  </div>
+                  <div class="gate-in-thq-container-elm20">
+                    <span class="gate-in-thq-text-elm15">
+                      Ghi nhận thông tin xe vào tại Cổng số 2
+                    </span>
+                  </div>
+                </div>
+                <div class="gate-in-thq-container-elm21">
+                  <div class="gate-in-thq-container-elm22">
+                    <span class="gate-in-thq-text-elm16">14:45</span>
+                  </div>
+                  <span class="gate-in-thq-text-elm17">Oct 24, 2023</span>
+                </div>
+              </div>
+              <div
+                class="gate-in-thq-main-interactive-section-asymmetric-layout-elm"
+              >
+                <div class="gate-in-thq-left-upload-vision-section-elm">
+                  <div class="gate-in-thq-background-shadow-elm">
+                    <div class="gate-in-thq-background-border-elm">
+                      <div
+                        class="gate-in-thq-ab6a-xu-ddvgiocf4a3-vjo-v-wvez-a-akf-r9o-ou-dyx5qn-f-ay-zc-zbh-ry-elm"
+                      ></div>
+                      <div class="gate-in-thq-container-elm23">
+                        <div class="gate-in-thq-margin-elm1">
+                          <div class="gate-in-thq-background-elm2">
+                            <img
+                              src="https://play.teleporthq.io/static/svg/default-img.svg"
+                              alt="OverlayShadow3632"
+                              class="gate-in-thq-overlay-shadow-elm"
+                            />
+                            <img
+                              src="https://play.teleporthq.io/static/svg/default-img.svg"
+                              alt="Container3632"
+                              class="gate-in-thq-container-elm24"
+                            />
+                          </div>
+                        </div>
+                        <span class="gate-in-thq-text-elm18">
+                          Upload Vehicle Photo
+                        </span>
+                        <div class="gate-in-thq-margin-elm2">
+                          <div class="gate-in-thq-container-elm25">
+                            <span class="gate-in-thq-text-elm19">
+                              <span>
+                                Drag and drop the capture file here or click to
+                              </span>
+                              <br />
+                              <span>browse</span>
+                            </span>
+                          </div>
+                        </div>
+                        <button class="gate-in-thq-buttonmargin-elm1"></button>
+                        <button class="gate-in-thq-button-elm1">
+                          <span class="gate-in-thq-text-elm22">
+                            Select File
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gate-in-thq-container-elm26">
+                    <button class="gate-in-thq-button-elm2">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Buttonshadow3632"
+                        class="gate-in-thq-buttonshadow-elm1"
+                      />
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Container3632"
+                        class="gate-in-thq-container-elm27"
+                      />
+                      <span class="gate-in-thq-text-elm23">
+                        Nhận diện biển số (OCR)
+                      </span>
+                    </button>
+                    <button class="gate-in-thq-button-elm3">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Container3632"
+                        class="gate-in-thq-container-elm28"
+                      />
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="gate-in-thq-right-results-status-section-result-card-elm"
+                >
+                  <div class="gate-in-thq-horizontal-border-elm1">
+                    <div class="gate-in-thq-heading3-elm1">
+                      <span class="gate-in-thq-text-elm24">
+                        Phân tích hệ thống
+                      </span>
+                    </div>
+                    <div class="gate-in-thq-overlay-elm">
+                      <span class="gate-in-thq-text-elm25">Real-time DB</span>
+                    </div>
+                  </div>
+                  <div class="gate-in-thq-container-elm29">
+                    <div class="gate-in-thq-ocr-result-elm">
+                      <div class="gate-in-thq-container-elm30">
+                        <div class="gate-in-thq-container-elm31">
+                          <span class="gate-in-thq-text-elm26">
+                            Biển số phát hiện
+                          </span>
+                        </div>
+                        <div class="gate-in-thq-container-elm32">
+                          <span class="gate-in-thq-text-elm27">
+                            29A - 888.88
+                          </span>
+                        </div>
+                      </div>
+                      <div class="gate-in-thq-container-elm33">
+                        <div class="gate-in-thq-container-elm34">
+                          <span class="gate-in-thq-text-elm28">Độ tin cậy</span>
+                        </div>
+                        <div class="gate-in-thq-container-elm35">
+                          <div class="gate-in-thq-background-elm3">
+                            <img
+                              src="https://play.teleporthq.io/static/svg/default-img.svg"
+                              alt="Background3632"
+                              class="gate-in-thq-background-elm4"
+                            />
+                          </div>
+                          <div class="gate-in-thq-container-elm36">
+                            <span class="gate-in-thq-text-elm29">98.5%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="gate-in-thq-owner-info-elm">
+                      <div class="gate-in-thq-container-elm37">
+                        <div class="gate-in-thq-background-elm5">
+                          <img
+                            src="https://play.teleporthq.io/static/svg/default-img.svg"
+                            alt="Container3632"
+                            class="gate-in-thq-container-elm38"
+                          />
+                        </div>
+                        <div class="gate-in-thq-horizontal-border-elm2">
+                          <div class="gate-in-thq-container-elm39">
+                            <span class="gate-in-thq-text-elm30">
+                              Chủ xe &amp; MSSV
+                            </span>
+                          </div>
+                          <div class="gate-in-thq-container-elm40">
+                            <span class="gate-in-thq-text-elm31">
+                              Lê Minh Tuấn
+                            </span>
+                          </div>
+                          <div class="gate-in-thq-container-elm41">
+                            <span class="gate-in-thq-text-elm32">
+                              MSSV: 11204567 - Khóa 62
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="gate-in-thq-container-elm42">
+                        <div class="gate-in-thq-background-elm6">
+                          <img
+                            src="https://play.teleporthq.io/static/svg/default-img.svg"
+                            alt="Container3633"
+                            class="gate-in-thq-container-elm43"
+                          />
+                        </div>
+                        <div class="gate-in-thq-container-elm44">
+                          <div class="gate-in-thq-container-elm45">
+                            <span class="gate-in-thq-text-elm33">
+                              Dòng xe đăng ký
+                            </span>
+                          </div>
+                          <div class="gate-in-thq-container-elm46">
+                            <span class="gate-in-thq-text-elm34">
+                              VinFast Lux A2.0
+                            </span>
+                          </div>
+                          <div class="gate-in-thq-container-elm47">
+                            <span class="gate-in-thq-text-elm35">
+                              Màu sắc: Đen - Gói tháng
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="gate-in-thq-status-alert-dynamic-state-case-valid-elm"
+                  >
+                    <div class="gate-in-thq-background-elm7">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Container3633"
+                        class="gate-in-thq-container-elm48"
+                      />
+                    </div>
+                    <div class="gate-in-thq-container-elm49">
+                      <div class="gate-in-thq-container-elm50">
+                        <span class="gate-in-thq-text-elm36">
+                          System Status
+                        </span>
+                      </div>
+                      <div class="gate-in-thq-container-elm51">
+                        <span class="gate-in-thq-text-elm37">
+                          <span>OPEN</span>
+                          <br />
+                          <span>BARRIER</span>
+                        </span>
+                      </div>
+                    </div>
+                    <button class="gate-in-thq-button-elm4">
+                      <img
+                        src="https://play.teleporthq.io/static/svg/default-img.svg"
+                        alt="Buttonshadow3633"
+                        class="gate-in-thq-buttonshadow-elm2"
+                      />
+                      <span class="gate-in-thq-text-elm40">Confirm</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="gate-in-thq-bottom-section-recent-log-bento-grid-elm">
+                <div class="gate-in-thq-container-elm52">
+                  <div class="gate-in-thq-heading3-elm2">
+                    <span class="gate-in-thq-text-elm41">
+                      Recent Entries (Cổng 2)
+                    </span>
+                  </div>
+                  <button class="gate-in-thq-button-elm5">
+                    <span class="gate-in-thq-text-elm42">View History</span>
+                    <img
+                      src="https://play.teleporthq.io/static/svg/default-img.svg"
+                      alt="Container3633"
+                      class="gate-in-thq-container-elm53"
+                    />
+                  </button>
+                </div>
+                <div class="gate-in-thq-container-elm54">
+                  <div class="gate-in-thq-log-item1-elm">
+                    <div class="gate-in-thq-container-elm55">
+                      <div class="gate-in-thq-container-elm56">
+                        <span class="gate-in-thq-text-elm43">14:40 PM</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm57">
+                        <span class="gate-in-thq-text-elm44">Success</span>
+                      </div>
+                    </div>
+                    <div class="gate-in-thq-container-elm58">
+                      <div class="gate-in-thq-paragraph-background-shadow-elm1">
+                        <span class="gate-in-thq-text-elm45">30H-</span>
+                        <span class="gate-in-thq-text-elm46">21...</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm59">
+                        <div class="gate-in-thq-container-elm60">
+                          <span class="gate-in-thq-text-elm47">Honda SH</span>
+                        </div>
+                        <div class="gate-in-thq-container-elm61">
+                          <span class="gate-in-thq-text-elm48">
+                            Trần Thị B.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gate-in-thq-log-item2-elm">
+                    <div class="gate-in-thq-container-elm62">
+                      <div class="gate-in-thq-container-elm63">
+                        <span class="gate-in-thq-text-elm49">14:32 PM</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm64">
+                        <span class="gate-in-thq-text-elm50">Denied</span>
+                      </div>
+                    </div>
+                    <div class="gate-in-thq-container-elm65">
+                      <div class="gate-in-thq-paragraph-background-shadow-elm2">
+                        <span class="gate-in-thq-text-elm51">89A-</span>
+                        <span class="gate-in-thq-text-elm52">43...</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm66">
+                        <div class="gate-in-thq-container-elm67">
+                          <span class="gate-in-thq-text-elm53">
+                            Unknown Car
+                          </span>
+                        </div>
+                        <div class="gate-in-thq-container-elm68">
+                          <span class="gate-in-thq-text-elm54">
+                            Khách vãng lai
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gate-in-thq-log-item3-elm">
+                    <div class="gate-in-thq-container-elm69">
+                      <div class="gate-in-thq-container-elm70">
+                        <span class="gate-in-thq-text-elm55">14:15 PM</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm71">
+                        <span class="gate-in-thq-text-elm56">Success</span>
+                      </div>
+                    </div>
+                    <div class="gate-in-thq-container-elm72">
+                      <div class="gate-in-thq-paragraph-background-shadow-elm3">
+                        <span class="gate-in-thq-text-elm57">29B-</span>
+                        <span class="gate-in-thq-text-elm58">99...</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm73">
+                        <div class="gate-in-thq-container-elm74">
+                          <span class="gate-in-thq-text-elm59">Mazda 3</span>
+                        </div>
+                        <div class="gate-in-thq-container-elm75">
+                          <span class="gate-in-thq-text-elm60">
+                            Phạm Văn C.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gate-in-thq-log-item4-elm">
+                    <div class="gate-in-thq-container-elm76">
+                      <div class="gate-in-thq-container-elm77">
+                        <span class="gate-in-thq-text-elm61">14:02 PM</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm78">
+                        <span class="gate-in-thq-text-elm62">Success</span>
+                      </div>
+                    </div>
+                    <div class="gate-in-thq-container-elm79">
+                      <div class="gate-in-thq-paragraph-background-shadow-elm4">
+                        <span class="gate-in-thq-text-elm63">30K-</span>
+                        <span class="gate-in-thq-text-elm64">11...</span>
+                      </div>
+                      <div class="gate-in-thq-container-elm80">
+                        <div class="gate-in-thq-container-elm81">
+                          <span class="gate-in-thq-text-elm65">
+                            Exciter 150
+                          </span>
+                        </div>
+                        <div class="gate-in-thq-container-elm82">
+                          <span class="gate-in-thq-text-elm66">
+                            Nguyễn Thảo
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="gate-in-thq-aside-side-nav-bar-elm">
+            <div class="gate-in-thq-margin-elm3">
+              <div class="gate-in-thq-container-elm83">
+                <div class="gate-in-thq-heading1-elm">
+                  <span class="gate-in-thq-text-elm67">NEU Smart</span>
+                </div>
+                <div class="gate-in-thq-container-elm84">
+                  <span class="gate-in-thq-text-elm68">Guard Terminal</span>
+                </div>
+              </div>
+            </div>
+            <div class="gate-in-thq-nav-elm">
+              <div class="gate-in-thq-link-elm1">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3633"
+                  class="gate-in-thq-container-elm85"
+                />
+                <div class="gate-in-thq-container-elm86">
+                  <span class="gate-in-thq-text-elm69">Dashboard</span>
+                </div>
+              </div>
+              <div class="gate-in-thq-linkcsstransform-elm">
+                <div class="gate-in-thq-link-elm2">
+                  <img
+                    src="https://play.teleporthq.io/static/svg/default-img.svg"
+                    alt="Container3634"
+                    class="gate-in-thq-container-elm87"
+                  />
+                  <div class="gate-in-thq-container-elm88">
+                    <span class="gate-in-thq-text-elm70">Gate In</span>
+                  </div>
+                </div>
+              </div>
+              <div class="gate-in-thq-link-elm3">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3634"
+                  class="gate-in-thq-container-elm89"
+                />
+                <div class="gate-in-thq-container-elm90">
+                  <span class="gate-in-thq-text-elm71">Gate Out</span>
+                </div>
+              </div>
+              <div class="gate-in-thq-link-elm4">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3634"
+                  class="gate-in-thq-container-elm91"
+                />
+                <div class="gate-in-thq-container-elm92">
+                  <span class="gate-in-thq-text-elm72">History</span>
+                </div>
+              </div>
+            </div>
+            <div class="gate-in-thq-horizontal-border-elm3">
+              <button class="gate-in-thq-buttonmargin-elm2"></button>
+              <button class="gate-in-thq-button-elm6">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Buttonshadow3634"
+                  class="gate-in-thq-buttonshadow-elm3"
+                />
+                <span class="gate-in-thq-text-elm73">New Entry</span>
+              </button>
+
+              <div class="gate-in-thq-link-elm5">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3634"
+                  class="gate-in-thq-container-elm93"
+                />
+                <div class="gate-in-thq-container-elm94">
+                  <span class="gate-in-thq-text-elm74">Settings</span>
+                </div>
+              </div>
+              <div class="gate-in-thq-link-elm6">
+                <img
+                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  alt="Container3634"
+                  class="gate-in-thq-container-elm95"
+                />
+                <div class="gate-in-thq-container-elm96">
+                  <span class="gate-in-thq-text-elm75">Logout</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="gate-in-thq-button-contextual-fa-bfor-guard-hiddenon-subpagesasperru-elm"
+          >
+            <img
+              src="https://play.teleporthq.io/static/svg/default-img.svg"
+              alt="Container3634"
+              class="gate-in-thq-container-elm97"
+            />
+          </button>
+        </div>
+        <a href="https://play.teleporthq.io/signup" class="gate-in-link">
+          <div aria-label="Sign up to TeleportHQ" class="gate-in-container2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 19 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="gate-in-icon1"
+            >
+              <path
+                d="M9.1017 4.64355H2.17867C0.711684 4.64355 -0.477539 5.79975 -0.477539 7.22599V13.9567C-0.477539 15.3829 0.711684 16.5391 2.17867 16.5391H9.1017C10.5687 16.5391 11.7579 15.3829 11.7579 13.9567V7.22599C11.7579 5.79975 10.5687 4.64355 9.1017 4.64355Z"
+                fill="#B23ADE"
+              ></path>
+              <path
+                d="M10.9733 12.7878C14.4208 12.7878 17.2156 10.0706 17.2156 6.71886C17.2156 3.3671 14.4208 0.649963 10.9733 0.649963C7.52573 0.649963 4.73096 3.3671 4.73096 6.71886C4.73096 10.0706 7.52573 12.7878 10.9733 12.7878Z"
+                fill="#FF5C5C"
+              ></path>
+              <path
+                d="M17.7373 13.3654C19.1497 14.1588 19.1497 15.4634 17.7373 16.2493L10.0865 20.5387C8.67402 21.332 7.51855 20.6836 7.51855 19.0968V10.5141C7.51855 8.92916 8.67402 8.2807 10.0865 9.07221L17.7373 13.3654Z"
+                fill="#2874DE"
+              ></path>
+            </svg>
+            <span class="gate-in-text3">Built in TeleportHQ</span>
+          </div>
+        </a>
+      </div>
+      <link
+        rel="canonical"
+        href="https://ltw-neu-smart-parking-lyvgef.teleporthq.app/gate-in"
+      />
+    </div>
+  </body>
+</html>
