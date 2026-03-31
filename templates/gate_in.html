@@ -1,114 +1,260 @@
-{% extends "base.html" %}
-
-{% block title %}Gate In{% endblock %}
-
-{% block content %}
-<div class="gate-in-container1">
-
-    <!-- HEADER -->
-    <div class="gate-in-thq-header-top-nav-bar-elm">
-        <div>
-            <h3>{{ gate_name }}</h3>
-            <span class="status {{ status|lower }}">{{ status }}</span>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="gate-in">
+      <div class="main-content-area">
+        <div class="header-topnavbar">
+          <div class="container">
+            <div class="div"><p class="text">Cổng 2 - NEU Entry</p></div>
+            <div class="background"><div class="text-wrapper">ACTIVE</div></div>
+          </div>
+          <div class="container-2">
+            <div class="div"><img class="icon" src="img/icon-7.svg" /></div>
+            <div class="vertical-divider"></div>
+            <div class="container-3">
+              <div class="div">
+                <div class="div-wrapper"><div class="text-wrapper-2">Nguyễn Văn An</div></div>
+                <div class="div-wrapper"><div class="text-2">Security Officer</div></div>
+              </div>
+              <div class="div"><img class="img" src="img/icon.svg" /></div>
+            </div>
+          </div>
         </div>
-
-        <div>
-            <span>{{ user.name }}</span>
-            <span>{{ user.role }}</span>
-        </div>
-    </div>
-
-    <!-- PAGE HEADER -->
-    <div class="gate-in-thq-page-header-section-elm">
-        <div>
-            <h2>Vehicle Entry Management</h2>
-            <p>Ghi nhận xe vào tại {{ gate_name }}</p>
-        </div>
-
-        <div>
-            <span>{{ current_time }}</span>
-            <span>{{ current_date }}</span>
-        </div>
-    </div>
-
-    <!-- MAIN -->
-    <div class="main-grid">
-
-        <!-- LEFT: UPLOAD -->
-        <div class="upload-section">
-
-            <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="image" required>
-
-                <button type="submit">
-                    Nhận diện biển số (OCR)
+        <div class="content-canvas">
+          <div class="page-header-section">
+            <div class="container-4">
+              <div class="div-wrapper-2"><div class="text-wrapper-3">Vehicle Entry Management</div></div>
+              <div class="div-wrapper-2"><p class="p">Ghi nhận thông tin xe vào tại Cổng số 2</p></div>
+            </div>
+            <div class="div">
+              <div class="div-wrapper"><div class="text-3">14:45</div></div>
+              <div class="text-4">OCT 24, 2023</div>
+            </div>
+          </div>
+          <div class="main-interactive">
+            <div class="left-upload-vision">
+              <div class="background-shadow">
+                <div class="background-border">
+                  <div class="div-2"></div>
+                  <div class="container-5">
+                    <div class="margin">
+                      <div class="background-2">
+                        <div class="overlay-shadow"></div>
+                        <div class="icon-wrapper"><img class="icon-2" src="img/icon-8.svg" /></div>
+                      </div>
+                    </div>
+                    <div class="heading-upload">Upload Vehicle Photo</div>
+                    <div class="container-wrapper">
+                      <div class="container-6">
+                        <p class="text-5">Drag and drop the capture file here or click to<br />browse</p>
+                      </div>
+                    </div>
+                    <div class="button-margin">
+                      <button class="button"><div class="text-6">Select File</div></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-7">
+                <div class="button-2">
+                  <div class="button-shadow"></div>
+                  <div class="icon-wrapper"><img class="icon-3" src="img/icon-10.svg" /></div>
+                  <p class="text-7">Nhận diện biển số (OCR)</p>
+                </div>
+                <div class="button-3">
+                  <div class="icon-wrapper"><img class="icon-4" src="img/icon-13.svg" /></div>
+                </div>
+              </div>
+            </div>
+            <div class="right-results-status">
+              <div class="horizontal-border">
+                <div class="div"><div class="text-8">Phân tích hệ thống</div></div>
+                <div class="overlay"><div class="text-9">REAL-TIME DB</div></div>
+              </div>
+              <div class="container-8">
+                <div class="OCR-result">
+                  <div class="container-9">
+                    <div class="div-wrapper-2"><div class="text-10">BIỂN SỐ PHÁT HIỆN</div></div>
+                    <div class="container-10"><div class="text-wrapper-4">29A - 888.88</div></div>
+                  </div>
+                  <div class="container-11">
+                    <div class="div-wrapper"><div class="tin-c-y">ĐỘ TIN CẬY</div></div>
+                    <div class="container-12">
+                      <div class="background-wrapper"><div class="background-3"></div></div>
+                      <div class="container-13"><div class="text-11">98.5%</div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="div-3">
+                  <div class="container-7">
+                    <div class="background-4">
+                      <div class="div"><img class="icon-4" src="img/icon-2.svg" /></div>
+                    </div>
+                    <div class="horizontal-border-2">
+                      <div class="div-wrapper-2"><div class="text-wrapper-5">CHỦ XE &amp; MSSV</div></div>
+                      <div class="div-wrapper-2"><div class="text-wrapper-6">Lê Minh Tuấn</div></div>
+                      <div class="div-wrapper-2"><p class="text-wrapper-7">MSSV: 11204567 - Khóa 62</p></div>
+                    </div>
+                  </div>
+                  <div class="container-7">
+                    <div class="background-4">
+                      <div class="div"><img class="icon-5" src="img/icon-3.svg" /></div>
+                    </div>
+                    <div class="container-14">
+                      <div class="div-wrapper-2"><div class="text-wrapper-5">DÒNG XE ĐĂNG KÝ</div></div>
+                      <div class="div-wrapper-2"><div class="text-wrapper-6">VinFast Lux A2.0</div></div>
+                      <div class="div-wrapper-2"><p class="text-wrapper-7">Màu sắc: Đen - Gói tháng</p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="status-alert-dynamic">
+                <div class="background-5">
+                  <div class="div"><img class="icon-6" src="img/icon-15.svg" /></div>
+                </div>
+                <div class="div">
+                  <div class="div-wrapper-2"><div class="text-12">SYSTEM STATUS</div></div>
+                  <div class="div-wrapper-2">
+                    <div class="OPEN-BARRIER">OPEN<br />BARRIER</div>
+                  </div>
+                </div>
+                <button class="button-4">
+                  <div class="button-shadow-2"></div>
+                  <div class="text-13">Confirm</div>
                 </button>
-            </form>
-
+              </div>
+            </div>
+          </div>
+          <div class="div-3">
+            <div class="container-15">
+              <div class="div"><div class="text-14">Recent Entries (Cổng 2)</div></div>
+              <button class="button-5">
+                <div class="text-15">View History</div>
+                <div class="icon-wrapper"><img class="icon-7" src="img/icon-4.svg" /></div>
+              </button>
+            </div>
+            <div class="container-16">
+              <div class="log-item">
+                <div class="container-17">
+                  <div class="container-18"><div class="text-16">14:40 PM</div></div>
+                  <div class="container-18"><div class="text-17">SUCCESS</div></div>
+                </div>
+                <div class="container-19">
+                  <div class="paragraph-background">
+                    <div class="text-18">30H-</div>
+                    <div class="text-19">21...</div>
+                  </div>
+                  <div class="div">
+                    <div class="div-wrapper-2"><div class="text-20">Honda SH</div></div>
+                    <div class="div-wrapper-2"><div class="text-21">Trần Thị B.</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="log-item-2">
+                <div class="container-17">
+                  <div class="container-18"><div class="text-22">14:32 PM</div></div>
+                  <div class="container-18"><div class="text-23">DENIED</div></div>
+                </div>
+                <div class="container-19">
+                  <div class="paragraph-background">
+                    <div class="text-24">89A-</div>
+                    <div class="text-25">43...</div>
+                  </div>
+                  <div class="div">
+                    <div class="div-wrapper-2"><div class="text-26">Unknown Car</div></div>
+                    <div class="div-wrapper-2"><div class="text-27">Khách vãng lai</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="log-item-3">
+                <div class="container-20">
+                  <div class="container-18"><div class="text-28">14:15 PM</div></div>
+                  <div class="container-18"><div class="text-17">SUCCESS</div></div>
+                </div>
+                <div class="container-19">
+                  <div class="paragraph-background">
+                    <div class="text-29">29B-</div>
+                    <div class="text-30">99...</div>
+                  </div>
+                  <div class="div">
+                    <div class="div-wrapper-2"><div class="text-wrapper-8">Mazda 3</div></div>
+                    <div class="div-wrapper-2"><div class="text-wrapper-9">Phạm Văn C.</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="log-item-4">
+                <div class="container-17">
+                  <div class="container-18"><div class="text-31">14:02 PM</div></div>
+                  <div class="container-18"><div class="text-17">SUCCESS</div></div>
+                </div>
+                <div class="container-19">
+                  <div class="paragraph-background">
+                    <div class="text-32">30K-</div>
+                    <div class="text-33">11...</div>
+                  </div>
+                  <div class="div">
+                    <div class="div-wrapper-2"><div class="text-34">Exciter 150</div></div>
+                    <div class="div-wrapper-2"><div class="text-wrapper-10">Nguyễn Thảo</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <!-- RIGHT: RESULT -->
-        <div class="result-section">
-
-            <h3>Phân tích hệ thống</h3>
-
-            <!-- OCR RESULT -->
-            <div class="ocr-box">
-                <p>Biển số:</p>
-                <h2>{{ ocr.plate or "..." }}</h2>
-
-                <p>Độ tin cậy:</p>
-                <span>{{ ocr.confidence }}%</span>
-            </div>
-
-            <!-- OWNER -->
-            {% if owner %}
-            <div class="owner-box">
-                <p>Chủ xe:</p>
-                <h4>{{ owner.name }}</h4>
-                <p>{{ owner.student_id }}</p>
-            </div>
-
-            <div class="vehicle-box">
-                <p>Xe:</p>
-                <h4>{{ owner.vehicle }}</h4>
-                <p>{{ owner.description }}</p>
-            </div>
-            {% else %}
-            <div class="owner-box">
-                <p>Không tìm thấy trong hệ thống</p>
-            </div>
-            {% endif %}
-
-            <!-- STATUS -->
-            <div class="status-box {{ system_status|lower }}">
-                <h3>{{ system_status }}</h3>
-            </div>
-
-            <!-- CONFIRM -->
-            <form method="POST" action="/confirm-entry">
-                <input type="hidden" name="plate" value="{{ ocr.plate }}">
-                <button type="submit">Xác nhận mở cổng</button>
-            </form>
-
+      </div>
+      <div class="aside-sidenavbar">
+        <div class="margin-2">
+          <div class="container-21">
+            <div class="div-wrapper-2"><div class="text-wrapper-11">NEU Smart</div></div>
+            <div class="div-wrapper-2"><div class="guard-terminal">GUARD TERMINAL</div></div>
+          </div>
         </div>
-
+        <div class="nav">
+          <div class="link">
+            <div class="div"><img class="icon-8" src="img/icon-14.svg" /></div>
+            <div class="div"><div class="text-35">Dashboard</div></div>
+          </div>
+          <div class="link-css-transform">
+            <div class="link-2">
+              <div class="div"><img class="icon-8" src="img/icon-12.svg" /></div>
+              <div class="div"><div class="text-36">Gate In</div></div>
+            </div>
+          </div>
+          <div class="link">
+            <div class="div"><img class="icon-9" src="img/icon-5.svg" /></div>
+            <div class="div"><div class="text-37">Gate Out</div></div>
+          </div>
+          <div class="link">
+            <div class="div"><img class="icon-8" src="img/image.svg" /></div>
+            <div class="div"><div class="text-38">History</div></div>
+          </div>
+        </div>
+        <div class="horizontal-border-3">
+          <div class="button-wrapper">
+            <button class="button-6">
+              <div class="button-shadow-2"></div>
+              <div class="text-39">New Entry</div>
+            </button>
+          </div>
+          <div class="link-3">
+            <div class="div"><img class="icon-10" src="img/icon-6.svg" /></div>
+            <div class="div"><div class="text-40">Settings</div></div>
+          </div>
+          <div class="link-3">
+            <div class="div"><img class="icon-8" src="img/icon-11.svg" /></div>
+            <div class="div"><div class="text-41">Logout</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="button-contextual">
+        <div class="icon-wrapper"><img class="icon-11" src="img/icon-9.svg" /></div>
+      </div>
     </div>
-
-    <!-- LOG -->
-    <div class="log-section">
-        <h3>Recent Entries</h3>
-
-        {% for log in logs %}
-        <div class="log-item {{ log.status|lower }}">
-            <span>{{ log.time }}</span>
-            <span>{{ log.status }}</span>
-            <span>{{ log.plate }}</span>
-            <span>{{ log.vehicle }}</span>
-            <span>{{ log.owner }}</span>
-        </div>
-        {% endfor %}
-    </div>
-
-</div>
-{% endblock %}
+  </body>
+</html>

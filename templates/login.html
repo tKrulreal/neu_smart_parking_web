@@ -1,85 +1,123 @@
-{% extends 'base.html' %}
-
-{% block title %}Đăng nhập{% endblock %}
-
-{% block content %}
-
-<div class="vehicles-container1">
-
-  <div class="vehicles-thq-main-login-container-elm">
-
-    <!-- LEFT -->
-    <div class="vehicles-thq-section-left-side-visual-branding-elm">
-      <h2>NEU Smart Parking</h2>
-      <h1>Chào mừng bạn quay trở lại</h1>
-      <p>Hệ thống quản lý bãi xe thông minh</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="login">
+      <div class="background">
+        <div class="background-blur"></div>
+        <div class="div"></div>
+      </div>
+      <div class="main-login-container">
+        <div class="section-left-side">
+          <div class="NEU-building"></div>
+          <div class="gradient"></div>
+          <div class="container">
+            <div class="container-2">
+              <div class="container-3">
+                <div class="container-wrapper">
+                  <div class="div-2"><img class="icon" src="img/icon-5.svg" /></div>
+                </div>
+                <div class="div-2"><div class="text-wrapper">NEU Smart Parking</div></div>
+              </div>
+              <div class="heading">
+                <p class="ch-o-m-ng-b-n-quay">Chào mừng bạn<br />quay trở lại.</p>
+              </div>
+              <p class="h-th-ng-qu-n-l-xe-th">
+                Hệ thống quản lý đỗ xe thông minh dành riêng cho<br />cán bộ, giảng viên và sinh viên Đại học Kinh tế
+                Quốc<br />dân.
+              </p>
+            </div>
+            <div class="container-4">
+              <div class="container-5">
+                <div class="div-3"><div class="text">2,500+</div></div>
+                <div class="div-3"><div class="text-2">CHỖ ĐỖ XE</div></div>
+              </div>
+              <div class="container-5">
+                <div class="div-3"><div class="text-3">15</div></div>
+                <div class="div-3"><div class="text-4">KHU VỰC ĐỖ</div></div>
+              </div>
+              <div class="container-5">
+                <div class="div-3"><div class="text-5">AI</div></div>
+                <div class="div-3"><div class="text-6">CÔNG NGHỆ NHẬN DIỆN</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section-right-side">
+          <div class="container-6">
+            <header class="header">
+              <div class="div-3"><div class="text-wrapper-2">Đăng nhập</div></div>
+              <div class="div-3"><p class="p">Vui lòng chọn vai trò và nhập thông tin tài khoản của bạn.</p></div>
+            </header>
+            <div class="form">
+              <div class="role-selection">
+                <div class="label"><div class="vai-tr-ng-i-d-ng">VAI TRÒ NGƯỜI DÙNG</div></div>
+                <div class="container-7">
+                  <div class="label-2">
+                    <div class="margin"><img class="img" src="img/icon-3.svg" /></div>
+                    <div class="div-2"><div class="qu-n-tr">QUẢN TRỊ</div></div>
+                  </div>
+                  <div class="label-3">
+                    <div class="margin"><img class="icon-2" src="img/icon-4.svg" /></div>
+                    <div class="div-2"><div class="text-wrapper-3">BẢO VỆ</div></div>
+                  </div>
+                  <div class="label-4">
+                    <div class="margin"><img class="icon-3" src="img/icon-2.svg" /></div>
+                    <div class="div-2"><div class="text-7">SINH VIÊN</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="div-4">
+                <div class="label"><label class="text-wrapper-4" for="input-1">Tên đăng nhập hoặc Email</label></div>
+                <div class="div-3">
+                  <div class="input">
+                    <input class="container-8" placeholder="nguyenvana@neu.edu.vn" type="email" id="input-1" />
+                  </div>
+                  <div class="icon-wrapper"><img class="icon-4" src="img/icon.svg" /></div>
+                </div>
+              </div>
+              <div class="div-4">
+                <div class="container-9">
+                  <div class="div-2"><div class="text-wrapper-5">Mật khẩu</div></div>
+                  <div class="div-2"><div class="text-8">Quên mật khẩu?</div></div>
+                </div>
+                <div class="div-3">
+                  <div class="input"><input class="container-8" placeholder="••••••••" type="text" /></div>
+                  <div class="icon-wrapper"><img class="icon-5" src="img/icon-6.svg" /></div>
+                  <div class="button">
+                    <div class="img-wrapper"><img class="icon-6" src="img/image.svg" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="remember-me">
+                <div class="input-2"></div>
+                <div class="label-margin"><div class="text-wrapper-6">Ghi nhớ đăng nhập</div></div>
+              </div>
+              <div class="login-button">
+                <div class="login-button-shadow"></div>
+                <div class="text-wrapper-7">Đăng nhập</div>
+              </div>
+            </div>
+            <div class="footer-links">
+              <div class="b-n-ch-a-c-t-i-kho-n-wrapper">
+                <p class="b-n-ch-a-c-t-i-kho-n">
+                  <span class="span">Bạn chưa có tài khoản? </span> <span class="text-wrapper-8">Đăng ký ngay</span>
+                </p>
+              </div>
+              <div class="horizontal-border">
+                <div class="link"><div class="text-wrapper-9">Hỗ trợ kỹ thuật</div></div>
+                <div class="div-wrapper"><div class="text-wrapper-10">Chính sách bảo mật</div></div>
+                <div class="link"><div class="text-wrapper-11">Hướng dẫn sử dụng</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- RIGHT -->
-    <div class="vehicles-thq-section-right-side-login-form-elm">
-
-      <form method="POST" action="{{ url_for('login') }}">
-
-        <!-- ROLE -->
-        <div>
-          <label>Vai trò</label>
-          <select name="role" required>
-            <option value="admin">Quản trị</option>
-            <option value="guard">Bảo vệ</option>
-            <option value="student">Sinh viên</option>
-          </select>
-        </div>
-
-        <!-- USERNAME -->
-        <div>
-          <label>Email / Username</label>
-          <input 
-            type="text" 
-            name="username" 
-            placeholder="nguyenvana@neu.edu.vn"
-            required
-          >
-        </div>
-
-        <!-- PASSWORD -->
-        <div>
-          <label>Mật khẩu</label>
-          <input 
-            type="password" 
-            name="password" 
-            placeholder="••••••••"
-            required
-          >
-        </div>
-
-        <!-- REMEMBER -->
-        <div>
-          <input type="checkbox" name="remember">
-          <label>Ghi nhớ đăng nhập</label>
-        </div>
-
-        <!-- BUTTON -->
-        <button type="submit">
-          Đăng nhập
-        </button>
-
-      </form>
-
-      <!-- ERROR -->
-      {% if error %}
-        <p style="color:red">{{ error }}</p>
-      {% endif %}
-
-      <!-- REGISTER -->
-      <p>
-        Chưa có tài khoản?
-        <a href="{{ url_for('register') }}">Đăng ký</a>
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
-
-{% endblock %}
+  </body>
+</html>

@@ -1,25 +1,21 @@
-<div class="indexhtml-thq-nav-top-app-bar-elm">
-  <div class="indexhtml-thq-container-elm58">
+<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 24px; background:#1e3a8a; color:#fff; border-radius:10px; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
 
-    <div class="indexhtml-thq-container-elm59">
-      <span>NEU Smart Parking</span>
+    <div style="font-size:18px; font-weight:700; color:#fff;">🅿 NEU Smart Parking</div>
+
+    <div style="display:flex; gap:20px; align-items:center;">
+        <a href="{{ url_for('index') }}" style="color:rgba(255,255,255,.85); text-decoration:none; font-size:14px;">Home</a>
+        <a href="#" style="color:rgba(255,255,255,.85); text-decoration:none; font-size:14px;">About</a>
+        <a href="#" style="color:rgba(255,255,255,.85); text-decoration:none; font-size:14px;">Pricing</a>
+        <a href="#" style="color:rgba(255,255,255,.85); text-decoration:none; font-size:14px;">Contact</a>
     </div>
 
-    <div class="indexhtml-thq-container-elm60">
-      <a href="{{ url_for('home') }}">Home</a>
-      <a href="#">About</a>
-      <a href="#">Pricing</a>
-      <a href="#">Contact</a>
+    <div style="display:flex; gap:8px;">
+        <a href="{{ url_for('login') }}">
+            <button style="background:transparent; border:1px solid rgba(255,255,255,.5); color:#fff; padding:8px 16px; margin:0; font-size:13px;">Đăng nhập</button>
+        </a>
+        <a href="{{ url_for('register') }}">
+            <button style="background:#fff; color:#1e3a8a; padding:8px 16px; margin:0; font-size:13px; font-weight:700;">Đăng ký</button>
+        </a>
     </div>
 
-    <div class="indexhtml-thq-container-elm61">
-      <a href="{{ url_for('login') }}">
-        <button>Login</button>
-      </a>
-      <a href="{{ url_for('register') }}">
-        <button>Đăng ký</button>
-      </a>
-    </div>
-
-  </div>
 </div>

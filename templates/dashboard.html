@@ -1,72 +1,379 @@
-{% extends "base.html" %}
-
-{% block title %}Dashboard{% endblock %}
-
-{% block content %}
-<div class="dashboard-container1">
-
-    <!-- HEADER -->
-    <div class="dashboard-thq-header-section-elm">
-        <div>
-            <h2>Tổng quan hệ thống</h2>
-            <p>
-                Chào mừng {{ user_name }}, hôm nay là {{ current_date }}
-            </p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="dashboard">
+      <div class="container">
+        <div class="main-content-area">
+          <div class="header-section">
+            <div class="div">
+              <div class="div-2"><div class="text-wrapper">Tổng quan hệ thống</div></div>
+              <div class="div-2">
+                <p class="p">Chào mừng trở lại, hôm nay là Thứ Hai, ngày 23 tháng 10 năm 2023.</p>
+              </div>
+            </div>
+            <div class="container-2">
+              <button class="button">
+                <div class="icon-wrapper"><img class="icon" src="img/icon-26.svg" /></div>
+                <div class="text">Xuất báo cáo</div>
+              </button>
+              <button class="button-2">
+                <div class="button-shadow"></div>
+                <div class="icon-wrapper"><img class="icon" src="img/icon-23.svg" /></div>
+                <div class="text-wrapper-2">Làm mới dữ liệu</div>
+              </button>
+            </div>
+          </div>
+          <div class="bento-grid-stats">
+            <div class="stat-card">
+              <div class="container-3">
+                <div class="background"><img class="img" src="img/icon-22.svg" /></div>
+                <div class="div-wrapper"><div class="text-2">+5% so với hqua</div></div>
+              </div>
+              <div class="container-4"><div class="text-3">XE TRONG BÃI</div></div>
+              <div class="heading"><div class="text-4">1,248</div></div>
+            </div>
+            <div class="stat-card-2">
+              <div class="background-wrapper">
+                <div class="img-wrapper"><img class="icon-2" src="img/icon-8.svg" /></div>
+              </div>
+              <div class="container-4"><div class="text-5">LƯỢT VÀO HÔM NAY</div></div>
+              <div class="heading"><div class="text-6">3,852</div></div>
+            </div>
+            <div class="stat-card-3">
+              <div class="background-wrapper">
+                <div class="background-2"><img class="icon-2" src="img/icon-5.svg" /></div>
+              </div>
+              <div class="container-4"><div class="text-7">LƯỢT RA HÔM NAY</div></div>
+              <div class="heading"><div class="text-8">2,604</div></div>
+            </div>
+            <div class="stat-card-4">
+              <div class="container-5"><img class="icon-3" src="img/icon-3.svg" /></div>
+              <div class="container-6">
+                <div class="overlay-wrapper">
+                  <div class="overlay"><img class="icon-4" src="img/image.svg" /></div>
+                </div>
+                <div class="container-7"><div class="text-9">CHỖ TRỐNG HIỆN TẠI</div></div>
+                <div class="heading-2"><div class="text-10">152</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="middle-section-map">
+            <div class="traffic-chart-alerts">
+              <div class="margin">
+                <div class="container-8">
+                  <div class="div-3"><div class="text-wrapper-3">Lưu lượng xe 24h</div></div>
+                  <div class="div-3"><img class="icon-5" src="img/icon-20.svg" /></div>
+                </div>
+              </div>
+              <div class="container-9">
+                <div class="pseudo-chart-bars">
+                  <div class="background-3"></div>
+                  <div class="background-4"></div>
+                  <div class="background-5"></div>
+                  <div class="background-6"></div>
+                  <div class="background-7"></div>
+                  <div class="background-8"></div>
+                  <div class="background-9"></div>
+                  <div class="background-10"></div>
+                  <div class="background-11"></div>
+                  <div class="background-12"></div>
+                </div>
+                <div class="container-10">
+                  <div class="container-11"><div class="text-11">08:00</div></div>
+                  <div class="container-11"><div class="text-12">12:00</div></div>
+                  <div class="container-11"><div class="text-13">16:00</div></div>
+                  <div class="container-11"><div class="text-14">20:00</div></div>
+                </div>
+              </div>
+              <div class="horizontal-border-wrapper">
+                <div class="horizontal-border">
+                  <div class="div-2"><div class="c-nh-b-o-g-n-y">CẢNH BÁO GẦN ĐÂY</div></div>
+                  <div class="container-12">
+                    <div class="container-13">
+                      <div class="margin-2"><div class="background-13"></div></div>
+                      <div class="container-11">
+                        <p class="text-15">
+                          <span class="span">Khu B:</span>
+                          <span class="text-wrapper-4"> Phát hiện xe đỗ sai quy định tại ô</span>
+                          <span class="span"><br /></span>
+                          <span class="text-wrapper-4">B-102. </span>
+                          <span class="text-wrapper-5">10 phút trước</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="container-13">
+                      <div class="margin-2"><div class="background-14"></div></div>
+                      <div class="container-14">
+                        <p class="text-16">
+                          <span class="text-wrapper-6">Hệ thống:</span>
+                          <span class="text-wrapper-7"> Bảo trì camera cổng ra số 3</span>
+                          <span class="text-wrapper-6"><br /></span>
+                          <span class="text-wrapper-7">vào 23:00 đêm nay.</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="interactive-map">
+              <div class="background-15">
+                <div class="s-bi-xe"></div>
+                <div class="symbolic-hotspots">
+                  <div class="symbolic-hotspots-2"></div>
+                  <div class="text-17">KHU A</div>
+                </div>
+                <div class="overlay-border">
+                  <div class="overlay-shadow"></div>
+                  <div class="text-18">KHU B (Đầy)</div>
+                </div>
+                <div class="background-16">
+                  <div class="overlay-shadow-2"></div>
+                  <div class="text-19">KHU C</div>
+                </div>
+              </div>
+              <div class="overlay-overlayblur">
+                <div class="overlay-shadow-3"></div>
+                <div class="div-2"><p class="text-wrapper-8">Mật độ bãi xe thực tế</p></div>
+                <div class="container-15">
+                  <div class="container-16">
+                    <div class="background-17"></div>
+                    <div class="text-20">Bận</div>
+                  </div>
+                  <div class="container-16">
+                    <div class="background-18"></div>
+                    <div class="text-wrapper-9">Trống</div>
+                  </div>
+                  <div class="container-16">
+                    <div class="background-19"></div>
+                    <div class="text-21">Bảo trì</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-section-table">
+            <div class="container-17">
+              <div class="container-18">
+                <div class="div-2"><p class="text-22">Danh sách xe vào bãi gần nhất</p></div>
+                <div class="container-19">
+                  <p class="text-wrapper-10">Dữ liệu được cập nhật theo thời gian thực từ hệ thống AI Vision</p>
+                </div>
+              </div>
+              <div class="container-20">
+                <button class="button-3"><div class="text-wrapper-11">Lọc khu vực</div></button>
+                <button class="button-3"><div class="text-23">Xem tất cả</div></button>
+              </div>
+            </div>
+            <div class="div-2">
+              <div class="header-row">
+                <div class="cell"><div class="text-24">BIỂN SỐ XE</div></div>
+                <div class="ch-s-h-u-wrapper"><div class="ch-s-h-u">CHỦ SỞ HỮU</div></div>
+                <div class="cell-2">
+                  <div class="text-25">THỜI GIAN<br />VÀO</div>
+                </div>
+                <div class="khu-v-c-wrapper"><div class="khu-v-c">KHU VỰC</div></div>
+                <div class="tr-ng-th-i-wrapper">
+                  <div class="tr-ng-th-i">TRẠNG<br />THÁI</div>
+                </div>
+                <div class="thao-t-c-wrapper">
+                  <div class="thao-t-c">THAO<br />TÁC</div>
+                </div>
+              </div>
+              <div class="div-2">
+                <div class="row">
+                  <div class="data">
+                    <div class="text-26">29A -<br />123.45</div>
+                  </div>
+                  <div class="data-2">
+                    <div class="background-20"><div class="text-27">NH</div></div>
+                    <div class="nguy-n-v-n-h-ng-wrapper">
+                      <div class="nguy-n-v-n-h-ng">Nguyễn Văn<br />Hùng</div>
+                    </div>
+                  </div>
+                  <div class="data-3"><div class="text-28">08:45:12 AM</div></div>
+                  <div class="paragraph-background-wrapper">
+                    <div class="paragraph-background">
+                      <div class="text-29">KHU A - Tầng</div>
+                      <div class="text-30">1</div>
+                    </div>
+                  </div>
+                  <div class="data-4">
+                    <div class="background-21">
+                      <div class="background-22"></div>
+                      <div class="text-31">Đã vào</div>
+                    </div>
+                  </div>
+                  <div class="button-wrapper">
+                    <div class="container-wrapper">
+                      <div class="container-21"><img class="icon-6" src="img/icon-14.svg" /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row-2">
+                  <div class="data-5">
+                    <div class="text-32">30E -<br />999.99</div>
+                  </div>
+                  <div class="data-2">
+                    <div class="background-23"><div class="text-33">TL</div></div>
+                    <div class="div-3"><div class="text-wrapper-12">Trần Thị Lan</div></div>
+                  </div>
+                  <div class="data-6"><div class="text-34">08:52:05 AM</div></div>
+                  <div class="data-7">
+                    <div class="paragraph-background-2">
+                      <div class="text-35">KHU B - Tầng</div>
+                      <div class="text-36">2</div>
+                    </div>
+                  </div>
+                  <div class="data-8">
+                    <div class="background-21">
+                      <div class="background-22"></div>
+                      <div class="text-31">Đã vào</div>
+                    </div>
+                  </div>
+                  <div class="data-9">
+                    <div class="container-wrapper">
+                      <div class="container-21"><img class="icon-6" src="img/icon.svg" /></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row-2">
+                  <div class="data">
+                    <div class="text-37">15B -<br />678.90</div>
+                  </div>
+                  <div class="data-2">
+                    <div class="background-24"><div class="text-38">PD</div></div>
+                    <div class="ph-m-minh-c-wrapper">
+                      <div class="ph-m-minh-c">Phạm Minh<br />Đức</div>
+                    </div>
+                  </div>
+                  <div class="data-10"><div class="text-39">09:10:33 AM</div></div>
+                  <div class="data-11">
+                    <div class="paragraph-background">
+                      <div class="text-29">KHU A - Tầng</div>
+                      <div class="text-36">2</div>
+                    </div>
+                  </div>
+                  <div class="data-12">
+                    <div class="background-25">
+                      <div class="background-26"></div>
+                      <div class="text-40">Từ chối</div>
+                    </div>
+                  </div>
+                  <div class="data-13">
+                    <div class="container-wrapper">
+                      <div class="container-21"><img class="icon-6" src="img/icon-13.svg" /></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="nav-wrapper">
+              <div class="nav">
+                <div class="button-4">
+                  <div class="icon-wrapper"><img class="icon-7" src="img/icon-24.svg" /></div>
+                </div>
+                <button class="button-5"><div class="text-41">1</div></button>
+                <button class="button-6"><div class="text-42">2</div></button>
+                <button class="button-6"><div class="text-43">3</div></button>
+                <div class="button-4">
+                  <div class="icon-wrapper"><img class="icon-7" src="img/icon-17.svg" /></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div>
-            <button>Xuất báo cáo</button>
-            <button>Làm mới</button>
+      </div>
+      <div class="aside-sidenavbar">
+        <div class="margin-3">
+          <div class="container-22">
+            <div class="background-27">
+              <div class="div-3"><img class="icon-8" src="img/icon-6.svg" /></div>
+            </div>
+            <div class="div-3">
+              <div class="div-2"><div class="text-44">Quản trị NEU</div></div>
+              <div class="div-2">
+                <p class="text-45">HỆ THỐNG ĐỖ XE THÔNG<br />MINH</p>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="nav-2">
+          <div class="link-active-tab">
+            <div class="div-3"><img class="icon-2" src="img/icon-7.svg" /></div>
+            <div class="div-3"><div class="text-wrapper-13">Bảng điều khiển</div></div>
+          </div>
+          <div class="link">
+            <div class="div-3"><img class="img" src="img/icon-10.svg" /></div>
+            <div class="container-23"><div class="text-wrapper-10">Phương tiện</div></div>
+          </div>
+          <div class="link-2">
+            <div class="div-3"><img class="icon-2" src="img/icon-16.svg" /></div>
+            <div class="div-3"><div class="text-46">Cổng vào</div></div>
+          </div>
+          <div class="link-3">
+            <div class="div-3"><img class="icon-2" src="img/icon-19.svg" /></div>
+            <div class="div-3"><div class="text-47">Cổng ra</div></div>
+          </div>
+          <div class="link-4">
+            <div class="div-3"><img class="icon-2" src="img/icon-18.svg" /></div>
+            <div class="div-3"><div class="text-wrapper-14">Lịch sử</div></div>
+          </div>
+          <div class="link-5">
+            <div class="div-3"><img class="icon-9" src="img/icon-9.svg" /></div>
+            <div class="div-3"><div class="text-wrapper-15">Người dùng</div></div>
+          </div>
+        </div>
+        <div class="horizontal-border-2">
+          <button class="button-7">
+            <div class="button-shadow-2"></div>
+            <div class="icon-wrapper"><img class="icon-10" src="img/icon-12.svg" /></div>
+            <div class="text-wrapper-16">Thêm phương tiện mới</div>
+          </button>
+          <div class="link-6">
+            <div class="div-3"><img class="icon-11" src="img/icon-4.svg" /></div>
+            <div class="div-3"><div class="text-48">Cài đặt</div></div>
+          </div>
+          <div class="link-7">
+            <div class="div-3"><img class="icon-2" src="img/icon-21.svg" /></div>
+            <div class="div-3"><div class="text-49">Đăng xuất</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="header-topnavbar">
+        <div class="container-24">
+          <div class="div-3"><div class="text-50">NEU Smart Parking</div></div>
+          <div class="margin-4">
+            <div class="background-28">
+              <div class="margin-5"><img class="icon-12" src="img/icon-25.svg" /></div>
+              <div class="input">
+                <div class="div-2"><p class="text-wrapper-17">Tìm kiếm biển số, khu vực...</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-25">
+          <button class="button-8">
+            <div class="text-51">Ngôn ngữ</div>
+            <div class="icon-wrapper"><img class="icon-13" src="img/icon-2.svg" /></div>
+          </button>
+          <div class="container-24">
+            <div class="container-26"><img class="icon-14" src="img/icon-11.svg" /></div>
+            <div class="container-26"><img class="icon-15" src="img/icon-15.svg" /></div>
+            <div class="vertical-divider-wrapper"><div class="vertical-divider"></div></div>
+            <div class="container-27">
+              <div class="nh-i-din-ngi-dng"></div>
+              <div class="div-3"><div class="text-52">Quản trị viên</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- STATS -->
-    <div class="dashboard-thq-bento-grid-stats-elm">
-        <div>
-            <p>Xe trong bãi</p>
-            <h3>{{ stats.total_cars }}</h3>
-        </div>
-
-        <div>
-            <p>Lượt vào hôm nay</p>
-            <h3>{{ stats.in_today }}</h3>
-        </div>
-
-        <div>
-            <p>Lượt ra hôm nay</p>
-            <h3>{{ stats.out_today }}</h3>
-        </div>
-
-        <div>
-            <p>Chỗ trống</p>
-            <h3>{{ stats.available_slots }}</h3>
-        </div>
-    </div>
-
-    <!-- TABLE -->
-    <table>
-        <thead>
-            <tr>
-                <th>Biển số</th>
-                <th>Chủ xe</th>
-                <th>Thời gian vào</th>
-                <th>Khu vực</th>
-                <th>Trạng thái</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for car in cars %}
-            <tr>
-                <td>{{ car.plate }}</td>
-                <td>{{ car.owner }}</td>
-                <td>{{ car.time }}</td>
-                <td>{{ car.zone }}</td>
-                <td>{{ car.status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-</div>
-{% endblock %}
+  </body>
+</html>

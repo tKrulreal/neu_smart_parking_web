@@ -1,9 +1,46 @@
 {% extends "base.html" %}
 
+{% block title %}Admin - NEU Smart Parking{% endblock %}
+
 {% block content %}
-<div class="card">
-    <h2>Admin</h2>
-    <p>Trang này chỉ dành cho <strong>admin</strong>.</p>
-    <p class="muted">Bạn có thể thêm các chức năng quản trị (quản lý xe, lịch sử, cấu hình...) ở đây.</p>
+<div>
+    <h2 style="color:#1e3a8a; margin-bottom:8px;">⚙️ Trang quản trị</h2>
+    <p class="muted" style="margin-bottom:24px;">Trang này chỉ dành cho <strong>admin</strong>.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
+
+        <a href="#" style="text-decoration:none;">
+            <div class="card" style="text-align:center; cursor:pointer; transition:box-shadow .2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+                <div style="font-size:32px; margin-bottom:8px;">👥</div>
+                <h3 style="margin:0 0 6px; color:#1e3a8a;">Quản lý người dùng</h3>
+                <p class="muted" style="margin:0; font-size:13px;">Thêm, sửa, khóa tài khoản</p>
+            </div>
+        </a>
+
+        <a href="#" style="text-decoration:none;">
+            <div class="card" style="text-align:center; cursor:pointer;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+                <div style="font-size:32px; margin-bottom:8px;">🚗</div>
+                <h3 style="margin:0 0 6px; color:#1e3a8a;">Quản lý phương tiện</h3>
+                <p class="muted" style="margin:0; font-size:13px;">Duyệt, sửa, xóa xe</p>
+            </div>
+        </a>
+
+        <a href="#" style="text-decoration:none;">
+            <div class="card" style="text-align:center; cursor:pointer;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+                <div style="font-size:32px; margin-bottom:8px;">📋</div>
+                <h3 style="margin:0 0 6px; color:#1e3a8a;">Lịch sử giao dịch</h3>
+                <p class="muted" style="margin:0; font-size:13px;">Xem, xuất báo cáo</p>
+            </div>
+        </a>
+
+        <a href="#" style="text-decoration:none;">
+            <div class="card" style="text-align:center; cursor:pointer;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+                <div style="font-size:32px; margin-bottom:8px;">⚙️</div>
+                <h3 style="margin:0 0 6px; color:#1e3a8a;">Cấu hình hệ thống</h3>
+                <p class="muted" style="margin:0; font-size:13px;">Phí, khu vực, cổng</p>
+            </div>
+        </a>
+
+    </div>
 </div>
 {% endblock %}

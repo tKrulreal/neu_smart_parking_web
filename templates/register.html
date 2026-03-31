@@ -1,105 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Register - NEU Smart Parking</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-<div class="dashboard-container1">
-
-    <!-- HEADER -->
-    <div class="dashboard-thq-header-elm">
-        <div class="dashboard-thq-container-elm71">
-            <span>NEU Smart Parking</span>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="register">
+      <header class="header">
+        <div class="div"><div class="text-wrapper">NEU Smart Parking</div></div>
+        <div class="container">
+          <div class="div"><div class="text">Trang chủ</div></div>
+          <div class="div"><div class="text-wrapper-2">Hướng dẫn</div></div>
+          <div class="div"><div class="text-wrapper-3">Hỗ trợ</div></div>
         </div>
-        <div class="dashboard-thq-container-elm72">
-            <a href="{{ url_for('home') }}">Trang chủ</a>
-            <a href="#">Hướng dẫn</a>
-            <a href="#">Hỗ trợ</a>
-        </div>
-    </div>
-
-    <!-- FLASH MESSAGE -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="alert">
-            {% for msg in messages %}
-                <p>{{ msg }}</p>
-            {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-
-    <!-- FORM -->
-    <div class="dashboard-thq-section-elm2">
-
-        <h2>Thông tin đăng ký</h2>
-        <p>Vui lòng sử dụng thông tin thật để đảm bảo quyền lợi.</p>
-
-        <form method="POST">
-
-            <!-- nếu dùng Flask-WTF -->
-            <!-- {{ form.hidden_tag() }} -->
-
-            <label>Họ và tên</label>
-            <input type="text" name="full_name" placeholder="Nguyễn Văn A" required>
-
-            <label>Mã sinh viên</label>
-            <input type="text" name="student_id" placeholder="11223344" required>
-
-            <label>Tên đăng nhập</label>
-            <input type="text" name="username" placeholder="nguyenvana123" required>
-
-            <label>Email</label>
-            <input type="email" name="email" placeholder="abc@student.neu.edu.vn" required>
-
-            <label>Số điện thoại</label>
-            <input type="text" name="phone" placeholder="09xxxxxxxx" required>
-
-            <label>Vai trò</label>
-            <select name="role">
-                <option value="student">Student</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <label>Mật khẩu</label>
-            <input type="password" name="password" required>
-
-            <label>Xác nhận mật khẩu</label>
-            <input type="password" name="confirm_password" required>
-
-            <div>
-                <input type="checkbox" required>
-                Tôi đồng ý với điều khoản
+      </header>
+      <div class="main">
+        <div class="container-2">
+          <div class="section">
+            <div class="container-3">
+              <div class="div-wrapper">
+                <p class="gia-nh-p-c-ng-ng-NEU">Gia nhập cộng đồng<br />NEU Smart</p>
+              </div>
+              <div class="h-th-ng-qu-n-l-b-i-wrapper">
+                <p class="h-th-ng-qu-n-l-b-i">
+                  Hệ thống quản lý bãi đỗ xe thông minh dành riêng<br />cho sinh viên Đại học Kinh tế Quốc dân.
+                </p>
+              </div>
             </div>
-
-            <button type="submit">Đăng ký</button>
-
-        </form>
-
-        <p>
-            Đã có tài khoản?
-            <a href="{{ url_for('login') }}">Đăng nhập</a>
-        </p>
-
+            <div class="div-2">
+              <div class="container-4">
+                <div class="background">
+                  <div class="div"><img class="icon" src="img/icon.svg" /></div>
+                </div>
+                <div class="div">
+                  <div class="div-wrapper"><p class="p">Bước 1: Khởi tạo hồ sơ</p></div>
+                  <div class="div-wrapper">
+                    <p class="text-wrapper-4">Điền đầy đủ thông tin cá nhân và Mã số sinh viên chính xác.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="container-4">
+                <div class="container-wrapper">
+                  <div class="div"><img class="img" src="img/icon-2.svg" /></div>
+                </div>
+                <div class="div">
+                  <div class="div-wrapper-2"><p class="text-wrapper-5">Bước 2: Xác thực Email</p></div>
+                  <div class="div-wrapper-2">
+                    <p class="text-wrapper-6">Kiểm tra hộp thư đến của bạn để kích hoạt tài khoản.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="container-4">
+                <div class="container-wrapper">
+                  <div class="div"><img class="icon-2" src="img/icon-11.svg" /></div>
+                </div>
+                <div class="div">
+                  <div class="div-wrapper-2"><p class="text-wrapper-7">Bước 3: Đăng ký phương tiện</p></div>
+                  <div class="div-wrapper-2">
+                    <p class="text-wrapper-8">Cập nhật biển số xe để bắt đầu sử dụng dịch vụ thông minh.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="overlay-shadow">
+              <div class="NEU-campus"></div>
+              <div class="background-2">
+                <div class="div">
+                  <p class="gi-i-ph-p-xe-hi-n-i">&#34;Giải pháp đỗ xe hiện đại cho sinh viên năng động.&#34;</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section-2">
+            <div class="container-5">
+              <div class="div-wrapper"><div class="text-wrapper-9">Thông tin đăng ký</div></div>
+              <div class="div-wrapper">
+                <p class="text-wrapper-10">Vui lòng sử dụng thông tin thật để đảm bảo quyền lợi khi gửi xe.</p>
+              </div>
+            </div>
+            <div class="div-2">
+              <div class="container-6">
+                <div class="container-7">
+                  <div class="label-h-v-t-n">Họ và tên</div>
+                  <div class="container-8">
+                    <div class="input">
+                      <div class="container-9"><div class="text-wrapper-11">Nguyễn Văn A</div></div>
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-3" src="img/icon-6.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-10">
+                  <div class="label-m-sinh-vi-n">Mã sinh viên (MSSV)</div>
+                  <div class="container-8">
+                    <div class="input">
+                      <div class="container-9"><div class="text-wrapper-11">11223344</div></div>
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-4" src="img/icon-8.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-11">
+                  <div class="text-wrapper-12">Tên đăng nhập</div>
+                  <div class="container-8">
+                    <div class="input">
+                      <div class="container-9"><div class="text-wrapper-11">nguyenvana123</div></div>
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-5" src="img/icon-4.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-12">
+                  <label class="label-email-sinh-vi" for="input-1">Email sinh viên</label>
+                  <div class="container-8">
+                    <div class="input">
+                      <input class="container-13" placeholder="a.nv@student.neu.edu.vn" type="email" id="input-1" />
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-4" src="img/icon-10.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-14">
+                  <div class="text-wrapper-13">Số điện thoại</div>
+                  <div class="container-8">
+                    <div class="input">
+                      <div class="container-9"><div class="text-wrapper-11">09xx xxx xxx</div></div>
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-6" src="img/icon-5.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-15">
+                  <div class="label-vai-tr">Vai trò</div>
+                  <div class="container-8">
+                    <div class="input-2">
+                      <div class="container-9"><div class="text-wrapper-14">Student</div></div>
+                    </div>
+                    <div class="icon-wrapper"><img class="icon-7" src="img/icon-3.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-16">
+                  <div class="label-m-t-kh-u">Mật khẩu</div>
+                  <div class="container-8">
+                    <div class="input"><input class="container-13" placeholder="••••••••" type="text" /></div>
+                    <div class="icon-wrapper"><img class="icon-8" src="img/image.svg" /></div>
+                  </div>
+                </div>
+                <div class="container-17">
+                  <div class="label-x-c-nh-n-m-t">Xác nhận mật khẩu</div>
+                  <div class="container-8">
+                    <div class="input"><input class="container-13" placeholder="••••••••" type="text" /></div>
+                    <div class="icon-wrapper"><img class="icon-3" src="img/icon-9.svg" /></div>
+                  </div>
+                </div>
+              </div>
+              <div class="container-18">
+                <div class="input-margin"><div class="input-3"></div></div>
+                <p class="t-i-ng-v-i-i-u-kho-n">
+                  <span class="span">Tôi đồng ý với </span>
+                  <span class="text-wrapper-15">Điều khoản dịch vụ</span>
+                  <span class="span"> và </span>
+                  <span class="text-wrapper-15">Chính sách bảo mật</span>
+                  <span class="span"> của NEU Smart Parking.</span>
+                </p>
+              </div>
+              <button class="button">
+                <div class="button-shadow"></div>
+                <div class="container-19"><div class="text-wrapper-16">Đăng ký ngay</div></div>
+                <div class="container-19"><img class="icon-9" src="img/icon-7.svg" /></div>
+              </button>
+              <div class="c-t-i-kho-n-ng-nh-p-wrapper">
+                <p class="c-t-i-kho-n-ng-nh-p">
+                  <span class="text-wrapper-17">Đã có tài khoản? </span>
+                  <span class="text-wrapper-15">Đăng nhập tại đây</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-margin">
+        <footer class="footer">
+          <div class="container-20">
+            <div class="paragraph">
+              <div class="text-wrapper-18">NEU Smart</div>
+              <p class="text-2">© 2024 National Economics University. All rights reserved.</p>
+            </div>
+            <div class="container-21">
+              <div class="link"><div class="text-wrapper-19">Điều khoản</div></div>
+              <div class="link"><div class="text-wrapper-20">Bảo mật</div></div>
+              <div class="link"><div class="text-wrapper-21">Liên hệ</div></div>
+            </div>
+            <img class="container-22" src="img/container.svg" />
+          </div>
+        </footer>
+      </div>
     </div>
-
-    <!-- FOOTER -->
-    <div class="dashboard-thq-footer-elm">
-        <p>© 2024 NEU Smart Parking</p>
-    </div>
-
-</div>
-
-</body>
+  </body>
 </html>

@@ -1,136 +1,301 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Quản lý người dùng</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/user_management.css') }}">
-
-</head>
-
-<body>
-
-<div class="user-manage-container1">
-
-  <!-- SIDEBAR -->
-  <div class="user-manage-thq-aside-side-nav-bar-shell-elm">
-    <div class="user-manage-thq-container-elm62">
-
-      <div class="user-manage-thq-brand-identity-elm">
-        <span>NEU Admin</span>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="users-manage">
+      <div class="main-content-canvas">
+        <div class="header-topappbar">
+          <div class="container">
+            <div class="div"><div class="text-wrapper">Quản trị Người dùng</div></div>
+            <div class="container-2">
+              <div class="div">
+                <div class="input">
+                  <input class="container-3" placeholder="Tìm Username hoặc Mã sinh viên..." type="text" />
+                </div>
+                <div class="container-wrapper">
+                  <div class="div"><img class="icon" src="img/icon-13.svg" /></div>
+                </div>
+              </div>
+              <div class="vertical-border">
+                <div class="button">
+                  <div class="icon-wrapper"><img class="img" src="img/icon-15.svg" /></div>
+                </div>
+                <div class="button">
+                  <div class="icon-wrapper"><img class="icon-2" src="img/icon-9.svg" /></div>
+                </div>
+                <div class="container-4">
+                  <div class="admin-profile-avatar"></div>
+                  <div class="div">
+                    <div class="div-2"><div class="text">Admin NEU</div></div>
+                    <div class="div-2"><div class="text-2">Super Admin</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-5">
+          <div class="stats-row">
+            <div class="background">
+              <div class="div-2"><div class="text-wrapper-2">TỔNG NGƯỜI DÙNG</div></div>
+              <div class="container-6">
+                <div class="div"><div class="text-wrapper-3">12,482</div></div>
+                <div class="margin">
+                  <div class="text-3">+12% tháng<br />này</div>
+                </div>
+              </div>
+            </div>
+            <div class="background-2">
+              <div class="div-2"><div class="text-wrapper-2">ĐANG HOẠT ĐỘNG</div></div>
+              <div class="container-6">
+                <div class="div"><div class="text-wrapper-4">11,904</div></div>
+                <div class="div-wrapper"><div class="text-4">95.3%</div></div>
+              </div>
+            </div>
+            <div class="background-3">
+              <div class="div-2"><div class="text-wrapper-2">TÀI KHOẢN KHÓA</div></div>
+              <div class="container-6">
+                <div class="div"><div class="text-wrapper-5">578</div></div>
+                <div class="div-wrapper"><div class="text-5">Cần xem xét</div></div>
+              </div>
+            </div>
+            <div class="background-4">
+              <div class="div-2"><div class="text-wrapper-2">YÊU CẦU MỚI</div></div>
+              <div class="container-6">
+                <div class="div"><div class="text-wrapper-6">24</div></div>
+                <div class="div-wrapper"><div class="text-wrapper-7">Đang chờ duyệt</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="management-section">
+            <div class="table-header-filters">
+              <div class="container-7">
+                <div class="img-wrapper"><img class="icon-3" src="img/icon-14.svg" /></div>
+                <div class="background-5">
+                  <button class="button-2"><div class="text-wrapper-8">Tất cả</div></button>
+                  <button class="button-3"><div class="text-6">Admin</div></button>
+                  <button class="button-3"><div class="text-wrapper-9">Bảo vệ</div></button>
+                  <button class="button-3"><div class="text-7">Sinh viên</div></button>
+                </div>
+              </div>
+              <button class="button-4">
+                <div class="button-shadow"></div>
+                <div class="container-8"><img class="icon-4" src="img/icon-20.svg" /></div>
+                <div class="text-wrapper-10">Thêm người dùng mới</div>
+              </button>
+            </div>
+            <div class="div-2">
+              <div class="header-row">
+                <div class="cell"><div class="text-8">ID</div></div>
+                <div class="ng-i-d-ng-wrapper"><div class="ng-i-d-ng">NGƯỜI DÙNG</div></div>
+                <div class="cell-2">
+                  <div class="text-9">MÃ SINH<br />VIÊN</div>
+                </div>
+                <div class="cell-3"><div class="text-10">VAI TRÒ</div></div>
+                <div class="cell-4"><div class="text-11">EMAIL</div></div>
+                <div class="cell-5">
+                  <div class="text-12">TRẠNG<br />THÁI</div>
+                </div>
+                <div class="cell-6"><div class="text-13">THAO TÁC</div></div>
+              </div>
+              <div class="div-2">
+                <div class="row">
+                  <div class="data"><div class="text-14">#001</div></div>
+                  <div class="data-2">
+                    <div class="background-6"><div class="text-15">NH</div></div>
+                    <div class="div">
+                      <div class="div-2">
+                        <div class="nguyen-van-hung">Nguyen Van<br />Hung</div>
+                      </div>
+                      <div class="div-2"><div class="text-16">hungnv_admin</div></div>
+                    </div>
+                  </div>
+                  <div class="data-3"><img class="icon-5" src="img/icon-8.svg" /></div>
+                  <div class="background-wrapper">
+                    <div class="background-7"><div class="text-17">ADMIN</div></div>
+                  </div>
+                  <div class="data-4"><div class="text-18">hungnv@neu.edu.vn</div></div>
+                  <div class="data-5">
+                    <div class="background-8"></div>
+                    <div class="div">
+                      <div class="text-19">Đang hoạt<br />động</div>
+                    </div>
+                  </div>
+                  <img class="data-6" src="img/data.svg" />
+                </div>
+                <div class="row-2">
+                  <div class="data-7"><div class="text-20">#042</div></div>
+                  <div class="data-2">
+                    <div class="background-9"><div class="text-21">TM</div></div>
+                    <div class="div">
+                      <div class="div-2">
+                        <div class="tran-minh-manh">Tran Minh<br />Manh</div>
+                      </div>
+                      <div class="div-2"><div class="text-22">manhtm_security</div></div>
+                    </div>
+                  </div>
+                  <div class="data-8"><img class="icon-5" src="img/icon-16.svg" /></div>
+                  <div class="data-9">
+                    <div class="background-10"><div class="text-23">BẢO VỆ</div></div>
+                  </div>
+                  <div class="data-10"><div class="text-24">manhtm.bv@neu.edu.vn</div></div>
+                  <div class="data-5">
+                    <div class="background-8"></div>
+                    <div class="div">
+                      <div class="text-19">Đang hoạt<br />động</div>
+                    </div>
+                  </div>
+                  <img class="data-11" src="img/data-3.svg" />
+                </div>
+                <div class="row-2">
+                  <div class="data-12"><div class="text-25">#129</div></div>
+                  <div class="data-2">
+                    <div class="background-11"><div class="text-26">AL</div></div>
+                    <div class="div">
+                      <div class="div-2"><div class="text-27">An Khanh Linh</div></div>
+                      <div class="div-2"><div class="text-28">linhak_112001</div></div>
+                    </div>
+                  </div>
+                  <div class="data-13"><div class="text-29">11200452</div></div>
+                  <div class="paragraph-background-wrapper">
+                    <div class="paragraph-background">
+                      <div class="text-30">SINH</div>
+                      <div class="text-31">VIÊN</div>
+                    </div>
+                  </div>
+                  <div class="data-14"><div class="text-32">linhak.sv@neu.edu.vn</div></div>
+                  <div class="data-5">
+                    <div class="background-12"></div>
+                    <div class="div"><div class="text-33">Đã khóa</div></div>
+                  </div>
+                  <img class="data-15" src="img/data-2.svg" />
+                </div>
+              </div>
+            </div>
+            <div class="pagination">
+              <div class="div"><p class="p">Hiển thị 1 - 10 trong tổng số 12,482 người dùng</p></div>
+              <div class="container-9">
+                <div class="button-5">
+                  <div class="icon-wrapper"><img class="icon-6" src="img/image.svg" /></div>
+                </div>
+                <button class="button-6"><div class="text-34">1</div></button>
+                <button class="button-7"><div class="text-35">2</div></button>
+                <button class="button-7"><div class="text-36">3</div></button>
+                <div class="container-10"><div class="text-37">...</div></div>
+                <button class="button-7"><div class="text-38">1248</div></button>
+                <div class="button-8">
+                  <div class="icon-wrapper"><img class="icon-6" src="img/icon-10.svg" /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="contextual-help">
+            <div class="background-13">
+              <div class="div-3">
+                <div class="background-shadow"><img class="icon-7" src="img/icon-19.svg" /></div>
+                <div class="div">
+                  <div class="div-2"><div class="text-wrapper-11">Đồng bộ dữ liệu</div></div>
+                  <div class="div-2"><div class="text-39">Vừa xong (11:45 AM)</div></div>
+                </div>
+              </div>
+              <div class="background-14"><div class="background-15"></div></div>
+              <div class="div-2">
+                <p class="d-li-u-ng-i-d-ng-ang">
+                  Dữ liệu người dùng đang được đồng bộ hóa với<br />hệ thống quản lý sinh viên NEU.
+                </p>
+              </div>
+            </div>
+            <div class="background-shadow-2">
+              <div class="container-11"><img class="icon-8" src="img/icon-2.svg" /></div>
+              <div class="container-12">
+                <div class="div-2"><p class="text-wrapper-12">Chính sách Bảo mật mới</p></div>
+                <div class="h-th-ng-v-a-c-p-nh-t-wrapper">
+                  <p class="h-th-ng-v-a-c-p-nh-t">
+                    Hệ thống vừa cập nhật phương thức xác thực 2 lớp cho tất cả tài<br />khoản quản trị và bảo vệ. Vui
+                    lòng hướng dẫn nhân viên cập nhật<br />thông tin.
+                  </p>
+                </div>
+                <button class="xem-h-ng-d-n-wrapper"><div class="xem-h-ng-d-n">XEM HƯỚNG DẪN</div></button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="user-manage-thq-main-navigation-elm">
-        <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('admin.user_management') }}" style="font-weight:bold;">User Management</a>
-        <a href="#">Zone Monitoring</a>
-        <a href="#">Transaction History</a>
+      <div class="aside-sidenavbar">
+        <div class="container-13">
+          <div class="brand-identity">
+            <div class="div-3">
+              <div class="background-16">
+                <div class="overlay-shadow"></div>
+                <div class="div"><img class="icon-9" src="img/icon-21.svg" /></div>
+              </div>
+              <div class="div">
+                <div class="div-2"><div class="text-wrapper-13">NEU Admin</div></div>
+                <div class="div-2"><div class="text-40">SYSTEM CONTROLLER</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="main-navigation">
+            <div class="link">
+              <div class="div"><img class="icon-10" src="img/icon-4.svg" /></div>
+              <div class="div"><div class="text-41">DASHBOARD</div></div>
+            </div>
+            <div class="link-2">
+              <div class="div"><img class="icon-7" src="img/icon-3.svg" /></div>
+              <div class="container-14">
+                <div class="text-42">USER<br />MANAGEMENT</div>
+              </div>
+            </div>
+            <div class="link">
+              <div class="div"><img class="icon-9" src="img/icon-18.svg" /></div>
+              <div class="container-15">
+                <div class="text-43">ZONE<br />MONITORING</div>
+              </div>
+            </div>
+            <div class="link">
+              <div class="div"><img class="icon-11" src="img/icon-6.svg" /></div>
+              <div class="container-16">
+                <div class="text-44">TRANSACTION<br />HISTORY</div>
+              </div>
+            </div>
+            <div class="link">
+              <div class="div"><img class="img" src="img/icon-7.svg" /></div>
+              <div class="div"><div class="text-45">SECURITY LOGS</div></div>
+            </div>
+            <div class="link">
+              <div class="div"><img class="icon-10" src="img/icon-5.svg" /></div>
+              <div class="div"><div class="text-46">REPORTS</div></div>
+            </div>
+          </div>
+          <div class="CTA-footer">
+            <button class="button-9">
+              <div class="button-shadow"></div>
+              <div class="container-8"><img class="icon-12" src="img/icon-17.svg" /></div>
+              <div class="text-47">Add New Guard</div>
+            </button>
+            <div class="container-17">
+              <div class="link-3">
+                <div class="div"><img class="icon-13" src="img/icon.svg" /></div>
+                <div class="div"><div class="text-48">Support</div></div>
+              </div>
+              <div class="link-3">
+                <div class="div"><img class="icon-10" src="img/icon-11.svg" /></div>
+                <div class="div"><div class="text-49">Logout</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div style="margin-top:20px;">
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
+      <div class="floating-action">
+        <div class="button-10">
+          <div class="container-8"><img class="icon-14" src="img/icon-12.svg" /></div>
+        </div>
       </div>
-
     </div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="user-manage-thq-main-content-canvas-elm">
-
-    <!-- HEADER -->
-    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-      <h2>Quản lý người dùng</h2>
-
-      <form method="GET">
-        <input type="text" name="q" placeholder="Tìm username / MSSV..." value="{{ request.args.get('q','') }}">
-        <button type="submit">Tìm</button>
-      </form>
-    </div>
-
-    <!-- STATS -->
-    <div style="display:flex; gap:20px; margin-bottom:30px;">
-      <div>Tổng: {{ total_users }}</div>
-      <div>Hoạt động: {{ active_users }}</div>
-      <div>Đã khóa: {{ locked_users }}</div>
-    </div>
-
-    <!-- FILTER -->
-    <div style="margin-bottom:20px;">
-      <a href="?role=all">Tất cả</a> |
-      <a href="?role=admin">Admin</a> |
-      <a href="?role=guard">Bảo vệ</a> |
-      <a href="?role=student">Sinh viên</a>
-    </div>
-
-    <!-- TABLE -->
-    <table border="1" width="100%" cellpadding="8">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Tên</th>
-          <th>MSSV</th>
-          <th>Vai trò</th>
-          <th>Email</th>
-          <th>Trạng thái</th>
-          <th>Hành động</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {% for user in users %}
-        <tr>
-          <td>#{{ user.id }}</td>
-
-          <td>
-            {{ user.full_name }} <br>
-            <small>{{ user.username }}</small>
-          </td>
-
-          <td>{{ user.student_code or '-' }}</td>
-
-          <td>{{ user.role }}</td>
-
-          <td>{{ user.email }}</td>
-
-          <td>
-            {% if user.is_active %}
-              <span style="color:green;">Hoạt động</span>
-            {% else %}
-              <span style="color:red;">Đã khóa</span>
-            {% endif %}
-          </td>
-
-          <td>
-            <a href="{{ url_for('admin.edit_user', user_id=user.id) }}">Sửa</a> |
-
-            {% if user.is_active %}
-              <a href="{{ url_for('admin.lock_user', user_id=user.id) }}">Khóa</a>
-            {% else %}
-              <a href="{{ url_for('admin.unlock_user', user_id=user.id) }}">Mở</a>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <!-- PAGINATION -->
-    <div style="margin-top:20px;">
-      {% if page > 1 %}
-        <a href="?page={{ page-1 }}">Previous</a>
-      {% endif %}
-
-      Trang {{ page }} / {{ total_pages }}
-
-      {% if page < total_pages %}
-        <a href="?page={{ page+1 }}">Next</a>
-      {% endif %}
-    </div>
-
-  </div>
-</div>
-
-</body>
+  </body>
 </html>
