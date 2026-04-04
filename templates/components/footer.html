@@ -1,11 +1,18 @@
-<div style="margin-top:48px; padding:20px 0; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-
-    <span class="muted" style="font-size:13px;">© 2024 NEU Smart Parking System</span>
-
-    <div style="display:flex; gap:16px;">
-        <a href="#" style="color:#64748b; text-decoration:none; font-size:13px;">Privacy Policy</a>
-        <a href="#" style="color:#64748b; text-decoration:none; font-size:13px;">Terms</a>
-        <a href="#" style="color:#64748b; text-decoration:none; font-size:13px;">Help</a>
+<footer class="site-footer">
+    <div class="container footer-row">
+        <p>&copy; {{ current_year }} Hệ thống NEU Smart Parking</p>
+        <div class="footer-links">
+            <a href="{{ url_for('index') }}">Trang chủ</a>
+            {% if current_user and current_user.role in ['admin', 'guard'] %}
+                <a href="{{ url_for('history') }}">Lịch sử</a>
+                <a href="{{ url_for('dashboard') }}">Tổng quan</a>
+            {% elif current_user and current_user.role == 'student' %}
+                <a href="{{ url_for('self_history') }}">Lịch sử</a>
+                <a href="{{ url_for('student_qr') }}">Mã QR</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Đăng nhập</a>
+                <a href="{{ url_for('register') }}">Đăng ký</a>
+            {% endif %}
+        </div>
     </div>
-
-</div>
+</footer>

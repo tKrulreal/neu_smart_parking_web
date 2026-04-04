@@ -1,123 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../static/css/global-login.css" />
-    <link rel="stylesheet" href="../static/css/login.css" />
-  </head>
-  <body>
-    <div class="login">
-      <div class="background">
-        <div class="background-blur"></div>
-        <div class="div"></div>
-      </div>
-      <div class="main-login-container">
-        <div class="section-left-side">
-          <div class="NEU-building"></div>
-          <div class="gradient"></div>
-          <div class="container">
-            <div class="container-2">
-              <div class="container-3">
-                <div class="container-wrapper">
-                  <div class="div-2"><img class="icon" src="img/icon-5.svg" /></div>
-                </div>
-                <div class="div-2"><div class="text-wrapper">NEU Smart Parking</div></div>
-              </div>
-              <div class="heading">
-                <p class="ch-o-m-ng-b-n-quay">Chào mừng bạn<br />quay trở lại.</p>
-              </div>
-              <p class="h-th-ng-qu-n-l-xe-th">
-                Hệ thống quản lý đỗ xe thông minh dành riêng cho<br />cán bộ, giảng viên và sinh viên Đại học Kinh tế
-                Quốc<br />dân.
-              </p>
+{% extends 'base.html' %}
+
+{% block title %}Đăng nhập - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-panel">
+        <h1 class="page-title">Đăng nhập</h1>
+        <p class="muted">Nhập tài khoản để truy cập hệ thống.</p>
+        <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}" class="form-grid">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" name="username" type="text" required value="{{ username or '' }}">
             </div>
-            <div class="container-4">
-              <div class="container-5">
-                <div class="div-3"><div class="text">2,500+</div></div>
-                <div class="div-3"><div class="text-2">CHỖ ĐỖ XE</div></div>
-              </div>
-              <div class="container-5">
-                <div class="div-3"><div class="text-3">15</div></div>
-                <div class="div-3"><div class="text-4">KHU VỰC ĐỖ</div></div>
-              </div>
-              <div class="container-5">
-                <div class="div-3"><div class="text-5">AI</div></div>
-                <div class="div-3"><div class="text-6">CÔNG NGHỆ NHẬN DIỆN</div></div>
-              </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input id="password" name="password" type="password" required>
             </div>
-          </div>
-        </div>
-        <div class="section-right-side">
-          <div class="container-6">
-            <header class="header">
-              <div class="div-3"><div class="text-wrapper-2">Đăng nhập</div></div>
-              <div class="div-3"><p class="p">Vui lòng chọn vai trò và nhập thông tin tài khoản của bạn.</p></div>
-            </header>
-            <div class="form">
-              <div class="role-selection">
-                <div class="label"><div class="vai-tr-ng-i-d-ng">VAI TRÒ NGƯỜI DÙNG</div></div>
-                <div class="container-7">
-                  <div class="label-2">
-                    <div class="margin"><img class="img" src="img/icon-3.svg" /></div>
-                    <div class="div-2"><div class="qu-n-tr">QUẢN TRỊ</div></div>
-                  </div>
-                  <div class="label-3">
-                    <div class="margin"><img class="icon-2" src="img/icon-4.svg" /></div>
-                    <div class="div-2"><div class="text-wrapper-3">BẢO VỆ</div></div>
-                  </div>
-                  <div class="label-4">
-                    <div class="margin"><img class="icon-3" src="img/icon-2.svg" /></div>
-                    <div class="div-2"><div class="text-7">SINH VIÊN</div></div>
-                  </div>
-                </div>
-              </div>
-              <div class="div-4">
-                <div class="label"><label class="text-wrapper-4" for="input-1">Tên đăng nhập hoặc Email</label></div>
-                <div class="div-3">
-                  <div class="input">
-                    <input class="container-8" placeholder="nguyenvana@neu.edu.vn" type="email" id="input-1" />
-                  </div>
-                  <div class="icon-wrapper"><img class="icon-4" src="img/icon.svg" /></div>
-                </div>
-              </div>
-              <div class="div-4">
-                <div class="container-9">
-                  <div class="div-2"><div class="text-wrapper-5">Mật khẩu</div></div>
-                  <div class="div-2"><div class="text-8">Quên mật khẩu?</div></div>
-                </div>
-                <div class="div-3">
-                  <div class="input"><input class="container-8" placeholder="••••••••" type="text" /></div>
-                  <div class="icon-wrapper"><img class="icon-5" src="img/icon-6.svg" /></div>
-                  <div class="button">
-                    <div class="img-wrapper"><img class="icon-6" src="img/image.svg" /></div>
-                  </div>
-                </div>
-              </div>
-              <div class="remember-me">
-                <div class="input-2"></div>
-                <div class="label-margin"><div class="text-wrapper-6">Ghi nhớ đăng nhập</div></div>
-              </div>
-              <div class="login-button">
-                <div class="login-button-shadow"></div>
-                <div class="text-wrapper-7">Đăng nhập</div>
-              </div>
-            </div>
-            <div class="footer-links">
-              <div class="b-n-ch-a-c-t-i-kho-n-wrapper">
-                <p class="b-n-ch-a-c-t-i-kho-n">
-                  <span class="span">Bạn chưa có tài khoản? </span> <span class="text-wrapper-8">Đăng ký ngay</span>
-                </p>
-              </div>
-              <div class="horizontal-border">
-                <div class="link"><div class="text-wrapper-9">Hỗ trợ kỹ thuật</div></div>
-                <div class="div-wrapper"><div class="text-wrapper-10">Chính sách bảo mật</div></div>
-                <div class="link"><div class="text-wrapper-11">Hướng dẫn sử dụng</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <button class="btn btn-primary" type="submit">Đăng nhập</button>
+        </form>
+        <p class="muted">Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký</a></p>
     </div>
-  </body>
-</html>
+</section>
+{% endblock %}

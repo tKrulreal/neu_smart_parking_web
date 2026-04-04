@@ -32,6 +32,11 @@ def table_exists(conn, table_name: str) -> bool:
     return bool(row)
 
 
+def column_exists(conn, table_name: str, column_name: str) -> bool:
+    rows = conn.execute(text(f"PRAGMA table_info({table_name})")).fetchall()
+    return any(str(row[1]) == column_name for row in rows)
+
+
 def users_table_allows_guard(conn) -> bool:
     sql = conn.execute(
         text(
@@ -65,6 +70,15 @@ def migrate_users_table_add_guard_role(conn) -> None:
         )
     )
     conn.execute(text("DROP TABLE users_old"))
+
+
+def migrate_qr_logs_table(conn) -> None:
+    if not table_exists(conn, "qr_logs"):
+        return
+    if not column_exists(conn, "qr_logs", "plate"):
+        conn.execute(text("ALTER TABLE qr_logs ADD COLUMN plate TEXT"))
+    if not column_exists(conn, "qr_logs", "parking_log_id"):
+        conn.execute(text("ALTER TABLE qr_logs ADD COLUMN parking_log_id INTEGER"))
 
 
 def drop_all_tables(conn):
@@ -151,6 +165,8 @@ def create_qr_logs_table(conn):
             student_code TEXT NOT NULL,
             qr_payload TEXT NOT NULL,
             qr_image_path TEXT,
+            plate TEXT,
+            parking_log_id INTEGER,
             is_valid INTEGER NOT NULL DEFAULT 1,
             used_for_exit INTEGER NOT NULL DEFAULT 0,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
@@ -168,6 +184,7 @@ def create_indexes(conn):
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_log_time_in ON parking_log(time_in)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_plate_scan_log_plate ON plate_scan_log(normalized_plate)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_qr_logs_student_code ON qr_logs(student_code)"))
+    conn.execute(text("CREATE INDEX IF NOT EXISTS idx_qr_logs_parking_log_id ON qr_logs(parking_log_id)"))
 
 
 def seed_default_users(conn):
@@ -287,6 +304,7 @@ def init_db():
         create_parking_log_table(conn)
         create_plate_scan_log_table(conn)
         create_qr_logs_table(conn)
+        migrate_qr_logs_table(conn)
         create_indexes(conn)
         seed_default_users(conn)
         seed_default_vehicles(conn)

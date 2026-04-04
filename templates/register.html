@@ -1,197 +1,47 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../static/css/global-register.css" />
-    <link rel="stylesheet" href="../static/css/register.css" />
-  </head>
-  <body>
-    <div class="register">
-      <header class="header">
-        <div class="div"><div class="text-wrapper">NEU Smart Parking</div></div>
-        <div class="container">
-          <div class="div"><div class="text">Trang chủ</div></div>
-          <div class="div"><div class="text-wrapper-2">Hướng dẫn</div></div>
-          <div class="div"><div class="text-wrapper-3">Hỗ trợ</div></div>
-        </div>
-      </header>
-      <div class="main">
-        <div class="container-2">
-          <div class="section">
-            <div class="container-3">
-              <div class="div-wrapper">
-                <p class="gia-nh-p-c-ng-ng-NEU">Gia nhập cộng đồng<br />NEU Smart</p>
-              </div>
-              <div class="h-th-ng-qu-n-l-b-i-wrapper">
-                <p class="h-th-ng-qu-n-l-b-i">
-                  Hệ thống quản lý bãi đỗ xe thông minh dành riêng<br />cho sinh viên Đại học Kinh tế Quốc dân.
-                </p>
-              </div>
+{% extends 'base.html' %}
+
+{% block title %}Đăng ký - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-panel">
+        <h1 class="page-title">Đăng ký tài khoản sinh viên</h1>
+        <form method="post" action="{{ url_for('register') }}" class="form-grid">
+            <div class="form-group">
+                <label for="full_name">Họ và tên</label>
+                <input id="full_name" name="full_name" type="text" required value="{{ full_name or '' }}">
             </div>
-            <div class="div-2">
-              <div class="container-4">
-                <div class="background">
-                  <div class="div"><img class="icon" src="img/icon.svg" /></div>
-                </div>
-                <div class="div">
-                  <div class="div-wrapper"><p class="p">Bước 1: Khởi tạo hồ sơ</p></div>
-                  <div class="div-wrapper">
-                    <p class="text-wrapper-4">Điền đầy đủ thông tin cá nhân và Mã số sinh viên chính xác.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="container-4">
-                <div class="container-wrapper">
-                  <div class="div"><img class="img" src="img/icon-2.svg" /></div>
-                </div>
-                <div class="div">
-                  <div class="div-wrapper-2"><p class="text-wrapper-5">Bước 2: Xác thực Email</p></div>
-                  <div class="div-wrapper-2">
-                    <p class="text-wrapper-6">Kiểm tra hộp thư đến của bạn để kích hoạt tài khoản.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="container-4">
-                <div class="container-wrapper">
-                  <div class="div"><img class="icon-2" src="img/icon-11.svg" /></div>
-                </div>
-                <div class="div">
-                  <div class="div-wrapper-2"><p class="text-wrapper-7">Bước 3: Đăng ký phương tiện</p></div>
-                  <div class="div-wrapper-2">
-                    <p class="text-wrapper-8">Cập nhật biển số xe để bắt đầu sử dụng dịch vụ thông minh.</p>
-                  </div>
-                </div>
-              </div>
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" name="username" type="text" required value="{{ username or '' }}">
             </div>
-            <div class="overlay-shadow">
-              <div class="NEU-campus"></div>
-              <div class="background-2">
-                <div class="div">
-                  <p class="gi-i-ph-p-xe-hi-n-i">&#34;Giải pháp đỗ xe hiện đại cho sinh viên năng động.&#34;</p>
-                </div>
-              </div>
+            <div class="form-group">
+                <label for="student_code">Mã sinh viên</label>
+                <input id="student_code" name="student_code" type="text" required value="{{ student_code or '' }}">
             </div>
-          </div>
-          <div class="section-2">
-            <div class="container-5">
-              <div class="div-wrapper"><div class="text-wrapper-9">Thông tin đăng ký</div></div>
-              <div class="div-wrapper">
-                <p class="text-wrapper-10">Vui lòng sử dụng thông tin thật để đảm bảo quyền lợi khi gửi xe.</p>
-              </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="{{ email or '' }}">
             </div>
-            <div class="div-2">
-              <div class="container-6">
-                <div class="container-7">
-                  <div class="label-h-v-t-n">Họ và tên</div>
-                  <div class="container-8">
-                    <div class="input">
-                      <div class="container-9"><div class="text-wrapper-11">Nguyễn Văn A</div></div>
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-3" src="img/icon-6.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-10">
-                  <div class="label-m-sinh-vi-n">Mã sinh viên (MSSV)</div>
-                  <div class="container-8">
-                    <div class="input">
-                      <div class="container-9"><div class="text-wrapper-11">11223344</div></div>
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-4" src="img/icon-8.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-11">
-                  <div class="text-wrapper-12">Tên đăng nhập</div>
-                  <div class="container-8">
-                    <div class="input">
-                      <div class="container-9"><div class="text-wrapper-11">nguyenvana123</div></div>
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-5" src="img/icon-4.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-12">
-                  <label class="label-email-sinh-vi" for="input-1">Email sinh viên</label>
-                  <div class="container-8">
-                    <div class="input">
-                      <input class="container-13" placeholder="a.nv@student.neu.edu.vn" type="email" id="input-1" />
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-4" src="img/icon-10.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-14">
-                  <div class="text-wrapper-13">Số điện thoại</div>
-                  <div class="container-8">
-                    <div class="input">
-                      <div class="container-9"><div class="text-wrapper-11">09xx xxx xxx</div></div>
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-6" src="img/icon-5.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-15">
-                  <div class="label-vai-tr">Vai trò</div>
-                  <div class="container-8">
-                    <div class="input-2">
-                      <div class="container-9"><div class="text-wrapper-14">Student</div></div>
-                    </div>
-                    <div class="icon-wrapper"><img class="icon-7" src="img/icon-3.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-16">
-                  <div class="label-m-t-kh-u">Mật khẩu</div>
-                  <div class="container-8">
-                    <div class="input"><input class="container-13" placeholder="••••••••" type="text" /></div>
-                    <div class="icon-wrapper"><img class="icon-8" src="img/image.svg" /></div>
-                  </div>
-                </div>
-                <div class="container-17">
-                  <div class="label-x-c-nh-n-m-t">Xác nhận mật khẩu</div>
-                  <div class="container-8">
-                    <div class="input"><input class="container-13" placeholder="••••••••" type="text" /></div>
-                    <div class="icon-wrapper"><img class="icon-3" src="img/icon-9.svg" /></div>
-                  </div>
-                </div>
-              </div>
-              <div class="container-18">
-                <div class="input-margin"><div class="input-3"></div></div>
-                <p class="t-i-ng-v-i-i-u-kho-n">
-                  <span class="span">Tôi đồng ý với </span>
-                  <span class="text-wrapper-15">Điều khoản dịch vụ</span>
-                  <span class="span"> và </span>
-                  <span class="text-wrapper-15">Chính sách bảo mật</span>
-                  <span class="span"> của NEU Smart Parking.</span>
-                </p>
-              </div>
-              <button class="button">
-                <div class="button-shadow"></div>
-                <div class="container-19"><div class="text-wrapper-16">Đăng ký ngay</div></div>
-                <div class="container-19"><img class="icon-9" src="img/icon-7.svg" /></div>
-              </button>
-              <div class="c-t-i-kho-n-ng-nh-p-wrapper">
-                <p class="c-t-i-kho-n-ng-nh-p">
-                  <span class="text-wrapper-17">Đã có tài khoản? </span>
-                  <span class="text-wrapper-15">Đăng nhập tại đây</span>
-                </p>
-              </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input id="phone" name="phone" type="text" value="{{ phone or '' }}">
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-margin">
-        <footer class="footer">
-          <div class="container-20">
-            <div class="paragraph">
-              <div class="text-wrapper-18">NEU Smart</div>
-              <p class="text-2">© 2024 National Economics University. All rights reserved.</p>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input id="password" name="password" type="password" required>
             </div>
-            <div class="container-21">
-              <div class="link"><div class="text-wrapper-19">Điều khoản</div></div>
-              <div class="link"><div class="text-wrapper-20">Bảo mật</div></div>
-              <div class="link"><div class="text-wrapper-21">Liên hệ</div></div>
+            <div class="form-group">
+                <label for="password2">Xác nhận mật khẩu</label>
+                <input id="password2" name="password2" type="password" required>
             </div>
-            <img class="container-22" src="img/container.svg" />
-          </div>
-        </footer>
-      </div>
+            <button class="btn btn-primary" type="submit">Đăng ký</button>
+        </form>
+        <p class="muted">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
     </div>
-  </body>
-</html>
+</section>
+{% endblock %}
