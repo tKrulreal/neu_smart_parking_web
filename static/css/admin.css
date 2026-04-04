@@ -1,0 +1,61 @@
+.admin-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.admin-form-grid > * {
+    min-width: 0;
+}
+
+.admin-form-grid .checkbox-row {
+    align-self: end;
+}
+
+.admin-form-grid .button-row {
+    grid-column: 1 / -1;
+}
+
+.vehicle-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-items: start;
+}
+
+.vehicle-form-grid .form-group-wide,
+.vehicle-form-grid .vehicle-form-actions {
+    grid-column: 1 / -1;
+}
+
+.vehicle-form-grid .checkbox-row {
+    min-height: 42px;
+}
+
+.vehicle-filter-bar {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.actions-stack {
+    flex-wrap: wrap;
+}
+
+.actions-stack .btn {
+    min-width: 72px;
+}
+
+.vehicle-actions {
+    min-width: 220px;
+    align-items: stretch;
+}
+
+.vehicle-actions .btn,
+.vehicle-actions form {
+    flex: 0 0 auto;
+}
+
+.vehicles-table td {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+    .vehicle-actions {
+        min-width: 0;
+    }
+}

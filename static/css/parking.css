@@ -1,0 +1,4 @@
+.preview-image {
+    max-height: 220px;
+    object-fit: cover;
+}
