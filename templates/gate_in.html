@@ -1,9 +1,111 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Cổng vào - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Gate In</h2>
-    <p class="muted">Trang này dành cho <strong>guard</strong> hoặc <strong>admin</strong>.</p>
-    <p>Bạn có thể tích hợp chức năng quét biển số/ghi log xe vào ở đây.</p>
-</div>
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Cổng vào - {{ gate_name }}</h1>
+        <p class="muted">{{ current_date }} {{ current_time }} | Trạng thái: {{ status }}</p>
+    </div>
+</section>
+
+<section class="grid grid-2">
+    <article class="section-card">
+        <h2 class="section-title">Tải ảnh xe vào cổng</h2>
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_in') }}" class="form-grid">
+            <input type="hidden" name="action" value="scan">
+            <input type="hidden" name="gate_name" value="{{ gate_name }}">
+            <div class="form-group">
+                <label for="vehicle_image">Ảnh xe vào cổng</label>
+                <input id="vehicle_image" type="file" name="vehicle_image" accept="image/*" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Nhận diện biển số</button>
+        </form>
+        {% if uploaded_preview %}
+        <div class="preview-box">
+            <img src="{{ uploaded_preview }}" alt="Ảnh xe vào cổng" class="preview-image">
+        </div>
+        {% endif %}
+    </article>
+
+    <article class="section-card">
+        <h2 class="section-title">Kết quả phân tích</h2>
+        {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+        <p><strong>Biển số:</strong> {{ ocr.plate or '-' }}</p>
+        <p><strong>Độ tin cậy:</strong> {{ (ocr.confidence ~ '%') if ocr.confidence else '-' }}</p>
+        <p><strong>Chủ xe:</strong> {{ owner.owner_name if owner else '-' }}</p>
+        <p><strong>Mã sinh viên:</strong> {{ owner.student_code if owner else '-' }}</p>
+        <p><strong>Loại xe:</strong> {{ translate_vehicle_type(owner.vehicle_type) if owner else '-' }}</p>
+        <p><strong>Trạng thái hệ thống:</strong>
+            {% if system_status == 'READY_TO_ENTER' %}
+                <span class="badge badge-success">SẴN SÀNG VÀO BÃI</span>
+            {% elif system_status == 'ENTRY_CONFIRMED' %}
+                <span class="badge badge-success">ĐÃ XÁC NHẬN VÀO</span>
+            {% elif system_status == 'ALREADY_IN_PARKING' %}
+                <span class="badge badge-warning">XE ĐANG Ở TRONG BÃI</span>
+            {% elif system_status == 'PENDING_APPROVAL' %}
+                <span class="badge badge-warning">XE CHƯA ĐƯỢC PHÊ DUYỆT</span>
+            {% elif system_status == 'UNKNOWN_VEHICLE' %}
+                <span class="badge badge-danger">KHÔNG TÌM THẤY XE</span>
+            {% elif system_status == 'UNREADABLE' %}
+                <span class="badge badge-danger">KHÔNG ĐỌC ĐƯỢC BIỂN SỐ</span>
+            {% else %}
+                <span class="badge badge-secondary">CHỜ QUÉT</span>
+            {% endif %}
+        </p>
+        {% if system_status == 'READY_TO_ENTER' and ocr.plate %}
+        <form method="post" action="{{ url_for('gate_in') }}" class="button-row">
+            <input type="hidden" name="action" value="confirm_entry">
+            <input type="hidden" name="gate_name" value="{{ gate_name }}">
+            <input type="hidden" name="plate" value="{{ ocr.plate }}">
+            <button class="btn btn-primary" type="submit">Xác nhận xe vào bãi</button>
+        </form>
+        {% endif %}
+        {% if issued_qr %}
+        <div class="preview-box">
+            <p><strong>QR vừa được cấp:</strong></p>
+            <img src="{{ url_for('static', filename=issued_qr.qr_image_path) }}" alt="Entry QR" class="qr-image">
+            <p class="muted">QR này được tạo khi xe vào bãi và sẽ được dùng khi xe ra cổng.</p>
+            <p><strong>Mã QR:</strong> {{ issued_qr.qr_payload }}</p>
+        </div>
+        {% endif %}
+    </article>
+</section>
+
+<section class="section-card">
+    <h2 class="section-title">Lượt vào gần đây</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Biển số</th>
+                    <th>Mã sinh viên</th>
+                    <th>Thời gian vào</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.plate }}</td>
+                    <td>{{ log.student_code }}</td>
+                    <td>{{ log.time_in }}</td>
+                    <td><span class="badge badge-secondary">{{ translate_status(log.status) }}</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="muted">Chưa có dữ liệu.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

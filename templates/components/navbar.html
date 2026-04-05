@@ -1,0 +1,37 @@
+<header class="site-header">
+    <div class="container nav-bar">
+        <a class="brand" href="{{ url_for('index') }}">NEU Smart Parking</a>
+
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}">Trang chủ</a>
+            {% if current_user %}
+                {% if current_user.role in ['admin', 'guard'] %}
+                    <a href="{{ url_for('dashboard') }}">Tổng quan</a>
+                    <a href="{{ url_for('gate_in') }}">Cổng vào</a>
+                    <a href="{{ url_for('gate_out') }}">Cổng ra</a>
+                    <a href="{{ url_for('history') }}">Lịch sử</a>
+                {% else %}
+                    <a href="{{ url_for('self_dashboard') }}">Trang cá nhân</a>
+                    <a href="{{ url_for('my_vehicle') }}">Phương tiện của tôi</a>
+                    <a href="{{ url_for('student_qr') }}">Mã QR của tôi</a>
+                    <a href="{{ url_for('self_history') }}">Lịch sử của tôi</a>
+                {% endif %}
+                {% if current_user.role == 'admin' %}
+
+                    <a href="{{ url_for('user_management') }}">Người dùng</a>
+                    <a href="{{ url_for('vehicles') }}">Phương tiện</a>
+                {% endif %}
+            {% endif %}
+        </nav>
+
+        <div class="nav-actions">
+            {% if current_user %}
+                <span class="muted">{{ current_user.full_name }} ({{ translate_role(current_user.role) }})</span>
+                <a class="btn btn-secondary" href="{{ url_for('logout') }}">Đăng xuất</a>
+            {% else %}
+                <a class="btn btn-secondary" href="{{ url_for('login') }}">Đăng nhập</a>
+                <a class="btn btn-primary" href="{{ url_for('register') }}">Đăng ký</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

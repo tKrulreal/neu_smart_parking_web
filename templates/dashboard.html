@@ -1,17 +1,99 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Tổng quan - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Dashboard</h2>
-    <p>Xin chào, <strong>{{ current_user.full_name }}</strong> ({{ current_user.username }}).</p>
-    <p>Role: <strong>{{ current_user.role }}</strong></p>
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Tổng quan hệ thống</h1>
+        <p class="muted">Ngày {{ current_date }}</p>
+    </div>
+    <div class="button-row">
+        <a class="btn btn-secondary" href="{{ url_for('history') }}">Xem lịch sử</a>
+    </div>
+</section>
 
-    {% if current_user.role == 'admin' %}
-        <p class="muted">Bạn đang đăng nhập với quyền admin.</p>
-    {% elif current_user.role == 'guard' %}
-        <p class="muted">Bạn đang đăng nhập với quyền guard.</p>
-    {% else %}
-        <p class="muted">Bạn đang đăng nhập với quyền student.</p>
-    {% endif %}
-</div>
+<section class="grid grid-3">
+    <article class="stat-card">
+        <p class="stat-label">Tổng người dùng</p>
+        <p class="stat-value">{{ total_users }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Tổng phương tiện</p>
+        <p class="stat-value">{{ total_vehicles }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Xe trong bãi</p>
+        <p class="stat-value">{{ vehicles_in_parking }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Lượt vào hôm nay</p>
+        <p class="stat-value">{{ today_checkins }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Lượt ra hôm nay</p>
+        <p class="stat-value">{{ today_checkouts }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Doanh thu hôm nay</p>
+        <p class="stat-value">{{ "{:,.0f}".format(today_revenue) }} VND</p>
+    </article>
+</section>
+
+<section class="grid grid-2">
+    <article class="section-card">
+        <div class="section-head">
+            <h2 class="section-title">Lịch sử gửi xe gần đây</h2>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Biển số</th>
+                        <th>Mã sinh viên</th>
+                        <th>Thời gian vào</th>
+                        <th>Thời gian ra</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in recent_logs %}
+                    <tr>
+                        <td>{{ log[0] }}</td>
+                        <td>{{ log[1] }}</td>
+                        <td>{{ log[2] or '-' }}</td>
+                        <td>{{ log[3] or '-' }}</td>
+                        <td><span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(log[4]) }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="muted">Chưa có dữ liệu.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="section-card">
+        <div class="section-head">
+            <h2 class="section-title">Lượt quét gần đây</h2>
+        </div>
+        <ul class="list-plain">
+            {% for scan in recent_vehicle_scans %}
+            <li class="list-item">
+                <span><strong>{{ scan[0] }}</strong> - {{ scan[1] or '-' }}</span>
+                <span class="badge {% if scan[2] in ['SUCCESS','OPEN'] %}badge-success{% elif scan[2] == 'UNKNOWN' %}badge-danger{% else %}badge-secondary{% endif %}">{{ translate_status(scan[2]) }}</span>
+                <small class="muted">{{ scan[3] }}</small>
+            </li>
+            {% else %}
+            <li class="muted">Chưa có lượt quét nào.</li>
+            {% endfor %}
+        </ul>
+    </article>
+</section>
 {% endblock %}

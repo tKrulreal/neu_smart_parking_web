@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang cá nhân - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Xin chào, {{ user.full_name }}</h1>
+        <p class="muted">Ngày {{ current_date }}</p>
+    </div>
+    <div class="button-row">
+        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký xe mới</a>
+        <a class="btn btn-secondary" href="{{ url_for('student_qr') }}">Mở trang QR</a>
+    </div>
+</section>
+
+<section class="grid grid-3">
+    <article class="stat-card">
+        <p class="stat-label">Số xe của tôi</p>
+        <p class="stat-value">{{ my_vehicles_count }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Xe đang gửi</p>
+        <p class="stat-value">{{ vehicles_in_parking }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Lượt gửi gần đây</p>
+        <p class="stat-value">{{ recent_sessions_count }}</p>
+    </article>
+</section>
+
+<section class="grid grid-2">
+    <article class="section-card">
+        <h2 class="section-title">Lịch sử gần đây</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Biển số</th>
+                        <th>Thời gian vào</th>
+                        <th>Thời gian ra</th>
+                        <th>Phí</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in recent_logs %}
+                    <tr>
+                        <td>{{ log[0] }}</td>
+                        <td>{{ log[1] or '-' }}</td>
+                        <td>{{ log[2] or '-' }}</td>
+                        <td>{{ "{:,.0f}".format(log[3] or 0) }} VND</td>
+                        <td><span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(log[4]) }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5" class="muted">Chưa có giao dịch.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="section-card">
+        <h2 class="section-title">Trạng thái xe hiện tại</h2>
+        {% if active_vehicles %}
+            {% for active_vehicle in active_vehicles %}
+            <div class="list-item">
+                <span><strong>{{ active_vehicle[0] }}</strong></span>
+                <span class="muted">Vào bãi lúc {{ active_vehicle[1] }}</span>
+                <span class="badge badge-success">ĐANG TRONG BÃI</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">Bạn không có xe nào đang ở trong bãi.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

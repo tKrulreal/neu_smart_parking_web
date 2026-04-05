@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Quản lý người dùng - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Quản lý người dùng</h1>
+        <p class="muted">Thêm, sửa, khóa và xóa tài khoản hệ thống.</p>
+    </div>
+</section>
+
+<section class="grid grid-3">
+    <article class="stat-card"><p class="stat-label">Tổng người dùng</p><p class="stat-value">{{ total_users }}</p></article>
+    <article class="stat-card"><p class="stat-label">Đang hoạt động</p><p class="stat-value">{{ active_users }}</p></article>
+    <article class="stat-card"><p class="stat-label">Bị khóa</p><p class="stat-value">{{ locked_users }}</p></article>
+</section>
+
+<section class="section-card">
+    <h2 class="section-title">{{ 'Cập nhật người dùng' if editing_user else 'Thêm người dùng mới' }}</h2>
+    <form method="post" action="{{ url_for('update_user_route', user_id=editing_user.id) if editing_user else url_for('create_user_route') }}" class="form-grid admin-form-grid">
+        <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input id="username" name="username" type="text" required value="{{ user_form.username }}">
+        </div>
+        <div class="form-group">
+            <label for="full_name">Họ và tên</label>
+            <input id="full_name" name="full_name" type="text" required value="{{ user_form.full_name }}">
+        </div>
+        <div class="form-group">
+            <label for="role">Vai trò</label>
+            <select id="role" name="role">
+                <option value="student" {% if user_form.role == 'student' %}selected{% endif %}>Sinh viên</option>
+                <option value="guard" {% if user_form.role == 'guard' %}selected{% endif %}>Bảo vệ</option>
+                <option value="admin" {% if user_form.role == 'admin' %}selected{% endif %}>Quản trị viên</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="student_code">Mã sinh viên</label>
+            <input id="student_code" name="student_code" type="text" value="{{ user_form.student_code }}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" value="{{ user_form.email }}">
+        </div>
+        <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input id="phone" name="phone" type="text" value="{{ user_form.phone }}">
+        </div>
+        <div class="form-group">
+            <label for="password">{{ 'Mật khẩu mới' if editing_user else 'Mật khẩu' }}</label>
+            <input id="password" name="password" type="password" {% if not editing_user %}required{% endif %}>
+        </div>
+        <div class="form-group checkbox-row">
+            <label class="checkbox-label">
+                <input name="is_active" type="checkbox" {% if user_form.is_active %}checked{% endif %}>
+                Kích hoạt tài khoản
+            </label>
+        </div>
+        <div class="button-row">
+            <button class="btn btn-primary" type="submit">{{ 'Lưu cập nhật' if editing_user else 'Tạo người dùng' }}</button>
+            {% if editing_user %}
+            <a class="btn btn-secondary" href="{{ url_for('user_management') }}">Hủy sửa</a>
+            {% endif %}
+        </div>
+    </form>
+</section>
+
+<section class="section-card">
+    <form method="get" action="{{ url_for('user_management') }}" class="filter-bar">
+        <div class="form-group">
+            <label for="q">Tìm người dùng</label>
+            <input id="q" name="q" type="text" value="{{ q }}">
+        </div>
+        <div class="form-group">
+            <label for="role_filter">Vai trò</label>
+            <select id="role_filter" name="role">
+                <option value="">Tất cả</option>
+                <option value="admin" {% if role_filter == 'admin' %}selected{% endif %}>Quản trị viên</option>
+                <option value="guard" {% if role_filter == 'guard' %}selected{% endif %}>Bảo vệ</option>
+                <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Sinh viên</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Lọc</button>
+    </form>
+</section>
+
+<section class="section-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Người dùng</th>
+                    <th>Mã sinh viên</th>
+                    <th>Vai trò</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <strong>{{ user.full_name }}</strong><br>
+                        <small class="muted">{{ user.username }}</small>
+                    </td>
+                    <td>{{ user.student_code or '-' }}</td>
+                    <td><span class="badge badge-secondary">{{ translate_role(user.role) }}</span></td>
+                    <td>{{ user.email or '-' }}</td>
+                    <td>
+                        {% if user.is_active %}
+                            <span class="badge badge-success">ĐANG HOẠT ĐỘNG</span>
+                        {% else %}
+                            <span class="badge badge-danger">BỊ KHÓA</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions-cell actions-stack">
+                        <a class="btn btn-secondary btn-small" href="{{ url_for('user_management', edit=user.id, q=q, role=role_filter) }}">Sửa</a>
+                        <form method="post" action="{{ url_for('toggle_user_route', user_id=user.id) }}">
+                            <button class="btn btn-secondary btn-small" type="submit">{{ 'Khóa' if user.is_active else 'Mở khóa' }}</button>
+                        </form>
+                        <form method="post" action="{{ url_for('delete_user_route', user_id=user.id) }}" onsubmit="return confirm('Xóa người dùng này?');">
+                            <button class="btn btn-danger btn-small" type="submit">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="muted">Không có người dùng phù hợp.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

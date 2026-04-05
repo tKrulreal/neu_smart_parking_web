@@ -1,9 +1,82 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Cổng ra - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Gate Out</h2>
-    <p class="muted">Trang này dành cho <strong>guard</strong> hoặc <strong>admin</strong>.</p>
-    <p>Bạn có thể tích hợp chức năng quét QR/ghi log xe ra ở đây.</p>
-</div>
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Cổng ra</h1>
+        <p class="muted">Thời gian hệ thống: {{ current_time }}</p>
+    </div>
+</section>
+
+<section class="grid grid-2">
+    <article class="section-card">
+        <h2 class="section-title">Tải dữ liệu đối chiếu</h2>
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_out') }}" class="form-grid">
+            <input type="hidden" name="action" value="scan">
+            <input type="hidden" name="gate_name" value="Cổng 1">
+            <div class="form-group">
+                <label for="plate_image">Ảnh biển số</label>
+                <input id="plate_image" type="file" name="plate_image" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="qr_image">Ảnh QR</label>
+                <input id="qr_image" type="file" name="qr_image" accept="image/*" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Kiểm tra xe ra cổng</button>
+        </form>
+        {% if plate_preview or qr_preview %}
+        <div class="preview-grid">
+            {% if plate_preview %}
+            <img src="{{ plate_preview }}" alt="Ảnh biển số" class="preview-image">
+            {% endif %}
+            {% if qr_preview %}
+            <img src="{{ qr_preview }}" alt="Ảnh QR" class="preview-image">
+            {% endif %}
+        </div>
+        {% endif %}
+    </article>
+
+    <article class="section-card">
+        <h2 class="section-title">Kết quả đối chiếu</h2>
+        {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+        <p><strong>Biển số:</strong> {{ plate or '-' }}</p>
+        <p><strong>Dữ liệu QR:</strong> {{ qr_payload or '-' }}</p>
+        <p><strong>Mã sinh viên:</strong> {{ student_id or '-' }}</p>
+        <p><strong>Chủ xe:</strong> {{ student_name or '-' }}</p>
+        <p><strong>Loại xe:</strong> {{ translate_vehicle_type(vehicle.vehicle_type) if vehicle else '-' }}</p>
+        <p><strong>Thời gian vào:</strong> {{ entry_time or '-' }}</p>
+        <p><strong>Phí:</strong> {{ "{:,.0f}".format(fee) }} VND</p>
+        <p><strong>Thời lượng:</strong> {{ duration or '-' }}</p>
+        <p><strong>Gói phí:</strong> {{ rate }}</p>
+        <p>
+            <strong>Quyết định:</strong>
+            {% if decision_status == 'EXIT_CONFIRMED' %}
+                <span class="badge badge-success">ĐÃ XÁC NHẬN RA</span>
+            {% elif can_confirm_exit %}
+                <span class="badge badge-success">SẴN SÀNG CHO RA</span>
+            {% elif decision_status %}
+                <span class="badge badge-danger">{{ translate_status(decision_status) }}</span>
+            {% else %}
+                <span class="badge badge-secondary">CHỜ ĐỐI CHIẾU</span>
+            {% endif %}
+        </p>
+        {% if can_confirm_exit and plate %}
+        <form method="post" action="{{ url_for('gate_out') }}" class="button-row">
+            <input type="hidden" name="action" value="confirm_exit">
+            <input type="hidden" name="gate_name" value="Cổng 1">
+            <input type="hidden" name="plate" value="{{ plate }}">
+            <input type="hidden" name="qr_payload" value="{{ qr_payload or '' }}">
+            <button class="btn btn-primary" type="submit">Xác nhận và cho xe ra</button>
+        </form>
+        {% endif %}
+    </article>
+</section>
 {% endblock %}

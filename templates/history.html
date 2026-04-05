@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Lịch sử - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Lịch sử gửi xe</h1>
+        <p class="muted">Tra cứu giao dịch vào ra theo ngày, biển số và trạng thái.</p>
+    </div>
+    <div class="button-row">
+        <a class="btn btn-secondary" href="{{ url_for('export_csv', plate=plate_filter, status=status_filter, date=date_filter) }}">Xuất CSV</a>
+        <a class="btn btn-primary" href="{{ url_for('export_excel', plate=plate_filter, status=status_filter, date=date_filter) }}">Xuất Excel</a>
+    </div>
+</section>
+
+<section class="grid grid-3">
+    <article class="stat-card">
+        <p class="stat-label">Tổng doanh thu</p>
+        <p class="stat-value">{{ "{:,.0f}".format(total_revenue) }} VND</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Số lượt hôm nay</p>
+        <p class="stat-value">{{ today_count }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Xe trong bãi</p>
+        <p class="stat-value">{{ occupancy }}</p>
+    </article>
+</section>
+
+<section class="section-card">
+    <form method="get" action="{{ url_for('history') }}" class="filter-bar">
+        <div class="form-group">
+            <label for="plate">Biển số</label>
+            <input id="plate" type="text" name="plate" value="{{ plate_filter }}">
+        </div>
+        <div class="form-group">
+            <label for="date">Ngày</label>
+            <input id="date" type="date" name="date" value="{{ date_filter }}">
+        </div>
+        <div class="form-group">
+            <label for="status">Trạng thái</label>
+            <select id="status" name="status">
+                <option value="">Tất cả</option>
+                <option value="IN_PARKING" {% if status_filter == 'IN_PARKING' %}selected{% endif %}>Đang trong bãi</option>
+                <option value="COMPLETED" {% if status_filter == 'COMPLETED' %}selected{% endif %}>Đã hoàn tất</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Lọc</button>
+    </form>
+</section>
+
+<section class="section-card">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Biển số</th>
+                    <th>Mã sinh viên</th>
+                    <th>Thời gian vào</th>
+                    <th>Thời gian ra</th>
+                    <th>Cổng vào/ra</th>
+                    <th>Phí</th>
+                    <th>Trạng thái</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>#{{ item.id }}</td>
+                    <td>{{ item.plate }}</td>
+                    <td>{{ item.student_code }}</td>
+                    <td>{{ item.time_in or '-' }}</td>
+                    <td>{{ item.time_out or '-' }}</td>
+                    <td>{{ item.gate_in or '-' }} / {{ item.gate_out or '-' }}</td>
+                    <td>{{ "{:,.0f}".format(item.fee or 0) }} VND</td>
+                    <td><span class="badge {% if item.status == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(item.status) }}</span></td>
+                    <td>{{ item.note or '-' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="muted">Không có bản ghi phù hợp.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,51 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>NEU Smart Parking</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 920px; margin: 24px auto; padding: 0 12px; }
-        nav a { margin-right: 12px; }
-        .flash { padding: 10px 12px; border-radius: 8px; margin: 10px 0; }
-        .flash.error { background: #ffe5e5; border: 1px solid #ffb3b3; }
-        .flash.success { background: #e9ffe9; border: 1px solid #b5f0b5; }
-        .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
-        label { display: block; margin-top: 10px; }
-        input { width: 100%; padding: 10px; margin-top: 6px; box-sizing: border-box; }
-        button { margin-top: 12px; padding: 10px 14px; cursor: pointer; }
-        .muted { color: #666; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NEU Smart Parking{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <h1>NEU Smart Parking System</h1>
+    {% include 'components/navbar.html' %}
 
-    <nav>
-        <a href="{{ url_for('index') }}">Trang chủ</a>
-        {% if current_user %}
-            <a href="{{ url_for('dashboard') }}">Dashboard</a>
-            {% if current_user.role in ['admin', 'guard'] %}
-                <a href="{{ url_for('gate_in') }}">Gate In</a>
-                <a href="{{ url_for('gate_out') }}">Gate Out</a>
-            {% endif %}
-            {% if current_user.role == 'admin' %}
-                <a href="{{ url_for('admin') }}">Admin</a>
-            {% endif %}
-            <a href="{{ url_for('logout') }}">Đăng xuất</a>
-        {% else %}
-            <a href="{{ url_for('login') }}">Đăng nhập</a>
-            <a href="{{ url_for('register') }}">Đăng ký</a>
-        {% endif %}
-    </nav>
-    <hr>
+    <main class="page-wrapper">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="alerts-stack">
+                        {% for category, message in messages %}
+                            <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    {% include 'components/footer.html' %}
 
-    {% block content %}{% endblock %}
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

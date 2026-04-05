@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Phương tiện của tôi - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Phương tiện của tôi</h1>
+        <p class="muted">Quản lý xe đã đăng ký bởi tài khoản hiện tại.</p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Thêm phương tiện</a>
+</section>
+
+<section class="grid grid-2">
+    <article class="stat-card">
+        <p class="stat-label">Tổng xe đã đăng ký</p>
+        <p class="stat-value">{{ total_vehicle }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Xe đang trong bãi</p>
+        <p class="stat-value">{{ in_parking }}</p>
+    </article>
+</section>
+
+{% if main_vehicle %}
+<section class="section-card">
+    <h2 class="section-title">Xe chính</h2>
+    <p><strong>Biển số:</strong> {{ main_vehicle.plate }}</p>
+    <p><strong>Loại:</strong> {{ translate_vehicle_type(main_vehicle.vehicle_type) }} | <strong>Hãng xe:</strong> {{ main_vehicle.brand or '-' }} | <strong>Màu xe:</strong> {{ main_vehicle.color or '-' }}</p>
+    {% set key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+    <p>
+        <strong>Trạng thái:</strong>
+        {% if active_map.get(key) %}
+            <span class="badge badge-success">ĐANG TRONG BÃI</span>
+        {% elif not main_vehicle.is_active %}
+            <span class="badge badge-warning">CHỜ DUYỆT</span>
+        {% else %}
+            <span class="badge badge-secondary">SẴN SÀNG</span>
+        {% endif %}
+    </p>
+</section>
+{% endif %}
+
+<section class="section-card">
+    <h2 class="section-title">Danh sách xe</h2>
+    <div class="grid grid-2">
+        {% for vehicle in vehicles %}
+        {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+        <article class="section-card nested">
+            <p><strong>{{ vehicle.plate }}</strong></p>
+            <p class="muted">{{ translate_vehicle_type(vehicle.vehicle_type) }} - {{ vehicle.brand or '-' }} - {{ vehicle.color or '-' }}</p>
+            {% if vehicle.image_path %}
+                <img src="{{ url_for('static', filename=vehicle.image_path) }}" alt="{{ vehicle.plate }}" class="preview-image">
+            {% endif %}
+            <p>
+                {% if active_map.get(key) %}
+                    <span class="badge badge-success">ĐANG GỬI</span>
+                {% elif not vehicle.is_active %}
+                    <span class="badge badge-warning">CHỜ DUYỆT</span>
+                {% else %}
+                    <span class="badge badge-secondary">SẴN SÀNG</span>
+                {% endif %}
+            </p>
+        </article>
+        {% else %}
+        <article class="section-card nested empty-state grid-full">
+            <p class="muted">Bạn chưa đăng ký xe nào.</p>
+            <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

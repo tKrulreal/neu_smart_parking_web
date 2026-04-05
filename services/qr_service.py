@@ -3,13 +3,20 @@ from pathlib import Path
 
 import qrcode
 import time
-import cv2
-from pyzbar.pyzbar import decode
 from config import Config
-def create_qr_for_student(student_id: str, output_dir: str = None) -> str:
+
+
+def _qr_decoder():
+    import cv2
+    from pyzbar.pyzbar import decode
+
+    return cv2, decode
+
+
+def create_qr_asset(student_id: str, output_dir: str = None) -> tuple[str, str]:
     if output_dir is None:
         output_dir = Config.QR_FOLDER
-    created_at = dt.datetime.now().isoformat(timespec="seconds")
+    created_at = dt.datetime.now().isoformat(timespec="microseconds")
     payload = f"{student_id}|{created_at}"
 
     out_dir = Path(output_dir)
@@ -19,7 +26,12 @@ def create_qr_for_student(student_id: str, output_dir: str = None) -> str:
 
     img = qrcode.make(payload)
     img.save(file_path)
-    return str(file_path)
+    return payload, str(file_path)
+
+
+def create_qr_for_student(student_id: str, output_dir: str = None) -> str:
+    _, file_path = create_qr_asset(student_id, output_dir=output_dir)
+    return file_path
 def parse_qr_payload(payload: str):
     if not payload or "|" not in payload:
         return None, None
@@ -27,13 +39,15 @@ def parse_qr_payload(payload: str):
     return student_id.strip(), created_at_str.strip()
 
 
-def is_qr_valid_time(created_at_str: str, max_age_minutes: int = 5) -> bool:
+def is_qr_valid_time(created_at_str: str, max_age_minutes: int | None = None) -> bool:
     if not created_at_str:
         return False
     try:
         qr_created_at = dt.datetime.fromisoformat(created_at_str)
     except ValueError:
         return False
+    if max_age_minutes is None:
+        return True
     now = dt.datetime.now()
     age = now - qr_created_at
     if age.total_seconds() < 0:
@@ -41,7 +55,8 @@ def is_qr_valid_time(created_at_str: str, max_age_minutes: int = 5) -> bool:
     return age <= dt.timedelta(minutes=max_age_minutes)
 
 
-def read_qr_from_image(image_path: str, qr_max_age_minutes: int = 5):
+def read_qr_from_image(image_path: str, qr_max_age_minutes: int | None = None):
+    cv2, decode = _qr_decoder()
     img = cv2.imread(image_path)
     if img is None:
         raise FileNotFoundError(f"Khong doc duoc anh QR: {image_path}")
@@ -52,13 +67,16 @@ def read_qr_from_image(image_path: str, qr_max_age_minutes: int = 5):
     student_id, created_at_str = parse_qr_payload(payload)
     valid_qr = is_qr_valid_time(created_at_str, max_age_minutes=qr_max_age_minutes)
     return student_id, payload, valid_qr
+
+
 def scan_qr_from_camera(
     camera_index: int = 0,
     timeout_sec: int = 20,
     mirror: bool = True,
     show_guide: bool = True,
-    qr_max_age_minutes: int = 5,
+    qr_max_age_minutes: int | None = None,
 ):
+    cv2, decode = _qr_decoder()
     cap = cv2.VideoCapture(camera_index)
     if not cap.isOpened():
         raise RuntimeError(f"Khong mo duoc camera index={camera_index}")

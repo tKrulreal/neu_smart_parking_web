@@ -1,6 +1,36 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Trang chủ - NEU Smart Parking{% endblock %}
 
 {% block content %}
-<h2>Trang chủ hệ thống</h2>
-<p>Website quản lý bãi gửi xe thông minh NEU</p>
+<section class="section-card hero">
+    <div>
+        <p class="page-title">NEU Smart Parking</p>
+        <p class="muted">Nền tảng quản lý bãi đỗ xe thông minh dành cho sinh viên, bảo vệ và quản trị viên.</p>
+    </div>
+    <div class="button-row">
+        {% if current_user %}
+            <a class="btn btn-primary" href="{{ url_for('dashboard') if current_user.role in ['admin', 'guard'] else url_for('self_dashboard') }}">Vào trang chính</a>
+            <a class="btn btn-secondary" href="{{ url_for('logout') }}">Đăng xuất</a>
+        {% else %}
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Đăng nhập</a>
+            <a class="btn btn-secondary" href="{{ url_for('register') }}">Đăng ký</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid grid-3">
+    <article class="section-card">
+        <h3 class="section-title">Nhận diện biển số</h3>
+        <p class="muted">Cổng vào và cổng ra nhận diện biển số, đối chiếu trực tiếp với cơ sở dữ liệu.</p>
+    </article>
+    <article class="section-card">
+        <h3 class="section-title">Xác thực QR</h3>
+        <p class="muted">Mã QR được cấp theo phiên gửi xe để xác thực lúc xe ra cổng nhanh và an toàn.</p>
+    </article>
+    <article class="section-card">
+        <h3 class="section-title">Thống kê thời gian thực</h3>
+        <p class="muted">Trang tổng quan cập nhật số lượt vào ra, công suất bãi xe và doanh thu.</p>
+    </article>
+</section>
 {% endblock %}

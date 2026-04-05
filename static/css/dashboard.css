@@ -1,0 +1,8 @@
+.section-card .list-plain .list-item:first-child {
+    padding-top: 0;
+}
+
+.section-card .list-plain .list-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}

@@ -1,32 +1,47 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Đăng ký - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Đăng ký (Student)</h2>
-    <form method="post">
-        <label>Username</label>
-        <input name="username" value="{{ username or '' }}" autocomplete="username" required>
-
-        <label>Họ tên</label>
-        <input name="full_name" value="{{ full_name or '' }}" autocomplete="name" required>
-
-        <label>Mã sinh viên</label>
-        <input name="student_code" value="{{ student_code or '' }}" autocomplete="off">
-
-        <label>Email</label>
-        <input type="email" name="email" value="{{ email or '' }}" autocomplete="email">
-
-        <label>Số điện thoại</label>
-        <input name="phone" value="{{ phone or '' }}" autocomplete="tel">
-
-        <label>Mật khẩu</label>
-        <input type="password" name="password" autocomplete="new-password" required>
-
-        <label>Nhập lại mật khẩu</label>
-        <input type="password" name="password2" autocomplete="new-password" required>
-
-        <button type="submit">Tạo tài khoản</button>
-    </form>
-    <p class="muted">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
-</div>
+<section class="auth-shell">
+    <div class="auth-panel">
+        <h1 class="page-title">Đăng ký tài khoản sinh viên</h1>
+        <form method="post" action="{{ url_for('register') }}" class="form-grid">
+            <div class="form-group">
+                <label for="full_name">Họ và tên</label>
+                <input id="full_name" name="full_name" type="text" required value="{{ full_name or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" name="username" type="text" required value="{{ username or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="student_code">Mã sinh viên</label>
+                <input id="student_code" name="student_code" type="text" required value="{{ student_code or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="{{ email or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input id="phone" name="phone" type="text" value="{{ phone or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+            <div class="form-group">
+                <label for="password2">Xác nhận mật khẩu</label>
+                <input id="password2" name="password2" type="password" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Đăng ký</button>
+        </form>
+        <p class="muted">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
+    </div>
+</section>
 {% endblock %}

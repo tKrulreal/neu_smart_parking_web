@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Quản lý phương tiện - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1 class="page-title">Quản lý phương tiện</h1>
+        <p class="muted">Thêm, sửa, duyệt và xóa phương tiện trong hệ thống.</p>
+    </div>
+</section>
+
+<section class="grid grid-4">
+    <article class="stat-card"><p class="stat-label">Tổng xe</p><p class="stat-value">{{ total }}</p></article>
+    <article class="stat-card"><p class="stat-label">Đang trong bãi</p><p class="stat-value">{{ in_parking }}</p></article>
+    <article class="stat-card"><p class="stat-label">Chờ duyệt</p><p class="stat-value">{{ pending }}</p></article>
+    <article class="stat-card"><p class="stat-label">Đã duyệt</p><p class="stat-value">{{ approved }}</p></article>
+</section>
+
+<section class="section-card" id="vehicle-form">
+    <h2 class="section-title">{{ 'Cập nhật phương tiện' if editing_vehicle else 'Thêm phương tiện mới' }}</h2>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('update_vehicle_route', vehicle_id=editing_vehicle.id) if editing_vehicle else url_for('create_vehicle_route') }}" class="form-grid admin-form-grid vehicle-form-grid">
+        <div class="form-group">
+            <label for="plate">Biển số</label>
+            <input id="plate" name="plate" type="text" required value="{{ vehicle_form.plate }}">
+        </div>
+        <div class="form-group">
+            <label for="student_code">Mã sinh viên</label>
+            <input id="student_code" name="student_code" type="text" required value="{{ vehicle_form.student_code }}">
+        </div>
+        <div class="form-group">
+            <label for="owner_name">Chủ xe</label>
+            <input id="owner_name" name="owner_name" type="text" value="{{ vehicle_form.owner_name }}">
+        </div>
+        <div class="form-group">
+            <label for="vehicle_type">Loại xe</label>
+            <select id="vehicle_type" name="vehicle_type">
+                <option value="motorbike" {% if vehicle_form.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
+                <option value="car" {% if vehicle_form.vehicle_type == 'car' %}selected{% endif %}>Ô tô</option>
+                <option value="electric" {% if vehicle_form.vehicle_type == 'electric' %}selected{% endif %}>Xe điện</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="brand">Hãng xe</label>
+            <input id="brand" name="brand" type="text" value="{{ vehicle_form.brand }}">
+        </div>
+        <div class="form-group">
+            <label for="color">Màu xe</label>
+            <input id="color" name="color" type="text" value="{{ vehicle_form.color }}">
+        </div>
+        <div class="form-group form-group-wide">
+            <label for="image">Ảnh xe</label>
+            <input id="image" name="image" type="file" accept="image/*">
+        </div>
+        <div class="form-group checkbox-row">
+            <label class="checkbox-label">
+                <input name="is_active" type="checkbox" {% if vehicle_form.is_active %}checked{% endif %}>
+                Đã được phê duyệt
+            </label>
+        </div>
+        <div class="button-row vehicle-form-actions">
+            <button class="btn btn-primary" type="submit">{{ 'Lưu cập nhật' if editing_vehicle else 'Tạo phương tiện' }}</button>
+            {% if editing_vehicle %}
+            <a class="btn btn-secondary" href="{{ url_for('vehicles') }}">Hủy sửa</a>
+            {% endif %}
+        </div>
+    </form>
+</section>
+
+<section class="section-card">
+    <form method="get" action="{{ url_for('vehicles') }}" class="filter-bar vehicle-filter-bar">
+        <div class="form-group">
+            <label for="plate_filter">Tìm biển số</label>
+            <input id="plate_filter" name="plate" type="text" value="{{ plate_filter }}">
+        </div>
+        <div class="form-group">
+            <label for="type_filter">Loại xe</label>
+            <select id="type_filter" name="type">
+                <option value="">Tất cả</option>
+                <option value="motorbike" {% if type_filter == 'motorbike' %}selected{% endif %}>Xe máy</option>
+                <option value="car" {% if type_filter == 'car' %}selected{% endif %}>Ô tô</option>
+                <option value="electric" {% if type_filter == 'electric' %}selected{% endif %}>Xe điện</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Lọc</button>
+    </form>
+</section>
+
+<section class="section-card">
+    <div class="table-wrapper">
+        <table class="vehicles-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Biển số</th>
+                    <th>Mã sinh viên</th>
+                    <th>Chủ xe</th>
+                    <th>Loại xe</th>
+                    <th>Hãng xe</th>
+                    <th>Màu xe</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                {% set plate_key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+                <tr>
+                    <td>{{ vehicle.id }}</td>
+                    <td>{{ vehicle.plate }}</td>
+                    <td>{{ vehicle.student_code }}</td>
+                    <td>{{ vehicle.owner_name or '-' }}</td>
+                    <td>{{ translate_vehicle_type(vehicle.vehicle_type) }}</td>
+                    <td>{{ vehicle.brand or '-' }}</td>
+                    <td>{{ vehicle.color or '-' }}</td>
+                    <td>
+                        {% if active_map.get(plate_key) %}
+                            <span class="badge badge-success">ĐANG TRONG BÃI</span>
+                        {% elif not vehicle.is_active %}
+                            <span class="badge badge-warning">CHỜ DUYỆT</span>
+                        {% else %}
+                            <span class="badge badge-secondary">ĐÃ DUYỆT</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions-cell actions-stack vehicle-actions">
+                        <a class="btn btn-secondary btn-small" href="{{ url_for('vehicles', edit=vehicle.id, plate=plate_filter, type=type_filter) }}#vehicle-form">Sửa</a>
+                        {% if not vehicle.is_active %}
+                        <form method="post" action="{{ url_for('approve_vehicle_route', vehicle_id=vehicle.id) }}">
+                            <button class="btn btn-primary btn-small" type="submit">Duyệt</button>
+                        </form>
+                        {% endif %}
+                        <form method="post" action="{{ url_for('toggle_vehicle_route', vehicle_id=vehicle.id) }}">
+                            <button class="btn btn-secondary btn-small" type="submit">{{ 'Tạm khóa' if vehicle.is_active else 'Kích hoạt' }}</button>
+                        </form>
+                        <form method="post" action="{{ url_for('delete_vehicle_route', vehicle_id=vehicle.id) }}" onsubmit="return confirm('Xóa phương tiện này?');">
+                            <button class="btn btn-danger btn-small" type="submit">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="muted">Không có dữ liệu phương tiện.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

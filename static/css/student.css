@@ -1,0 +1,29 @@
+.qr-panel {
+    text-align: center;
+}
+
+.qr-image {
+    width: min(100%, 340px);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.qr-session-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.qr-session-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.qr-session-card p {
+    overflow-wrap: anywhere;
+}
+
+.qr-session-card .section-head form {
+    margin: 0;
+}

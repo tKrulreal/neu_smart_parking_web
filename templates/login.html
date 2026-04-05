@@ -1,17 +1,28 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Đăng nhập - NEU Smart Parking{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h2>Đăng nhập</h2>
-    <form method="post">
-        <label>Username</label>
-        <input name="username" value="{{ username or '' }}" autocomplete="username" required>
-
-        <label>Mật khẩu</label>
-        <input type="password" name="password" autocomplete="current-password" required>
-
-        <button type="submit">Đăng nhập</button>
-    </form>
-    <p class="muted">Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký</a></p>
-</div>
+<section class="auth-shell">
+    <div class="auth-panel">
+        <h1 class="page-title">Đăng nhập</h1>
+        <p class="muted">Nhập tài khoản để truy cập hệ thống.</p>
+        <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}" class="form-grid">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input id="username" name="username" type="text" required value="{{ username or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Đăng nhập</button>
+        </form>
+        <p class="muted">Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký</a></p>
+    </div>
+</section>
 {% endblock %}
