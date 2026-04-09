@@ -1,48 +1,52 @@
 {% extends 'base.html' %}
 
 {% block title %}Trang cá nhân - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Trang cá nhân{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
-        <h1 class="page-title">Xin chào, {{ user.full_name }}</h1>
-        <p class="muted">Ngày {{ current_date }}</p>
+        <h1 class="page-title">Xin chào, {{ user.full_name }} 👋</h1>
+        <p class="page-subtitle">Ngày {{ current_date }}</p>
     </div>
     <div class="button-row">
-        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký xe mới</a>
+        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">+ Đăng ký xe mới</a>
         <a class="btn btn-secondary" href="{{ url_for('student_qr') }}">Mở trang QR</a>
     </div>
-</section>
+</div>
 
-<section class="grid grid-3">
+<div class="grid grid-3" style="margin-bottom:20px;">
     <article class="stat-card">
         <p class="stat-label">Số xe của tôi</p>
         <p class="stat-value">{{ my_vehicles_count }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Xe đang gửi</p>
-        <p class="stat-value">{{ vehicles_in_parking }}</p>
+        <p class="stat-value" style="color:var(--success);">{{ vehicles_in_parking }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Lượt gửi gần đây</p>
         <p class="stat-value">{{ recent_sessions_count }}</p>
     </article>
-</section>
+</div>
 
-<section class="grid grid-2">
+<div class="grid grid-2">
     <article class="section-card">
-        <h2 class="section-title">Lịch sử gần đây</h2>
+        <div class="section-head">
+            <h2 class="section-title">Lịch sử gần đây</h2>
+            <a class="btn btn-secondary btn-small" href="{{ url_for('self_history') }}">Xem tất cả</a>
+        </div>
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>Biển số</th>
-                        <th>Thời gian vào</th>
-                        <th>Thời gian ra</th>
+                        <th>Vào</th>
+                        <th>Ra</th>
                         <th>Phí</th>
                         <th>Trạng thái</th>
                     </tr>
@@ -50,14 +54,14 @@
                 <tbody>
                     {% for log in recent_logs %}
                     <tr>
-                        <td>{{ log[0] }}</td>
-                        <td>{{ log[1] or '-' }}</td>
-                        <td>{{ log[2] or '-' }}</td>
-                        <td>{{ "{:,.0f}".format(log[3] or 0) }} VND</td>
+                        <td><strong>{{ log[0] }}</strong></td>
+                        <td>{{ log[1] or '—' }}</td>
+                        <td>{{ log[2] or '—' }}</td>
+                        <td>{{ "{:,.0f}".format(log[3] or 0) }}<span style="font-size:11px;color:var(--text-secondary);"> VND</span></td>
                         <td><span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(log[4]) }}</span></td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="5" class="muted">Chưa có giao dịch.</td></tr>
+                    <tr><td colspan="5" class="muted" style="text-align:center;padding:16px;">Chưa có giao dịch.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -65,18 +69,29 @@
     </article>
 
     <article class="section-card">
-        <h2 class="section-title">Trạng thái xe hiện tại</h2>
+        <div class="section-head">
+            <h2 class="section-title">Xe đang trong bãi</h2>
+            <a class="btn btn-secondary btn-small" href="{{ url_for('student_qr') }}">Xem QR</a>
+        </div>
         {% if active_vehicles %}
-            {% for active_vehicle in active_vehicles %}
-            <div class="list-item">
-                <span><strong>{{ active_vehicle[0] }}</strong></span>
-                <span class="muted">Vào bãi lúc {{ active_vehicle[1] }}</span>
-                <span class="badge badge-success">ĐANG TRONG BÃI</span>
-            </div>
-            {% endfor %}
+            <ul class="list-plain">
+                {% for active_vehicle in active_vehicles %}
+                <li class="list-item">
+                    <div>
+                        <strong>{{ active_vehicle[0] }}</strong>
+                        <p style="font-size:12px;color:var(--text-secondary);margin-top:2px;">Vào bãi lúc {{ active_vehicle[1] }}</p>
+                    </div>
+                    <span class="badge badge-success">ĐANG TRONG BÃI</span>
+                </li>
+                {% endfor %}
+            </ul>
         {% else %}
-            <p class="muted">Bạn không có xe nào đang ở trong bãi.</p>
+            <div class="empty-state">
+                <div class="empty-state-icon">🅿</div>
+                <p>Bạn không có xe nào đang ở trong bãi.</p>
+                <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle') }}">Xem phương tiện</a>
+            </div>
         {% endif %}
     </article>
-</section>
+</div>
 {% endblock %}

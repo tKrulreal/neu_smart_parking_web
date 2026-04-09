@@ -1,26 +1,36 @@
 {% extends 'base.html' %}
 
 {% block title %}Quản lý người dùng - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Quản lý người dùng{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Quản lý người dùng</h1>
-        <p class="muted">Thêm, sửa, khóa và xóa tài khoản hệ thống.</p>
+        <p class="page-subtitle">Thêm, sửa, khóa và xóa tài khoản hệ thống.</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-3">
-    <article class="stat-card"><p class="stat-label">Tổng người dùng</p><p class="stat-value">{{ total_users }}</p></article>
-    <article class="stat-card"><p class="stat-label">Đang hoạt động</p><p class="stat-value">{{ active_users }}</p></article>
-    <article class="stat-card"><p class="stat-label">Bị khóa</p><p class="stat-value">{{ locked_users }}</p></article>
-</section>
+<div class="grid grid-3" style="margin-bottom:20px;">
+    <article class="stat-card">
+        <p class="stat-label">Tổng người dùng</p>
+        <p class="stat-value">{{ total_users }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Đang hoạt động</p>
+        <p class="stat-value" style="color:var(--success);">{{ active_users }}</p>
+    </article>
+    <article class="stat-card">
+        <p class="stat-label">Bị khóa</p>
+        <p class="stat-value" style="color:var(--danger);">{{ locked_users }}</p>
+    </article>
+</div>
 
-<section class="section-card">
+<article class="section-card" style="margin-bottom:16px;">
     <h2 class="section-title">{{ 'Cập nhật người dùng' if editing_user else 'Thêm người dùng mới' }}</h2>
     <form method="post" action="{{ url_for('update_user_route', user_id=editing_user.id) if editing_user else url_for('create_user_route') }}" class="form-grid admin-form-grid">
         <div class="form-group">
@@ -53,7 +63,7 @@
         </div>
         <div class="form-group">
             <label for="password">{{ 'Mật khẩu mới' if editing_user else 'Mật khẩu' }}</label>
-            <input id="password" name="password" type="password" {% if not editing_user %}required{% endif %}>
+            <input id="password" name="password" type="password" {% if not editing_user %}required{% endif %} placeholder="{% if editing_user %}Để trống nếu không đổi{% endif %}">
         </div>
         <div class="form-group checkbox-row">
             <label class="checkbox-label">
@@ -61,20 +71,20 @@
                 Kích hoạt tài khoản
             </label>
         </div>
-        <div class="button-row">
+        <div class="button-row" style="grid-column:1/-1;">
             <button class="btn btn-primary" type="submit">{{ 'Lưu cập nhật' if editing_user else 'Tạo người dùng' }}</button>
             {% if editing_user %}
             <a class="btn btn-secondary" href="{{ url_for('user_management') }}">Hủy sửa</a>
             {% endif %}
         </div>
     </form>
-</section>
+</article>
 
-<section class="section-card">
+<article class="section-card" style="margin-bottom:16px;">
     <form method="get" action="{{ url_for('user_management') }}" class="filter-bar">
         <div class="form-group">
             <label for="q">Tìm người dùng</label>
-            <input id="q" name="q" type="text" value="{{ q }}">
+            <input id="q" name="q" type="text" value="{{ q }}" placeholder="Tên, email, mã SV...">
         </div>
         <div class="form-group">
             <label for="role_filter">Vai trò</label>
@@ -85,11 +95,13 @@
                 <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Sinh viên</option>
             </select>
         </div>
-        <button class="btn btn-primary" type="submit">Lọc</button>
+        <div>
+            <button class="btn btn-primary" type="submit" style="width:100%;">Lọc</button>
+        </div>
     </form>
-</section>
+</article>
 
-<section class="section-card">
+<article class="section-card">
     <div class="table-wrapper">
         <table>
             <thead>
@@ -106,17 +118,17 @@
             <tbody>
                 {% for user in users %}
                 <tr>
-                    <td>{{ user.id }}</td>
+                    <td style="color:var(--text-secondary);">{{ user.id }}</td>
                     <td>
                         <strong>{{ user.full_name }}</strong><br>
-                        <small class="muted">{{ user.username }}</small>
+                        <small style="color:var(--text-secondary);">{{ user.username }}</small>
                     </td>
-                    <td>{{ user.student_code or '-' }}</td>
+                    <td>{{ user.student_code or '—' }}</td>
                     <td><span class="badge badge-secondary">{{ translate_role(user.role) }}</span></td>
-                    <td>{{ user.email or '-' }}</td>
+                    <td>{{ user.email or '—' }}</td>
                     <td>
                         {% if user.is_active %}
-                            <span class="badge badge-success">ĐANG HOẠT ĐỘNG</span>
+                            <span class="badge badge-success">HOẠT ĐỘNG</span>
                         {% else %}
                             <span class="badge badge-danger">BỊ KHÓA</span>
                         {% endif %}
@@ -133,11 +145,11 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" class="muted">Không có người dùng phù hợp.</td>
+                    <td colspan="7" class="muted" style="text-align:center;padding:24px;">Không có người dùng phù hợp.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</section>
+</article>
 {% endblock %}

@@ -1,34 +1,38 @@
 {% extends 'base.html' %}
 
 {% block title %}Quản trị - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Bảng điều khiển quản trị{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Bảng điều khiển quản trị</h1>
-        <p class="muted">Điều phối người dùng, phương tiện và giao dịch toàn hệ thống.</p>
+        <p class="page-subtitle">Điều phối người dùng, phương tiện và giao dịch toàn hệ thống.</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-3">
-    <article class="section-card">
+<div class="grid grid-3">
+    <article class="section-card" style="border-top:3px solid var(--primary);">
+        <div style="font-size:28px;margin-bottom:10px;">👥</div>
         <h3 class="section-title">Người dùng</h3>
-        <p class="muted">Thêm, sửa, khóa hoặc xóa tài khoản.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:14px;">Thêm, sửa, khóa hoặc xóa tài khoản.</p>
         <a class="btn btn-primary" href="{{ url_for('user_management') }}">Mở quản lý người dùng</a>
     </article>
-    <article class="section-card">
+    <article class="section-card" style="border-top:3px solid #0e9f6e;">
+        <div style="font-size:28px;margin-bottom:10px;">🏍</div>
         <h3 class="section-title">Phương tiện</h3>
-        <p class="muted">Quản lý danh sách xe trên toàn hệ thống.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:14px;">Quản lý danh sách xe trên toàn hệ thống.</p>
         <a class="btn btn-primary" href="{{ url_for('vehicles') }}">Mở quản lý phương tiện</a>
     </article>
-    <article class="section-card">
+    <article class="section-card" style="border-top:3px solid #d97706;">
+        <div style="font-size:28px;margin-bottom:10px;">📋</div>
         <h3 class="section-title">Lịch sử</h3>
-        <p class="muted">Theo dõi các giao dịch vào ra bãi xe.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:14px;">Theo dõi các giao dịch vào ra bãi xe.</p>
         <a class="btn btn-primary" href="{{ url_for('history') }}">Mở lịch sử</a>
     </article>
-</section>
+</div>
 {% endblock %}

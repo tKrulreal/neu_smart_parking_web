@@ -2,33 +2,43 @@
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 780px;
-    background: #fff;
+    min-width: 700px;
+    background: var(--surface);
 }
 
 thead th {
-    background: #f8fafc;
-    color: #334155;
+    background: #f7f9fc;
+    color: #475569;
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .02em;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 
 th,
 td {
-    padding: 10px 12px;
+    padding: 11px 14px;
     border-bottom: 1px solid var(--border);
-    vertical-align: top;
-    font-size: 14px;
+    vertical-align: middle;
+    font-size: 13.5px;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 tbody tr:hover {
-    background: #f9fbff;
+    background: #f8faff;
+}
+
+td.muted {
+    font-style: italic;
 }

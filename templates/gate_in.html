@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}Cổng vào - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Cổng vào{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
-        <h1 class="page-title">Cổng vào - {{ gate_name }}</h1>
-        <p class="muted">{{ current_date }} {{ current_time }} | Trạng thái: {{ status }}</p>
+        <h1 class="page-title">Cổng vào — {{ gate_name }}</h1>
+        <p class="page-subtitle">{{ current_date }} {{ current_time }} &nbsp;|&nbsp; Trạng thái: {{ status }}</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-2">
+<div class="grid grid-2" style="margin-bottom:20px;">
     <article class="section-card">
         <h2 class="section-title">Tải ảnh xe vào cổng</h2>
         <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_in') }}" class="form-grid">
@@ -24,7 +25,10 @@
                 <label for="vehicle_image">Ảnh xe vào cổng</label>
                 <input id="vehicle_image" type="file" name="vehicle_image" accept="image/*" required>
             </div>
-            <button class="btn btn-primary" type="submit">Nhận diện biển số</button>
+            <button class="btn btn-primary" type="submit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Nhận diện biển số
+            </button>
         </form>
         {% if uploaded_preview %}
         <div class="preview-box">
@@ -38,48 +42,71 @@
         {% if error_message %}
         <div class="alert alert-danger">{{ error_message }}</div>
         {% endif %}
-        <p><strong>Biển số:</strong> {{ ocr.plate or '-' }}</p>
-        <p><strong>Độ tin cậy:</strong> {{ (ocr.confidence ~ '%') if ocr.confidence else '-' }}</p>
-        <p><strong>Chủ xe:</strong> {{ owner.owner_name if owner else '-' }}</p>
-        <p><strong>Mã sinh viên:</strong> {{ owner.student_code if owner else '-' }}</p>
-        <p><strong>Loại xe:</strong> {{ translate_vehicle_type(owner.vehicle_type) if owner else '-' }}</p>
-        <p><strong>Trạng thái hệ thống:</strong>
-            {% if system_status == 'READY_TO_ENTER' %}
-                <span class="badge badge-success">SẴN SÀNG VÀO BÃI</span>
-            {% elif system_status == 'ENTRY_CONFIRMED' %}
-                <span class="badge badge-success">ĐÃ XÁC NHẬN VÀO</span>
-            {% elif system_status == 'ALREADY_IN_PARKING' %}
-                <span class="badge badge-warning">XE ĐANG Ở TRONG BÃI</span>
-            {% elif system_status == 'PENDING_APPROVAL' %}
-                <span class="badge badge-warning">XE CHƯA ĐƯỢC PHÊ DUYỆT</span>
-            {% elif system_status == 'UNKNOWN_VEHICLE' %}
-                <span class="badge badge-danger">KHÔNG TÌM THẤY XE</span>
-            {% elif system_status == 'UNREADABLE' %}
-                <span class="badge badge-danger">KHÔNG ĐỌC ĐƯỢC BIỂN SỐ</span>
-            {% else %}
-                <span class="badge badge-secondary">CHỜ QUÉT</span>
-            {% endif %}
-        </p>
+
+        <div style="display:grid;gap:8px;margin-bottom:16px;">
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Biển số</span>
+                <span style="font-weight:700;color:var(--text);">{{ ocr.plate or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Độ tin cậy</span>
+                <span>{{ (ocr.confidence ~ '%') if ocr.confidence else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Chủ xe</span>
+                <span>{{ owner.owner_name if owner else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Mã sinh viên</span>
+                <span>{{ owner.student_code if owner else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Loại xe</span>
+                <span>{{ translate_vehicle_type(owner.vehicle_type) if owner else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:120px;flex-shrink:0;">Trạng thái</span>
+                <span>
+                    {% if system_status == 'READY_TO_ENTER' %}
+                        <span class="badge badge-success">SẴN SÀNG VÀO BÃI</span>
+                    {% elif system_status == 'ENTRY_CONFIRMED' %}
+                        <span class="badge badge-success">ĐÃ XÁC NHẬN VÀO</span>
+                    {% elif system_status == 'ALREADY_IN_PARKING' %}
+                        <span class="badge badge-warning">XE ĐANG Ở TRONG BÃI</span>
+                    {% elif system_status == 'PENDING_APPROVAL' %}
+                        <span class="badge badge-warning">XE CHƯA ĐƯỢC PHÊ DUYỆT</span>
+                    {% elif system_status == 'UNKNOWN_VEHICLE' %}
+                        <span class="badge badge-danger">KHÔNG TÌM THẤY XE</span>
+                    {% elif system_status == 'UNREADABLE' %}
+                        <span class="badge badge-danger">KHÔNG ĐỌC ĐƯỢC BIỂN SỐ</span>
+                    {% else %}
+                        <span class="badge badge-secondary">CHỜ QUÉT</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
         {% if system_status == 'READY_TO_ENTER' and ocr.plate %}
-        <form method="post" action="{{ url_for('gate_in') }}" class="button-row">
+        <form method="post" action="{{ url_for('gate_in') }}">
             <input type="hidden" name="action" value="confirm_entry">
             <input type="hidden" name="gate_name" value="{{ gate_name }}">
             <input type="hidden" name="plate" value="{{ ocr.plate }}">
-            <button class="btn btn-primary" type="submit">Xác nhận xe vào bãi</button>
+            <button class="btn btn-primary" type="submit">✓ Xác nhận xe vào bãi</button>
         </form>
         {% endif %}
+
         {% if issued_qr %}
         <div class="preview-box">
-            <p><strong>QR vừa được cấp:</strong></p>
+            <p style="font-weight:600;margin-bottom:8px;">QR vừa được cấp:</p>
             <img src="{{ url_for('static', filename=issued_qr.qr_image_path) }}" alt="Entry QR" class="qr-image">
-            <p class="muted">QR này được tạo khi xe vào bãi và sẽ được dùng khi xe ra cổng.</p>
-            <p><strong>Mã QR:</strong> {{ issued_qr.qr_payload }}</p>
+            <p class="muted" style="font-size:12px;margin-top:8px;">QR này được tạo khi xe vào bãi và sẽ được dùng khi xe ra cổng.</p>
+            <p style="font-size:12px;margin-top:4px;"><strong>Mã QR:</strong> {{ issued_qr.qr_payload }}</p>
         </div>
         {% endif %}
     </article>
-</section>
+</div>
 
-<section class="section-card">
+<article class="section-card">
     <h2 class="section-title">Lượt vào gần đây</h2>
     <div class="table-wrapper">
         <table>
@@ -94,7 +121,7 @@
             <tbody>
                 {% for log in logs %}
                 <tr>
-                    <td>{{ log.plate }}</td>
+                    <td><strong>{{ log.plate }}</strong></td>
                     <td>{{ log.student_code }}</td>
                     <td>{{ log.time_in }}</td>
                     <td><span class="badge badge-secondary">{{ translate_status(log.status) }}</span></td>
@@ -107,5 +134,5 @@
             </tbody>
         </table>
     </div>
-</section>
+</article>
 {% endblock %}

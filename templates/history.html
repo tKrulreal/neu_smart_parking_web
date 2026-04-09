@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
 
 {% block title %}Lịch sử - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Lịch sử gửi xe{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Lịch sử gửi xe</h1>
-        <p class="muted">Tra cứu giao dịch vào ra theo ngày, biển số và trạng thái.</p>
+        <p class="page-subtitle">Tra cứu giao dịch vào ra theo ngày, biển số và trạng thái.</p>
     </div>
     <div class="button-row">
-        <a class="btn btn-secondary" href="{{ url_for('export_csv', plate=plate_filter, status=status_filter, date=date_filter) }}">Xuất CSV</a>
-        <a class="btn btn-primary" href="{{ url_for('export_excel', plate=plate_filter, status=status_filter, date=date_filter) }}">Xuất Excel</a>
+        <a class="btn btn-secondary" href="{{ url_for('export_csv', plate=plate_filter, status=status_filter, date=date_filter) }}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Xuất CSV
+        </a>
+        <a class="btn btn-primary" href="{{ url_for('export_excel', plate=plate_filter, status=status_filter, date=date_filter) }}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Xuất Excel
+        </a>
     </div>
-</section>
+</div>
 
-<section class="grid grid-3">
+<div class="grid grid-3" style="margin-bottom:20px;">
     <article class="stat-card">
         <p class="stat-label">Tổng doanh thu</p>
-        <p class="stat-value">{{ "{:,.0f}".format(total_revenue) }} VND</p>
+        <p class="stat-value" style="font-size:22px;">{{ "{:,.0f}".format(total_revenue) }}<span style="font-size:12px;font-weight:500;color:var(--text-secondary);"> VND</span></p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Số lượt hôm nay</p>
@@ -31,13 +38,13 @@
         <p class="stat-label">Xe trong bãi</p>
         <p class="stat-value">{{ occupancy }}</p>
     </article>
-</section>
+</div>
 
-<section class="section-card">
+<article class="section-card" style="margin-bottom:16px;">
     <form method="get" action="{{ url_for('history') }}" class="filter-bar">
         <div class="form-group">
             <label for="plate">Biển số</label>
-            <input id="plate" type="text" name="plate" value="{{ plate_filter }}">
+            <input id="plate" type="text" name="plate" value="{{ plate_filter }}" placeholder="Tìm biển số...">
         </div>
         <div class="form-group">
             <label for="date">Ngày</label>
@@ -51,11 +58,13 @@
                 <option value="COMPLETED" {% if status_filter == 'COMPLETED' %}selected{% endif %}>Đã hoàn tất</option>
             </select>
         </div>
-        <button class="btn btn-primary" type="submit">Lọc</button>
+        <div>
+            <button class="btn btn-primary" type="submit" style="width:100%;">Lọc</button>
+        </div>
     </form>
-</section>
+</article>
 
-<section class="section-card">
+<article class="section-card">
     <div class="table-wrapper">
         <table>
             <thead>
@@ -74,23 +83,23 @@
             <tbody>
                 {% for item in history %}
                 <tr>
-                    <td>#{{ item.id }}</td>
-                    <td>{{ item.plate }}</td>
+                    <td style="color:var(--text-secondary);">#{{ item.id }}</td>
+                    <td><strong>{{ item.plate }}</strong></td>
                     <td>{{ item.student_code }}</td>
-                    <td>{{ item.time_in or '-' }}</td>
-                    <td>{{ item.time_out or '-' }}</td>
-                    <td>{{ item.gate_in or '-' }} / {{ item.gate_out or '-' }}</td>
-                    <td>{{ "{:,.0f}".format(item.fee or 0) }} VND</td>
+                    <td>{{ item.time_in or '—' }}</td>
+                    <td>{{ item.time_out or '—' }}</td>
+                    <td>{{ item.gate_in or '—' }} / {{ item.gate_out or '—' }}</td>
+                    <td style="font-weight:600;">{{ "{:,.0f}".format(item.fee or 0) }}<span style="font-size:11px;color:var(--text-secondary);"> VND</span></td>
                     <td><span class="badge {% if item.status == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(item.status) }}</span></td>
-                    <td>{{ item.note or '-' }}</td>
+                    <td style="color:var(--text-secondary);">{{ item.note or '—' }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="9" class="muted">Không có bản ghi phù hợp.</td>
+                    <td colspan="9" class="muted" style="text-align:center;padding:24px;">Không có bản ghi phù hợp.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</section>
+</article>
 {% endblock %}

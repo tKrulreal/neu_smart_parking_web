@@ -1,36 +1,45 @@
 {% extends 'base.html' %}
 
 {% block title %}Trang chủ - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Trang chủ{% endblock %}
 
 {% block content %}
-<section class="section-card hero">
-    <div>
-        <p class="page-title">NEU Smart Parking</p>
-        <p class="muted">Nền tảng quản lý bãi đỗ xe thông minh dành cho sinh viên, bảo vệ và quản trị viên.</p>
+<div class="hero" style="margin-bottom:24px;">
+    <div style="position:relative;z-index:1;">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);margin-bottom:8px;">NEU Smart Parking</p>
+        <h1 class="page-title" style="font-size:28px;margin-bottom:10px;color:#fff;">Hệ thống Đỗ xe Thông minh NEU</h1>
+        <p style="color:rgba(255,255,255,0.8);max-width:520px;margin-bottom:22px;font-size:14px;">Nền tảng quản lý bãi đỗ xe hiện đại dành cho sinh viên, bảo vệ và quản trị viên. Tự động hóa hoàn toàn với công nghệ nhận diện biển số và xác thực QR.</p>
+        <div class="button-row">
+            {% if current_user %}
+                <a class="btn btn-primary" style="background:#fff;color:var(--primary);border-color:#fff;" href="{{ url_for('dashboard') if current_user.role in ['admin', 'guard'] else url_for('self_dashboard') }}">Vào trang chính →</a>
+            {% else %}
+                <a class="btn btn-primary" style="background:#fff;color:var(--primary);border-color:#fff;" href="{{ url_for('login') }}">Đăng nhập</a>
+                <a class="btn btn-secondary" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.4);" href="{{ url_for('register') }}">Đăng ký ngay</a>
+            {% endif %}
+        </div>
     </div>
-    <div class="button-row">
-        {% if current_user %}
-            <a class="btn btn-primary" href="{{ url_for('dashboard') if current_user.role in ['admin', 'guard'] else url_for('self_dashboard') }}">Vào trang chính</a>
-            <a class="btn btn-secondary" href="{{ url_for('logout') }}">Đăng xuất</a>
-        {% else %}
-            <a class="btn btn-primary" href="{{ url_for('login') }}">Đăng nhập</a>
-            <a class="btn btn-secondary" href="{{ url_for('register') }}">Đăng ký</a>
-        {% endif %}
-    </div>
-</section>
+</div>
 
-<section class="grid grid-3">
-    <article class="section-card">
+<div style="margin-bottom:8px;">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);margin-bottom:6px;">Tính năng cốt lõi</p>
+    <h2 style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:18px;">Nền tảng Quản lý Thông minh</h2>
+</div>
+
+<div class="grid grid-3">
+    <article class="section-card" style="border-top:3px solid var(--primary);">
+        <div style="width:40px;height:40px;background:var(--primary-muted);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;">🚗</div>
         <h3 class="section-title">Nhận diện biển số</h3>
-        <p class="muted">Cổng vào và cổng ra nhận diện biển số, đối chiếu trực tiếp với cơ sở dữ liệu.</p>
+        <p class="muted" style="font-size:13px;">Cổng vào và cổng ra nhận diện biển số, đối chiếu trực tiếp với cơ sở dữ liệu trong thời gian thực.</p>
     </article>
-    <article class="section-card">
+    <article class="section-card" style="border-top:3px solid #0e9f6e;">
+        <div style="width:40px;height:40px;background:#def7ec;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;">📱</div>
         <h3 class="section-title">Xác thực QR</h3>
-        <p class="muted">Mã QR được cấp theo phiên gửi xe để xác thực lúc xe ra cổng nhanh và an toàn.</p>
+        <p class="muted" style="font-size:13px;">Mã QR được cấp theo phiên gửi xe để xác thực lúc xe ra cổng nhanh chóng và an toàn.</p>
     </article>
-    <article class="section-card">
+    <article class="section-card" style="border-top:3px solid #d97706;">
+        <div style="width:40px;height:40px;background:#fef3c7;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;">📊</div>
         <h3 class="section-title">Thống kê thời gian thực</h3>
-        <p class="muted">Trang tổng quan cập nhật số lượt vào ra, công suất bãi xe và doanh thu.</p>
+        <p class="muted" style="font-size:13px;">Trang tổng quan cập nhật số lượt vào ra, công suất bãi xe và doanh thu theo thời gian thực.</p>
     </article>
-</section>
+</div>
 {% endblock %}

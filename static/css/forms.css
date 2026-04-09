@@ -1,6 +1,7 @@
+/* ===== FORM GRID ===== */
 .form-grid {
     display: grid;
-    gap: 12px;
+    gap: 14px;
 }
 
 .form-grid > *,
@@ -8,51 +9,82 @@
     min-width: 0;
 }
 
+/* ===== FORM GROUP ===== */
 .form-group {
     display: grid;
-    gap: 6px;
+    gap: 5px;
 }
 
 label {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
+    color: var(--text);
 }
 
+/* ===== INPUTS ===== */
 input,
 select,
 textarea {
-    border: 1px solid #cbd5e1;
+    border: 1px solid #d1d9e6;
     border-radius: 8px;
-    padding: 10px 12px;
-    background: #fff;
-    font-size: 14px;
+    padding: 9px 12px;
+    background: var(--surface);
+    font-size: 13.5px;
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
 }
 
 input[type="file"] {
     overflow: hidden;
+    padding: 8px 12px;
+    background: var(--bg);
+    cursor: pointer;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: #93c5fd;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(37,84,199,0.12);
 }
 
+input::placeholder,
+textarea::placeholder {
+    color: #a0aec0;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 36px;
+}
+
+/* ===== FILTER BAR ===== */
 .filter-bar {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 10px;
     align-items: end;
 }
 
+/* ===== CHECKBOX ===== */
 .checkbox-row {
     display: flex;
     align-items: center;
+    min-height: 38px;
 }
 
 .checkbox-label {
@@ -60,9 +92,90 @@ textarea:focus {
     align-items: center;
     gap: 8px;
     font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .checkbox-label input[type="checkbox"] {
-    width: auto;
+    width: 16px;
+    height: 16px;
     margin: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    accent-color: var(--primary);
+}
+
+/* ===== FORM HINT ===== */
+.form-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* ===== AUTH FORMS ===== */
+.auth-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8edf8 100%);
+    padding: 24px;
+}
+
+.auth-panel {
+    width: min(460px, 100%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 8px 40px rgba(26,60,143,0.12);
+}
+
+.auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.auth-logo-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+}
+
+.auth-logo-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.auth-panel .page-title {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.auth-panel .muted {
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.auth-footer {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .auth-panel {
+        padding: 24px 18px;
+    }
 }

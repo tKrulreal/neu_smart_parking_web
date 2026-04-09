@@ -1,62 +1,71 @@
 {% extends 'base.html' %}
 
 {% block title %}Phương tiện của tôi - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Phương tiện của tôi{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Phương tiện của tôi</h1>
-        <p class="muted">Quản lý xe đã đăng ký bởi tài khoản hiện tại.</p>
+        <p class="page-subtitle">Quản lý xe đã đăng ký bởi tài khoản hiện tại.</p>
     </div>
-    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Thêm phương tiện</a>
-</section>
+    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">+ Thêm phương tiện</a>
+</div>
 
-<section class="grid grid-2">
+<div class="grid grid-2" style="margin-bottom:20px;">
     <article class="stat-card">
         <p class="stat-label">Tổng xe đã đăng ký</p>
         <p class="stat-value">{{ total_vehicle }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Xe đang trong bãi</p>
-        <p class="stat-value">{{ in_parking }}</p>
+        <p class="stat-value" style="color:var(--success);">{{ in_parking }}</p>
     </article>
-</section>
+</div>
 
 {% if main_vehicle %}
-<section class="section-card">
-    <h2 class="section-title">Xe chính</h2>
-    <p><strong>Biển số:</strong> {{ main_vehicle.plate }}</p>
-    <p><strong>Loại:</strong> {{ translate_vehicle_type(main_vehicle.vehicle_type) }} | <strong>Hãng xe:</strong> {{ main_vehicle.brand or '-' }} | <strong>Màu xe:</strong> {{ main_vehicle.color or '-' }}</p>
-    {% set key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
-    <p>
-        <strong>Trạng thái:</strong>
-        {% if active_map.get(key) %}
-            <span class="badge badge-success">ĐANG TRONG BÃI</span>
-        {% elif not main_vehicle.is_active %}
-            <span class="badge badge-warning">CHỜ DUYỆT</span>
-        {% else %}
-            <span class="badge badge-secondary">SẴN SÀNG</span>
-        {% endif %}
-    </p>
-</section>
+<article class="section-card" style="margin-bottom:16px;border-left:4px solid var(--primary);">
+    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:0;">
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:4px;">Xe chính</p>
+            <h2 style="font-size:20px;font-weight:700;margin-bottom:6px;">{{ main_vehicle.plate }}</h2>
+            <p style="color:var(--text-secondary);font-size:13px;">{{ translate_vehicle_type(main_vehicle.vehicle_type) }}
+                {% if main_vehicle.brand %} &bull; {{ main_vehicle.brand }}{% endif %}
+                {% if main_vehicle.color %} &bull; {{ main_vehicle.color }}{% endif %}
+            </p>
+        </div>
+        <div>
+            {% set key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+            {% if active_map.get(key) %}
+                <span class="badge badge-success">ĐANG TRONG BÃI</span>
+            {% elif not main_vehicle.is_active %}
+                <span class="badge badge-warning">CHỜ DUYỆT</span>
+            {% else %}
+                <span class="badge badge-secondary">SẴN SÀNG</span>
+            {% endif %}
+        </div>
+    </div>
+</article>
 {% endif %}
 
-<section class="section-card">
+<article class="section-card">
     <h2 class="section-title">Danh sách xe</h2>
     <div class="grid grid-2">
         {% for vehicle in vehicles %}
         {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
-        <article class="section-card nested">
-            <p><strong>{{ vehicle.plate }}</strong></p>
-            <p class="muted">{{ translate_vehicle_type(vehicle.vehicle_type) }} - {{ vehicle.brand or '-' }} - {{ vehicle.color or '-' }}</p>
-            {% if vehicle.image_path %}
-                <img src="{{ url_for('static', filename=vehicle.image_path) }}" alt="{{ vehicle.plate }}" class="preview-image">
-            {% endif %}
-            <p>
+        <article class="section-card nested" style="border:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">
+                <div>
+                    <p style="font-weight:700;font-size:16px;margin-bottom:2px;">{{ vehicle.plate }}</p>
+                    <p style="font-size:12px;color:var(--text-secondary);">{{ translate_vehicle_type(vehicle.vehicle_type) }}
+                        {% if vehicle.brand %} &bull; {{ vehicle.brand }}{% endif %}
+                        {% if vehicle.color %} &bull; {{ vehicle.color }}{% endif %}
+                    </p>
+                </div>
                 {% if active_map.get(key) %}
                     <span class="badge badge-success">ĐANG GỬI</span>
                 {% elif not vehicle.is_active %}
@@ -64,14 +73,18 @@
                 {% else %}
                     <span class="badge badge-secondary">SẴN SÀNG</span>
                 {% endif %}
-            </p>
+            </div>
+            {% if vehicle.image_path %}
+                <img src="{{ url_for('static', filename=vehicle.image_path) }}" alt="{{ vehicle.plate }}" class="preview-image" style="max-height:160px;object-fit:cover;width:100%;margin-top:8px;">
+            {% endif %}
         </article>
         {% else %}
-        <article class="section-card nested empty-state grid-full">
-            <p class="muted">Bạn chưa đăng ký xe nào.</p>
+        <article class="section-card nested grid-full" style="text-align:center;padding:32px 20px;">
+            <div style="font-size:32px;margin-bottom:10px;">🏍</div>
+            <p class="muted" style="margin-bottom:12px;">Bạn chưa đăng ký xe nào.</p>
             <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
         </article>
         {% endfor %}
     </div>
-</section>
+</article>
 {% endblock %}

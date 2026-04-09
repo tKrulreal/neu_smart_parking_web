@@ -1,31 +1,32 @@
 {% extends 'base.html' %}
 
 {% block title %}Lịch sử của tôi - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Lịch sử của tôi{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Lịch sử của tôi</h1>
-        <p class="muted">Theo dõi toàn bộ phiên gửi xe của tài khoản hiện tại.</p>
+        <p class="page-subtitle">Theo dõi toàn bộ phiên gửi xe của tài khoản hiện tại.</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-2">
+<div class="grid grid-2" style="margin-bottom:20px;">
     <article class="stat-card">
         <p class="stat-label">Tổng số phiên</p>
         <p class="stat-value">{{ total_sessions }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Tổng chi phí</p>
-        <p class="stat-value">{{ "{:,.0f}".format(total_spent) }} VND</p>
+        <p class="stat-value" style="font-size:22px;">{{ "{:,.0f}".format(total_spent) }}<span style="font-size:12px;font-weight:500;color:var(--text-secondary);"> VND</span></p>
     </article>
-</section>
+</div>
 
-<section class="section-card">
+<article class="section-card" style="margin-bottom:16px;">
     <form method="get" action="{{ url_for('self_history') }}" class="filter-bar">
         <div class="form-group">
             <label for="date_from">Từ ngày</label>
@@ -35,11 +36,13 @@
             <label for="date_to">Đến ngày</label>
             <input id="date_to" type="date" name="date_to" value="{{ date_to }}">
         </div>
-        <button class="btn btn-primary" type="submit">Lọc</button>
+        <div>
+            <button class="btn btn-primary" type="submit" style="width:100%;">Lọc</button>
+        </div>
     </form>
-</section>
+</article>
 
-<section class="section-card">
+<article class="section-card">
     <div class="table-wrapper">
         <table>
             <thead>
@@ -55,18 +58,18 @@
             <tbody>
                 {% for row in histories %}
                 <tr>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] or '-' }}</td>
-                    <td>{{ row[2] or '-' }}</td>
-                    <td>{{ row[5] or '-' }} / {{ row[6] or '-' }}</td>
-                    <td>{{ "{:,.0f}".format(row[3] or 0) }} VND</td>
+                    <td><strong>{{ row[0] }}</strong></td>
+                    <td>{{ row[1] or '—' }}</td>
+                    <td>{{ row[2] or '—' }}</td>
+                    <td>{{ row[5] or '—' }} / {{ row[6] or '—' }}</td>
+                    <td style="font-weight:600;">{{ "{:,.0f}".format(row[3] or 0) }}<span style="font-size:11px;color:var(--text-secondary);"> VND</span></td>
                     <td><span class="badge {% if row[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(row[4]) }}</span></td>
                 </tr>
                 {% else %}
-                <tr><td colspan="6" class="muted">Chưa có lịch sử.</td></tr>
+                <tr><td colspan="6" class="muted" style="text-align:center;padding:24px;">Chưa có lịch sử.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-</section>
+</article>
 {% endblock %}

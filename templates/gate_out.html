@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}Cổng ra - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Cổng ra{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/parking.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Cổng ra</h1>
-        <p class="muted">Thời gian hệ thống: {{ current_time }}</p>
+        <p class="page-subtitle">Thời gian hệ thống: {{ current_time }}</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-2">
+<div class="grid grid-2" style="margin-bottom:20px;">
     <article class="section-card">
         <h2 class="section-title">Tải dữ liệu đối chiếu</h2>
         <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_out') }}" class="form-grid">
@@ -28,15 +29,24 @@
                 <label for="qr_image">Ảnh QR</label>
                 <input id="qr_image" type="file" name="qr_image" accept="image/*" required>
             </div>
-            <button class="btn btn-primary" type="submit">Kiểm tra xe ra cổng</button>
+            <button class="btn btn-primary" type="submit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Kiểm tra xe ra cổng
+            </button>
         </form>
         {% if plate_preview or qr_preview %}
         <div class="preview-grid">
             {% if plate_preview %}
-            <img src="{{ plate_preview }}" alt="Ảnh biển số" class="preview-image">
+            <div>
+                <p style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">Ảnh biển số</p>
+                <img src="{{ plate_preview }}" alt="Ảnh biển số" class="preview-image">
+            </div>
             {% endif %}
             {% if qr_preview %}
-            <img src="{{ qr_preview }}" alt="Ảnh QR" class="preview-image">
+            <div>
+                <p style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;">Ảnh QR</p>
+                <img src="{{ qr_preview }}" alt="Ảnh QR" class="preview-image">
+            </div>
             {% endif %}
         </div>
         {% endif %}
@@ -47,36 +57,69 @@
         {% if error_message %}
         <div class="alert alert-danger">{{ error_message }}</div>
         {% endif %}
-        <p><strong>Biển số:</strong> {{ plate or '-' }}</p>
-        <p><strong>Dữ liệu QR:</strong> {{ qr_payload or '-' }}</p>
-        <p><strong>Mã sinh viên:</strong> {{ student_id or '-' }}</p>
-        <p><strong>Chủ xe:</strong> {{ student_name or '-' }}</p>
-        <p><strong>Loại xe:</strong> {{ translate_vehicle_type(vehicle.vehicle_type) if vehicle else '-' }}</p>
-        <p><strong>Thời gian vào:</strong> {{ entry_time or '-' }}</p>
-        <p><strong>Phí:</strong> {{ "{:,.0f}".format(fee) }} VND</p>
-        <p><strong>Thời lượng:</strong> {{ duration or '-' }}</p>
-        <p><strong>Gói phí:</strong> {{ rate }}</p>
-        <p>
-            <strong>Quyết định:</strong>
-            {% if decision_status == 'EXIT_CONFIRMED' %}
-                <span class="badge badge-success">ĐÃ XÁC NHẬN RA</span>
-            {% elif can_confirm_exit %}
-                <span class="badge badge-success">SẴN SÀNG CHO RA</span>
-            {% elif decision_status %}
-                <span class="badge badge-danger">{{ translate_status(decision_status) }}</span>
-            {% else %}
-                <span class="badge badge-secondary">CHỜ ĐỐI CHIẾU</span>
-            {% endif %}
-        </p>
+
+        <div style="display:grid;gap:9px;margin-bottom:16px;">
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Biển số</span>
+                <span style="font-weight:700;">{{ plate or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Dữ liệu QR</span>
+                <span style="word-break:break-all;font-size:13px;">{{ qr_payload or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Mã sinh viên</span>
+                <span>{{ student_id or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Chủ xe</span>
+                <span>{{ student_name or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Loại xe</span>
+                <span>{{ translate_vehicle_type(vehicle.vehicle_type) if vehicle else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Thời gian vào</span>
+                <span>{{ entry_time or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Thời lượng</span>
+                <span>{{ duration or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Gói phí</span>
+                <span>{{ rate }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Phí</span>
+                <span style="font-size:18px;font-weight:700;color:var(--primary);">{{ "{:,.0f}".format(fee) }} <span style="font-size:13px;font-weight:500;color:var(--text-secondary);">VND</span></span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12px;font-weight:600;color:var(--text-secondary);width:130px;flex-shrink:0;">Quyết định</span>
+                <span>
+                    {% if decision_status == 'EXIT_CONFIRMED' %}
+                        <span class="badge badge-success">ĐÃ XÁC NHẬN RA</span>
+                    {% elif can_confirm_exit %}
+                        <span class="badge badge-success">SẴN SÀNG CHO RA</span>
+                    {% elif decision_status %}
+                        <span class="badge badge-danger">{{ translate_status(decision_status) }}</span>
+                    {% else %}
+                        <span class="badge badge-secondary">CHỜ ĐỐI CHIẾU</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
         {% if can_confirm_exit and plate %}
-        <form method="post" action="{{ url_for('gate_out') }}" class="button-row">
+        <form method="post" action="{{ url_for('gate_out') }}">
             <input type="hidden" name="action" value="confirm_exit">
             <input type="hidden" name="gate_name" value="Cổng 1">
             <input type="hidden" name="plate" value="{{ plate }}">
             <input type="hidden" name="qr_payload" value="{{ qr_payload or '' }}">
-            <button class="btn btn-primary" type="submit">Xác nhận và cho xe ra</button>
+            <button class="btn btn-primary" type="submit">✓ Xác nhận và cho xe ra</button>
         </form>
         {% endif %}
     </article>
-</section>
+</div>
 {% endblock %}

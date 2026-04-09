@@ -1,69 +1,88 @@
 {% extends 'base.html' %}
 
 {% block title %}Mã QR của tôi - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Mã QR của tôi{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
 {% endblock %}
 
 {% block content %}
-<section class="page-header">
+<div class="page-header">
     <div>
         <h1 class="page-title">Mã QR của tôi</h1>
-        <p class="muted">Mỗi xe đang gửi trong bãi sẽ có một mã QR riêng để đối chiếu khi xe ra cổng.</p>
+        <p class="page-subtitle">Mỗi xe đang gửi trong bãi sẽ có một mã QR riêng để đối chiếu khi xe ra cổng.</p>
     </div>
-</section>
+</div>
 
-<section class="grid grid-3">
+<div class="grid grid-3" style="margin-bottom:20px;">
     <article class="stat-card">
         <p class="stat-label">Họ và tên</p>
-        <p class="stat-value">{{ user.full_name }}</p>
+        <p class="stat-value" style="font-size:17px;font-weight:700;">{{ user.full_name }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Mã sinh viên</p>
-        <p class="stat-value">{{ user.student_code or user.id }}</p>
+        <p class="stat-value" style="font-size:20px;">{{ user.student_code or user.id }}</p>
     </article>
     <article class="stat-card">
         <p class="stat-label">Xe đang gửi</p>
-        <p class="stat-value">{{ active_sessions_count }}</p>
+        <p class="stat-value" style="color:var(--success);">{{ active_sessions_count }}</p>
     </article>
-</section>
+</div>
 
 {% if qr_sessions %}
-<section class="qr-session-grid">
+<div class="qr-session-grid">
     {% for item in qr_sessions %}
     <article class="section-card qr-session-card">
         <div class="section-head">
-            <h2 class="section-title">Xe {{ item.plate }}</h2>
+            <h2 class="section-title" style="margin-bottom:0;">Xe {{ item.plate }}</h2>
             <form method="post" action="{{ url_for('student_qr') }}">
                 <input type="hidden" name="session_id" value="{{ item.session_id }}">
-                <button class="btn btn-secondary" type="submit">Cấp lại QR</button>
+                <button class="btn btn-secondary btn-small" type="submit">↺ Cấp lại QR</button>
             </form>
         </div>
 
-        <p><strong>Biển số:</strong> {{ item.plate }}</p>
-        <p><strong>Loại xe:</strong> {{ translate_vehicle_type(item.vehicle.vehicle_type) if item.vehicle else '-' }}</p>
-        <p><strong>Thời gian vào:</strong> {{ item.time_in }}</p>
-        <p><strong>Cổng vào:</strong> {{ item.gate_in or '-' }}</p>
-        <p><strong>Trạng thái:</strong> <span class="badge badge-success">ĐANG GỬI XE</span></p>
+        <div style="display:grid;gap:6px;font-size:13px;">
+            <div style="display:flex;gap:8px;">
+                <span style="color:var(--text-secondary);width:110px;flex-shrink:0;">Biển số</span>
+                <strong>{{ item.plate }}</strong>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <span style="color:var(--text-secondary);width:110px;flex-shrink:0;">Loại xe</span>
+                <span>{{ translate_vehicle_type(item.vehicle.vehicle_type) if item.vehicle else '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <span style="color:var(--text-secondary);width:110px;flex-shrink:0;">Thời gian vào</span>
+                <span>{{ item.time_in }}</span>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <span style="color:var(--text-secondary);width:110px;flex-shrink:0;">Cổng vào</span>
+                <span>{{ item.gate_in or '—' }}</span>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <span style="color:var(--text-secondary);width:110px;flex-shrink:0;">Trạng thái</span>
+                <span class="badge badge-success">ĐANG GỬI XE</span>
+            </div>
+        </div>
 
         {% if item.ticket %}
-        <div class="qr-panel">
-            <img src="{{ url_for('static', filename=item.qr_image_path) }}" alt="QR {{ item.plate }}" class="qr-image">
+        <div class="qr-panel" style="background:var(--bg);border-radius:10px;padding:16px;margin-top:4px;">
+            <img src="{{ url_for('static', filename=item.qr_image_path) }}" alt="QR {{ item.plate }}" class="qr-image" style="margin:0 auto;">
+            <p style="font-size:11px;margin-top:10px;color:var(--text-secondary);word-break:break-all;"><strong>Mã QR:</strong> {{ item.ticket.qr_payload }}</p>
         </div>
-        <p><strong>Mã QR:</strong> {{ item.ticket.qr_payload }}</p>
-        <p class="muted">QR này chỉ hợp lệ cho đúng xe {{ item.plate }} và đúng phiên gửi xe hiện tại.</p>
+        <p style="font-size:12px;color:var(--text-secondary);">QR này chỉ hợp lệ cho đúng xe <strong>{{ item.plate }}</strong> và đúng phiên gửi xe hiện tại.</p>
         {% else %}
         <div class="alert alert-danger">Chưa tạo được QR cho xe này. Vui lòng thử cấp lại QR.</div>
         {% endif %}
     </article>
     {% endfor %}
-</section>
+</div>
 {% else %}
-<section class="section-card">
+<article class="section-card" style="text-align:center;padding:40px 20px;">
+    <div style="font-size:48px;margin-bottom:12px;">📱</div>
     <h2 class="section-title">Chưa có xe đang gửi</h2>
-    <p class="muted">Mã QR sẽ được tạo tự động ngay sau khi xe của bạn vào bãi thành công.</p>
+    <p class="muted" style="margin-bottom:16px;">Mã QR sẽ được tạo tự động ngay sau khi xe của bạn vào bãi thành công.</p>
     <a class="btn btn-secondary" href="{{ url_for('my_vehicle') }}">Xem phương tiện của tôi</a>
-</section>
+</article>
 {% endif %}
 {% endblock %}

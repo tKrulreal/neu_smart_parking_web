@@ -15,7 +15,7 @@
 }
 
 .vehicle-form-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     align-items: start;
 }
 
@@ -29,19 +29,11 @@
 }
 
 .vehicle-filter-bar {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.actions-stack {
-    flex-wrap: wrap;
-}
-
-.actions-stack .btn {
-    min-width: 72px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .vehicle-actions {
-    min-width: 220px;
+    min-width: 200px;
     align-items: stretch;
 }
 
