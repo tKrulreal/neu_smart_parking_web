@@ -1,64 +1,71 @@
 {% extends 'base.html' %}
 
 {% block title %}Tổng quan - NEU Smart Parking{% endblock %}
-{% block topbar_title %}Tổng quan hệ thống{% endblock %}
+{% block topbar_title %}Bảng điều khiển{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block topbar_actions %}
+<a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Lịch sử
+</a>
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
         <h1 class="page-title">Tổng quan hệ thống</h1>
-        <p class="page-subtitle">Ngày {{ current_date }}</p>
-    </div>
-    <div class="button-row">
-        <a class="btn btn-secondary" href="{{ url_for('history') }}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Xem lịch sử
-        </a>
+        <p class="page-subtitle">Chào mừng trở lại — hôm nay {{ current_date }}</p>
     </div>
 </div>
 
-<div class="grid grid-3" style="margin-bottom: 20px;">
-    <article class="stat-card">
-        <p class="stat-label">Tổng người dùng</p>
-        <p class="stat-value">{{ total_users }}</p>
-    </article>
-    <article class="stat-card">
-        <p class="stat-label">Tổng phương tiện</p>
-        <p class="stat-value">{{ total_vehicles }}</p>
-    </article>
-    <article class="stat-card">
+<!-- Stat cards -->
+<div class="grid grid-3" style="margin-bottom:22px;">
+    <article class="stat-card accent-blue">
         <p class="stat-label">Xe trong bãi</p>
         <p class="stat-value">{{ vehicles_in_parking }}</p>
     </article>
-    <article class="stat-card">
+    <article class="stat-card accent-green">
         <p class="stat-label">Lượt vào hôm nay</p>
         <p class="stat-value">{{ today_checkins }}</p>
     </article>
-    <article class="stat-card">
+    <article class="stat-card accent-orange">
         <p class="stat-label">Lượt ra hôm nay</p>
         <p class="stat-value">{{ today_checkouts }}</p>
     </article>
-    <article class="stat-card">
+    <article class="stat-card accent-teal">
+        <p class="stat-label">Tổng người dùng</p>
+        <p class="stat-value">{{ total_users }}</p>
+    </article>
+    <article class="stat-card accent-blue">
+        <p class="stat-label">Tổng phương tiện</p>
+        <p class="stat-value">{{ total_vehicles }}</p>
+    </article>
+    <article class="stat-card dark">
         <p class="stat-label">Doanh thu hôm nay</p>
-        <p class="stat-value" style="font-size:20px;">{{ "{:,.0f}".format(today_revenue) }}<span style="font-size:13px;font-weight:500;color:var(--text-secondary);"> VND</span></p>
+        <p class="stat-value" style="font-size:22px;">
+            {{ "{:,.0f}".format(today_revenue) }}
+            <span style="font-size:13px;font-weight:500;opacity:0.7;"> VND</span>
+        </p>
     </article>
 </div>
 
+<!-- Tables -->
 <div class="grid grid-2">
     <article class="section-card">
         <div class="section-head">
             <h2 class="section-title">Lịch sử gửi xe gần đây</h2>
+            <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">Xem tất cả</a>
         </div>
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>Biển số</th>
-                        <th>Mã sinh viên</th>
+                        <th>Mã SV</th>
                         <th>Thời gian vào</th>
                         <th>Thời gian ra</th>
                         <th>Trạng thái</th>
@@ -67,15 +74,19 @@
                 <tbody>
                     {% for log in recent_logs %}
                     <tr>
-                        <td><strong>{{ log[0] }}</strong></td>
+                        <td><span class="plate-badge">{{ log[0] }}</span></td>
                         <td>{{ log[1] }}</td>
-                        <td>{{ log[2] or '-' }}</td>
-                        <td>{{ log[3] or '-' }}</td>
-                        <td><span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(log[4]) }}</span></td>
+                        <td>{{ log[2] or '—' }}</td>
+                        <td>{{ log[3] or '—' }}</td>
+                        <td>
+                            <span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
+                                {{ translate_status(log[4]) }}
+                            </span>
+                        </td>
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="5" class="muted">Chưa có dữ liệu.</td>
+                        <td colspan="5" class="muted" style="text-align:center;padding:20px;">Chưa có dữ liệu.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -90,12 +101,19 @@
         <ul class="list-plain">
             {% for scan in recent_vehicle_scans %}
             <li class="list-item">
-                <span><strong>{{ scan[0] }}</strong> &mdash; {{ scan[1] or '-' }}</span>
-                <span class="badge {% if scan[2] in ['SUCCESS','OPEN'] %}badge-success{% elif scan[2] == 'UNKNOWN' %}badge-danger{% else %}badge-secondary{% endif %}">{{ translate_status(scan[2]) }}</span>
-                <small class="muted">{{ scan[3] }}</small>
+                <div>
+                    <span class="plate-badge" style="margin-bottom:2px;">{{ scan[0] }}</span>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-top:3px;">{{ scan[1] or '—' }}</p>
+                </div>
+                <div style="text-align:right;">
+                    <span class="badge {% if scan[2] in ['SUCCESS','OPEN'] %}badge-success{% elif scan[2] == 'UNKNOWN' %}badge-danger{% else %}badge-secondary{% endif %}">
+                        {{ translate_status(scan[2]) }}
+                    </span>
+                    <p style="font-size:11px;color:var(--text-secondary);margin-top:3px;">{{ scan[3] }}</p>
+                </div>
             </li>
             {% else %}
-            <li class="muted" style="padding:12px 0;">Chưa có lượt quét nào.</li>
+            <li style="padding:20px 0;text-align:center;" class="muted">Chưa có lượt quét nào.</li>
             {% endfor %}
         </ul>
     </article>

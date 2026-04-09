@@ -16,72 +16,131 @@
 
 {% if current_user %}
 
-<!-- AUTHENTICATED: Sidebar + Main -->
+<!-- ===================== AUTHENTICATED LAYOUT ===================== -->
 <div class="app-shell">
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
+
+        <!-- Brand -->
         <div class="sidebar-brand">
             <a class="sidebar-brand-logo" href="{{ url_for('index') }}">
                 <div class="sidebar-brand-icon">P</div>
                 <div>
                     <div>NEU Parking</div>
-                    <div class="sidebar-brand-subtitle">Smart Parking System</div>
+                    <div class="sidebar-brand-subtitle">ĐH Kinh tế Quốc dân</div>
                 </div>
             </a>
         </div>
 
+        <!-- Navigation -->
         <nav class="sidebar-nav">
+
             {% if current_user.role in ['admin', 'guard'] %}
+            <!-- ADMIN / GUARD NAV -->
             <div class="sidebar-section">
                 <div class="sidebar-section-label">Tổng quan</div>
-                <a class="sidebar-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
-                    <span class="sidebar-link-icon">&#9783;</span>Tổng quan
+                <a class="sidebar-link {% if request.endpoint == 'dashboard' %}active{% endif %}"
+                   href="{{ url_for('dashboard') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    </span>
+                    Bảng điều khiển
                 </a>
             </div>
+
             <div class="sidebar-section">
                 <div class="sidebar-section-label">Quản lý cổng</div>
-                <a class="sidebar-link {% if request.endpoint == 'gate_in' %}active{% endif %}" href="{{ url_for('gate_in') }}">
-                    <span class="sidebar-link-icon">&#8594;</span>Cổng vào
+                <a class="sidebar-link {% if request.endpoint == 'gate_in' %}active{% endif %}"
+                   href="{{ url_for('gate_in') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    </span>
+                    Cổng vào
                 </a>
-                <a class="sidebar-link {% if request.endpoint == 'gate_out' %}active{% endif %}" href="{{ url_for('gate_out') }}">
-                    <span class="sidebar-link-icon">&#8592;</span>Cổng ra
+                <a class="sidebar-link {% if request.endpoint == 'gate_out' %}active{% endif %}"
+                   href="{{ url_for('gate_out') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </span>
+                    Cổng ra
                 </a>
-                <a class="sidebar-link {% if request.endpoint == 'history' %}active{% endif %}" href="{{ url_for('history') }}">
-                    <span class="sidebar-link-icon">&#9776;</span>Lịch sử
+                <a class="sidebar-link {% if request.endpoint == 'history' %}active{% endif %}"
+                   href="{{ url_for('history') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </span>
+                    Lịch sử giao dịch
                 </a>
             </div>
+
             {% if current_user.role == 'admin' %}
             <div class="sidebar-section">
                 <div class="sidebar-section-label">Quản trị</div>
-                <a class="sidebar-link {% if request.endpoint == 'user_management' %}active{% endif %}" href="{{ url_for('user_management') }}">
-                    <span class="sidebar-link-icon">&#9786;</span>Người dùng
+                <a class="sidebar-link {% if request.endpoint == 'user_management' %}active{% endif %}"
+                   href="{{ url_for('user_management') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    </span>
+                    Người dùng
                 </a>
-                <a class="sidebar-link {% if request.endpoint == 'vehicles' %}active{% endif %}" href="{{ url_for('vehicles') }}">
-                    <span class="sidebar-link-icon">&#9697;</span>Phương tiện
+                <a class="sidebar-link {% if request.endpoint == 'vehicles' %}active{% endif %}"
+                   href="{{ url_for('vehicles') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    </span>
+                    Phương tiện
                 </a>
             </div>
             {% endif %}
+
             {% else %}
+            <!-- STUDENT NAV -->
             <div class="sidebar-section">
                 <div class="sidebar-section-label">Của tôi</div>
-                <a class="sidebar-link {% if request.endpoint == 'self_dashboard' %}active{% endif %}" href="{{ url_for('self_dashboard') }}">
-                    <span class="sidebar-link-icon">&#9749;</span>Trang cá nhân
+                <a class="sidebar-link {% if request.endpoint == 'self_dashboard' %}active{% endif %}"
+                   href="{{ url_for('self_dashboard') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    </span>
+                    Bảng điều khiển
                 </a>
-                <a class="sidebar-link {% if request.endpoint in ['my_vehicle', 'my_new_vehicle'] %}active{% endif %}" href="{{ url_for('my_vehicle') }}">
-                    <span class="sidebar-link-icon">&#9697;</span>Phương tiện của tôi
+                <a class="sidebar-link {% if request.endpoint in ['my_vehicle', 'my_new_vehicle'] %}active{% endif %}"
+                   href="{{ url_for('my_vehicle') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    </span>
+                    Xe của tôi
                 </a>
-                <a class="sidebar-link {% if request.endpoint == 'student_qr' %}active{% endif %}" href="{{ url_for('student_qr') }}">
-                    <span class="sidebar-link-icon">&#9635;</span>Mã QR của tôi
+                <a class="sidebar-link {% if request.endpoint == 'student_qr' %}active{% endif %}"
+                   href="{{ url_for('student_qr') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
+                    </span>
+                    Mã QR của tôi
                 </a>
-                <a class="sidebar-link {% if request.endpoint == 'self_history' %}active{% endif %}" href="{{ url_for('self_history') }}">
-                    <span class="sidebar-link-icon">&#9776;</span>Lịch sử của tôi
+                <a class="sidebar-link {% if request.endpoint == 'self_history' %}active{% endif %}"
+                   href="{{ url_for('self_history') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </span>
+                    Lịch sử gửi xe
+                </a>
+                <a class="sidebar-link {% if request.endpoint == 'my_new_vehicle' %}active{% endif %}"
+                   href="{{ url_for('my_new_vehicle') }}">
+                    <span class="sidebar-link-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    </span>
+                    Đăng ký xe mới
                 </a>
             </div>
             {% endif %}
+
         </nav>
 
+        <!-- User footer -->
         <div class="sidebar-footer">
             <div class="sidebar-user">
                 <div class="sidebar-avatar">{{ current_user.full_name[0] | upper if current_user.full_name else 'U' }}</div>
@@ -90,11 +149,19 @@
                     <div class="sidebar-user-role">{{ translate_role(current_user.role) }}</div>
                 </div>
             </div>
-            <a class="sidebar-logout" href="{{ url_for('logout') }}">&larr; Đăng xuất</a>
+            <a class="sidebar-logout" href="{{ url_for('logout') }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Đăng xuất
+            </a>
         </div>
-    </aside>
 
+    </aside>
+    <!-- END SIDEBAR -->
+
+    <!-- ===== MAIN AREA ===== -->
     <div class="main-area">
+
+        <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-left">
                 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
@@ -102,15 +169,29 @@
                 </button>
                 <span class="topbar-title">{% block topbar_title %}NEU Smart Parking{% endblock %}</span>
             </div>
-            <div class="topbar-right">{% block topbar_actions %}{% endblock %}</div>
+            <div class="topbar-right">
+                {% block topbar_actions %}{% endblock %}
+                <a class="topbar-user" href="{% if current_user.role in ['admin','guard'] %}{{ url_for('dashboard') }}{% else %}{{ url_for('self_dashboard') }}{% endif %}">
+                    <div class="topbar-avatar">{{ current_user.full_name[0] | upper if current_user.full_name else 'U' }}</div>
+                    {{ current_user.full_name.split(' ')[-1] }}
+                </a>
+            </div>
         </header>
 
+        <!-- Page content -->
         <main class="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="alerts-stack">
                         {% for category, message in messages %}
-                            <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
+                            <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                                {% if category == 'success' %}
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+                                {% else %}
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                {% endif %}
+                                {{ message }}
+                            </div>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -118,33 +199,40 @@
             {% block content %}{% endblock %}
         </main>
 
-        <footer class="public-footer">
-            <div style="padding:12px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;color:var(--text-secondary);font-size:12px;">
-                <span>&copy; {{ current_year }} Hệ thống NEU Smart Parking</span>
-                <div class="public-footer-links">
-                    <a href="{{ url_for('index') }}">Trang chủ</a>
-                    {% if current_user.role in ['admin', 'guard'] %}
-                        <a href="{{ url_for('history') }}">Lịch sử</a>
-                        <a href="{{ url_for('dashboard') }}">Tổng quan</a>
-                    {% else %}
-                        <a href="{{ url_for('self_history') }}">Lịch sử</a>
-                        <a href="{{ url_for('student_qr') }}">Mã QR</a>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <span>&copy; {{ current_year }} NEU Smart Parking System</span>
+            <div class="app-footer-links">
+                <a href="{{ url_for('index') }}">Trang chủ</a>
+                {% if current_user.role in ['admin', 'guard'] %}
+                    <a href="{{ url_for('dashboard') }}">Tổng quan</a>
+                    <a href="{{ url_for('history') }}">Lịch sử</a>
+                    {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('user_management') }}">Người dùng</a>
                     {% endif %}
-                </div>
+                {% else %}
+                    <a href="{{ url_for('self_dashboard') }}">Trang cá nhân</a>
+                    <a href="{{ url_for('student_qr') }}">Mã QR</a>
+                    <a href="{{ url_for('self_history') }}">Lịch sử</a>
+                {% endif %}
             </div>
         </footer>
+
     </div>
+    <!-- END MAIN AREA -->
 
 </div>
+<!-- END APP SHELL -->
 
 {% else %}
 
-<!-- PUBLIC LAYOUT -->
+<!-- ===================== PUBLIC LAYOUT ===================== -->
 <div class="public-shell">
+
     <header class="public-topbar">
         <div class="public-topbar-inner">
             <a class="public-brand" href="{{ url_for('index') }}">
-                <div class="public-brand-icon" style="background:var(--primary);color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;">P</div>
+                <div class="public-brand-icon">P</div>
                 NEU Smart Parking
             </a>
             <nav class="public-nav">
@@ -171,7 +259,7 @@
 
     <footer class="public-footer">
         <div class="public-footer-inner">
-            <span>&copy; {{ current_year }} Hệ thống NEU Smart Parking</span>
+            <span>&copy; {{ current_year }} NEU Smart Parking System</span>
             <div class="public-footer-links">
                 <a href="{{ url_for('index') }}">Trang chủ</a>
                 <a href="{{ url_for('login') }}">Đăng nhập</a>
@@ -179,7 +267,9 @@
             </div>
         </div>
     </footer>
+
 </div>
+<!-- END PUBLIC SHELL -->
 
 {% endif %}
 

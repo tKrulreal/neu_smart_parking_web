@@ -3,26 +3,73 @@
 {% block title %}Đăng nhập - NEU Smart Parking{% endblock %}
 
 {% block content %}
-<div class="auth-shell">
-    <div class="auth-panel">
-        <div class="auth-logo">
-            <div class="auth-logo-icon">🅿</div>
-            <span class="auth-logo-name">NEU Smart Parking</span>
+<div class="auth-split" style="margin: -32px -0px; min-height: 100vh;">
+    <!-- Left: Branding panel -->
+    <div class="auth-split-left">
+        <div class="auth-brand">
+            <div class="auth-brand-icon">P</div>
+            <div class="auth-brand-name">
+                NEU Smart Parking
+                <span>ĐH Kinh tế Quốc dân</span>
+            </div>
         </div>
-        <h1 class="page-title">Đăng nhập</h1>
-        <p class="muted">Nhập tài khoản để truy cập hệ thống.</p>
-        <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}" class="form-grid" style="margin-top:20px;">
-            <div class="form-group">
-                <label for="username">Tên đăng nhập</label>
-                <input id="username" name="username" type="text" required value="{{ username or '' }}" placeholder="Nhập tên đăng nhập">
+
+        <div class="auth-left-hero">
+            <h1 class="auth-left-title">Chào mừng<br>bạn quay<br>trở lại.</h1>
+            <p class="auth-left-desc">Hệ thống quản lý bãi đỗ xe thông minh dành riêng cho cán bộ, giảng viên và sinh viên Đại học Kinh tế Quốc dân.</p>
+            <div class="auth-left-stats">
+                <div class="auth-stat">
+                    <span class="auth-stat-value">2,500+</span>
+                    <span class="auth-stat-label">Chỗ đỗ xe</span>
+                </div>
+                <div class="auth-stat">
+                    <span class="auth-stat-value">15</span>
+                    <span class="auth-stat-label">Khu vực đỗ</span>
+                </div>
+                <div class="auth-stat">
+                    <span class="auth-stat-value">AI</span>
+                    <span class="auth-stat-label">Công nghệ NHBN</span>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <input id="password" name="password" type="password" required placeholder="Nhập mật khẩu">
+        </div>
+
+        <div class="auth-left-footer">
+            &copy; {{ current_year }} NEU Smart Parking System
+        </div>
+    </div>
+
+    <!-- Right: Form panel -->
+    <div class="auth-split-right">
+        <div class="auth-form-wrap">
+            <h1 class="auth-form-title">Đăng nhập</h1>
+            <p class="auth-form-subtitle">Vui lòng nhập thông tin tài khoản của bạn.</p>
+
+            <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}" class="form-grid">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input id="username" name="username" type="text" required
+                           value="{{ username or '' }}"
+                           placeholder="Nhập tên đăng nhập">
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input id="password" name="password" type="password" required
+                           placeholder="Nhập mật khẩu">
+                </div>
+                <button class="btn btn-primary" type="submit"
+                        style="width:100%;padding:11px;font-size:14px;margin-top:4px;">
+                    Đăng nhập
+                </button>
+            </form>
+
+            <p class="auth-footer">Chưa có tài khoản? <a href="{{ url_for('register') }}"><strong>Đăng ký ngay</strong></a></p>
+
+            <div style="display:flex;justify-content:center;gap:20px;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">
+                <a href="#" style="font-size:12px;color:var(--text-secondary);">Hỗ trợ kỹ thuật</a>
+                <a href="#" style="font-size:12px;color:var(--text-secondary);">Chính sách bảo mật</a>
+                <a href="#" style="font-size:12px;color:var(--text-secondary);">Hướng dẫn sử dụng</a>
             </div>
-            <button class="btn btn-primary" type="submit" style="width:100%;padding:11px;">Đăng nhập</button>
-        </form>
-        <p class="auth-footer">Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký ngay</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -10,43 +10,179 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <p class="page-subtitle"><a href="{{ url_for('my_vehicle') }}">← Phương tiện của tôi</a></p>
-        <h1 class="page-title">Đăng ký phương tiện mới</h1>
-        <p class="page-subtitle">Hoàn thành biểu mẫu để gửi yêu cầu thêm xe.</p>
+        <div class="breadcrumb">
+            <a href="{{ url_for('my_vehicle') }}">Xe của tôi</a>
+            <span class="breadcrumb-sep">›</span>
+            <span>Đăng ký xe mới</span>
+        </div>
+        <h1 class="page-title">Đăng ký xe mới</h1>
+        <p class="page-subtitle">Hoàn thành các bước dưới đây để gửi yêu cầu đăng ký xe vào khuôn viên trường.</p>
     </div>
 </div>
 
-<article class="section-card" style="max-width:560px;">
-    <form method="post" enctype="multipart/form-data" action="{{ url_for('my_new_vehicle') }}" class="form-grid">
-        <div class="form-group">
-            <label for="plate">Biển số</label>
-            <input id="plate" name="plate" type="text" required value="{{ form_data.plate if form_data else '' }}" placeholder="VD: 29A-12345">
+<!-- Step indicator -->
+<div style="display:flex;align-items:center;gap:0;margin-bottom:28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 24px;box-shadow:var(--shadow);">
+    <div style="display:flex;align-items:center;gap:10px;flex:1;">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+        <div>
+            <p style="font-size:12px;font-weight:700;color:var(--primary);">THÔNG TIN XE</p>
+            <p style="font-size:11px;color:var(--text-secondary);">Nhập thông tin phương tiện</p>
         </div>
-        <div class="form-group">
-            <label for="vehicle_type">Loại xe</label>
-            <select id="vehicle_type" name="vehicle_type" required>
-                <option value="motorbike" {% if form_data and form_data.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
-                <option value="car" {% if form_data and form_data.vehicle_type == 'car' %}selected{% endif %}>Ô tô</option>
-                <option value="electric" {% if form_data and form_data.vehicle_type == 'electric' %}selected{% endif %}>Xe điện</option>
-            </select>
+    </div>
+    <div style="height:2px;flex:0 0 40px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:10px;flex:1;">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--border);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+        <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text-secondary);">TẢI HỒ SƠ</p>
+            <p style="font-size:11px;color:var(--text-secondary);">Ảnh đăng ký xe</p>
         </div>
-        <div class="form-group">
-            <label for="brand">Hãng xe</label>
-            <input id="brand" name="brand" type="text" value="{{ form_data.brand if form_data else '' }}" placeholder="VD: Honda, Yamaha...">
+    </div>
+    <div style="height:2px;flex:0 0 40px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:10px;flex:1;">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--border);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+        <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text-secondary);">XÁC NHẬN</p>
+            <p style="font-size:11px;color:var(--text-secondary);">Chờ admin duyệt</p>
         </div>
-        <div class="form-group">
-            <label for="color">Màu xe</label>
-            <input id="color" name="color" type="text" value="{{ form_data.color if form_data else '' }}" placeholder="VD: Đỏ, Đen...">
-        </div>
-        <div class="form-group">
-            <label for="image">Ảnh phương tiện</label>
-            <input id="image" name="image" type="file" accept="image/*">
-            <p class="form-hint">Tùy chọn. Hỗ trợ JPG, PNG.</p>
-        </div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+
+    <div>
+        <!-- Step 1: Vehicle info -->
+        <article class="section-card" style="margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--primary-muted);display:flex;align-items:center;justify-content:center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <h2 class="section-title" style="margin:0;">Bước 1: Thông tin xe</h2>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="{{ url_for('my_new_vehicle') }}"
+                  class="form-grid" style="grid-template-columns:1fr 1fr;gap:14px;" id="vehicleForm">
+                <div class="form-group">
+                    <label for="plate">BIỂN SỐ XE</label>
+                    <input id="plate" name="plate" type="text" required
+                           value="{{ form_data.plate if form_data else '' }}"
+                           placeholder="VD: 29A-123.45">
+                </div>
+                <div class="form-group">
+                    <label for="vehicle_type">LOẠI XE</label>
+                    <select id="vehicle_type" name="vehicle_type" required>
+                        <option value="motorbike" {% if form_data and form_data.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
+                        <option value="car"       {% if form_data and form_data.vehicle_type == 'car'       %}selected{% endif %}>Ô tô</option>
+                        <option value="electric"  {% if form_data and form_data.vehicle_type == 'electric'  %}selected{% endif %}>Xe điện</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="color">MÀU XE</label>
+                    <input id="color" name="color" type="text"
+                           value="{{ form_data.color if form_data else '' }}"
+                           placeholder="VD: Đen nhám">
+                </div>
+                <div class="form-group">
+                    <label for="brand">HÃNG XE</label>
+                    <input id="brand" name="brand" type="text"
+                           value="{{ form_data.brand if form_data else '' }}"
+                           placeholder="VD: Honda">
+                </div>
+        </article>
+
+        <!-- Step 2: Upload -->
+        <article class="section-card" style="margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--primary-muted);display:flex;align-items:center;justify-content:center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <h2 class="section-title" style="margin:0;">Bước 2: Tải hồ sơ</h2>
+            </div>
+            <div class="form-grid" style="grid-template-columns:1fr;gap:14px;">
+                <div class="form-group">
+                    <label for="image">ẢNH PHƯƠNG TIỆN</label>
+                    <div class="upload-zone" id="imgZone">
+                        <input type="file" name="image" accept="image/*" form="vehicleForm"
+                               onchange="updateUpload(this)">
+                        <div class="upload-zone-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <p class="upload-zone-label" id="imgLabel">Tải ảnh mặt trước</p>
+                        <p class="upload-zone-hint">Chấp nhận JPG, PNG. Dung lượng tối đa 5MB/file.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
         <div class="button-row">
-            <button class="btn btn-primary" type="submit">Gửi yêu cầu đăng ký</button>
-            <a class="btn btn-secondary" href="{{ url_for('my_vehicle') }}">Hủy</a>
+            <button class="btn btn-primary" type="submit" form="vehicleForm" style="padding:10px 24px;">
+                Gửi yêu cầu
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <a class="btn btn-secondary" href="{{ url_for('my_vehicle') }}">Lưu nháp</a>
         </div>
-    </form>
-</article>
+    </div>
+
+    <!-- Right sidebar: Notes -->
+    <div>
+        <article class="section-card" style="background:var(--primary);border-color:var(--primary-dark);margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p style="font-size:13px;font-weight:700;color:#fff;">Lưu ý quan trọng</p>
+            </div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+                <li style="display:flex;gap:8px;align-items:flex-start;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <p style="font-size:12.5px;color:rgba(255,255,255,0.8);line-height:1.5;">Thông tin biển số phải trùng khớp hoàn toàn với giấy tờ xe.</p>
+                </li>
+                <li style="display:flex;gap:8px;align-items:flex-start;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <p style="font-size:12.5px;color:rgba(255,255,255,0.8);line-height:1.5;">Ảnh chụp giấy tờ cần rõ nét, không bị lóa sáng hoặc mất góc.</p>
+                </li>
+                <li style="display:flex;gap:8px;align-items:flex-start;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+                    <p style="font-size:12.5px;color:rgba(255,255,255,0.8);line-height:1.5;">Thời gian xét duyệt dự kiến từ 24h–48h làm việc.</p>
+                </li>
+            </ul>
+        </article>
+
+        <article class="section-card">
+            <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">Quy trình đăng ký</p>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+                <li style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);flex-shrink:0;margin-top:4px;"></div>
+                    <div>
+                        <p style="font-size:13px;font-weight:600;color:var(--text);">Khai báo thông tin</p>
+                        <p style="font-size:12px;color:var(--text-secondary);">Sinh viên điền form và tải giấy tờ</p>
+                    </div>
+                </li>
+                <li style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;margin-top:4px;"></div>
+                    <div>
+                        <p style="font-size:13px;font-weight:600;color:var(--text-secondary);">Bộ phận CSVC kiểm tra</p>
+                        <p style="font-size:12px;color:var(--text-secondary);">Xác thực giấy tờ và thông tin xe</p>
+                    </div>
+                </li>
+                <li style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;margin-top:4px;"></div>
+                    <div>
+                        <p style="font-size:13px;font-weight:600;color:var(--text-secondary);">Kích hoạt thẻ</p>
+                        <p style="font-size:12px;color:var(--text-secondary);">Sử dụng QR-Code hoặc thẻ SV để gửi xe</p>
+                    </div>
+                </li>
+            </ul>
+        </article>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateUpload(input) {
+    if (input.files && input.files[0]) {
+        document.getElementById('imgLabel').textContent = input.files[0].name;
+        document.getElementById('imgZone').style.borderColor = 'var(--primary)';
+        document.getElementById('imgZone').style.background = 'var(--primary-muted)';
+    }
+}
+</script>
 {% endblock %}

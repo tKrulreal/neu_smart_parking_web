@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Phương tiện của tôi - NEU Smart Parking{% endblock %}
-{% block topbar_title %}Phương tiện của tôi{% endblock %}
+{% block title %}Xe của tôi - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Xe của tôi{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
@@ -10,81 +10,136 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h1 class="page-title">Phương tiện của tôi</h1>
-        <p class="page-subtitle">Quản lý xe đã đăng ký bởi tài khoản hiện tại.</p>
+        <h1 class="page-title">Xe của tôi</h1>
+        <p class="page-subtitle">Quản lý các phương tiện đã đăng ký trong hệ thống bãi đỗ xe Đại học Kinh tế Quốc dân.</p>
     </div>
-    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">+ Thêm phương tiện</a>
+    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Thêm phương tiện
+    </a>
 </div>
 
-<div class="grid grid-2" style="margin-bottom:20px;">
-    <article class="stat-card">
+<!-- Stats -->
+<div class="grid grid-2" style="margin-bottom:22px;">
+    <article class="stat-card accent-blue">
         <p class="stat-label">Tổng xe đã đăng ký</p>
         <p class="stat-value">{{ total_vehicle }}</p>
     </article>
-    <article class="stat-card">
-        <p class="stat-label">Xe đang trong bãi</p>
+    <article class="stat-card accent-green">
+        <p class="stat-label">Đang trong bãi</p>
         <p class="stat-value" style="color:var(--success);">{{ in_parking }}</p>
     </article>
 </div>
 
 {% if main_vehicle %}
-<article class="section-card" style="margin-bottom:16px;border-left:4px solid var(--primary);">
-    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-        <div style="flex:1;min-width:0;">
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:4px;">Xe chính</p>
-            <h2 style="font-size:20px;font-weight:700;margin-bottom:6px;">{{ main_vehicle.plate }}</h2>
-            <p style="color:var(--text-secondary);font-size:13px;">{{ translate_vehicle_type(main_vehicle.vehicle_type) }}
-                {% if main_vehicle.brand %} &bull; {{ main_vehicle.brand }}{% endif %}
-                {% if main_vehicle.color %} &bull; {{ main_vehicle.color }}{% endif %}
-            </p>
-        </div>
-        <div>
-            {% set key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
-            {% if active_map.get(key) %}
-                <span class="badge badge-success">ĐANG TRONG BÃI</span>
-            {% elif not main_vehicle.is_active %}
-                <span class="badge badge-warning">CHỜ DUYỆT</span>
-            {% else %}
-                <span class="badge badge-secondary">SẴN SÀNG</span>
+{% set main_key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+<!-- Featured main vehicle card -->
+<article class="section-card" style="margin-bottom:18px;padding:0;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;min-height:200px;">
+        <!-- Image side -->
+        <div style="position:relative;background:linear-gradient(135deg,#0f1f4a,#1a3c8f);overflow:hidden;min-height:200px;">
+            {% if main_vehicle.image_path %}
+            <img src="{{ url_for('static', filename=main_vehicle.image_path) }}"
+                 alt="{{ main_vehicle.plate }}"
+                 style="width:100%;height:100%;object-fit:cover;opacity:0.75;position:absolute;inset:0;">
             {% endif %}
+            <div style="position:absolute;top:14px;right:14px;">
+                <span class="badge no-dot badge-secondary" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);">MẶC ĐỊNH</span>
+            </div>
+            <div style="position:absolute;bottom:16px;left:18px;">
+                <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">
+                    {{ translate_vehicle_type(main_vehicle.vehicle_type) }}
+                    {% if main_vehicle.brand %} &bull; {{ main_vehicle.brand }}{% endif %}
+                </p>
+                <span class="plate-badge" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.4);color:#fff;font-size:16px;padding:6px 16px;">
+                    {{ main_vehicle.plate }}
+                </span>
+            </div>
+        </div>
+        <!-- Info side -->
+        <div style="padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+                <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:10px;">BIỂN SỐ XE</p>
+                <p style="font-size:22px;font-weight:800;color:var(--primary);letter-spacing:0.04em;margin-bottom:14px;">{{ main_vehicle.plate }}</p>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="font-size:12px;color:var(--text-secondary);">Trạng thái hiện tại</span>
+                        {% if active_map.get(main_key) %}
+                            <span class="badge badge-success">Đang trong bãi</span>
+                        {% elif not main_vehicle.is_active %}
+                            <span class="badge badge-warning">Chờ duyệt</span>
+                        {% else %}
+                            <span class="badge badge-secondary">Sẵn sàng</span>
+                        {% endif %}
+                    </div>
+                    {% if main_vehicle.color %}
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="font-size:12px;color:var(--text-secondary);">Màu xe</span>
+                        <span style="font-size:12.5px;font-weight:600;">{{ main_vehicle.color }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="button-row" style="margin-top:14px;">
+                <a class="btn btn-secondary btn-small" href="{{ url_for('self_history') }}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Lịch sử ra vào
+                </a>
+                {% if active_map.get(main_key) %}
+                <a class="btn btn-primary btn-small" href="{{ url_for('student_qr') }}">Xem QR</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </article>
 {% endif %}
 
+<!-- Other vehicles grid -->
 <article class="section-card">
-    <h2 class="section-title">Danh sách xe</h2>
+    <div class="section-head">
+        <h2 class="section-title">Phương tiện khác</h2>
+        <a class="btn btn-secondary btn-small" href="{{ url_for('my_new_vehicle') }}">+ Thêm xe</a>
+    </div>
+
+    {% if vehicles %}
     <div class="grid grid-2">
         {% for vehicle in vehicles %}
         {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+        {% if not main_vehicle or vehicle.id != main_vehicle.id %}
         <article class="section-card nested" style="border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;">
                 <div>
-                    <p style="font-weight:700;font-size:16px;margin-bottom:2px;">{{ vehicle.plate }}</p>
-                    <p style="font-size:12px;color:var(--text-secondary);">{{ translate_vehicle_type(vehicle.vehicle_type) }}
+                    <span class="plate-badge" style="margin-bottom:6px;display:inline-flex;">{{ vehicle.plate }}</span>
+                    <p style="font-size:12px;color:var(--text-secondary);">
+                        {{ translate_vehicle_type(vehicle.vehicle_type) }}
                         {% if vehicle.brand %} &bull; {{ vehicle.brand }}{% endif %}
                         {% if vehicle.color %} &bull; {{ vehicle.color }}{% endif %}
                     </p>
                 </div>
                 {% if active_map.get(key) %}
-                    <span class="badge badge-success">ĐANG GỬI</span>
+                    <span class="badge badge-success">Đang gửi</span>
                 {% elif not vehicle.is_active %}
-                    <span class="badge badge-warning">CHỜ DUYỆT</span>
+                    <span class="badge badge-warning">Chờ duyệt</span>
                 {% else %}
-                    <span class="badge badge-secondary">SẴN SÀNG</span>
+                    <span class="badge badge-secondary">Sẵn sàng</span>
                 {% endif %}
             </div>
             {% if vehicle.image_path %}
-                <img src="{{ url_for('static', filename=vehicle.image_path) }}" alt="{{ vehicle.plate }}" class="preview-image" style="max-height:160px;object-fit:cover;width:100%;margin-top:8px;">
+                <img src="{{ url_for('static', filename=vehicle.image_path) }}"
+                     alt="{{ vehicle.plate }}"
+                     class="preview-image"
+                     style="max-height:140px;object-fit:cover;width:100%;margin-top:6px;">
             {% endif %}
         </article>
-        {% else %}
-        <article class="section-card nested grid-full" style="text-align:center;padding:32px 20px;">
-            <div style="font-size:32px;margin-bottom:10px;">🏍</div>
-            <p class="muted" style="margin-bottom:12px;">Bạn chưa đăng ký xe nào.</p>
-            <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
-        </article>
+        {% endif %}
         {% endfor %}
     </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">🏍</div>
+        <p>Bạn chưa đăng ký xe nào.</p>
+        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
+    </div>
+    {% endif %}
 </article>
 {% endblock %}

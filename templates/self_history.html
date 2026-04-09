@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}Lịch sử của tôi - NEU Smart Parking{% endblock %}
-{% block topbar_title %}Lịch sử của tôi{% endblock %}
+{% block topbar_title %}Lịch sử gửi xe{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
@@ -10,22 +10,28 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h1 class="page-title">Lịch sử của tôi</h1>
-        <p class="page-subtitle">Theo dõi toàn bộ phiên gửi xe của tài khoản hiện tại.</p>
+        <h1 class="page-title">Lịch sử gửi xe</h1>
+        <p class="page-subtitle">Theo dõi và quản lý lịch sử ra vào bãi xe của bạn.</p>
     </div>
 </div>
 
-<div class="grid grid-2" style="margin-bottom:20px;">
-    <article class="stat-card">
-        <p class="stat-label">Tổng số phiên</p>
-        <p class="stat-value">{{ total_sessions }}</p>
+<!-- Summary stats -->
+<div class="grid grid-2" style="margin-bottom:22px;">
+    <article class="stat-card dark">
+        <p class="stat-label">Tổng chi tiêu tháng này</p>
+        <p class="stat-value" style="font-size:26px;">
+            {{ "{:,.0f}".format(total_spent) }}
+            <span style="font-size:14px;font-weight:500;opacity:0.7;"> VND</span>
+        </p>
     </article>
-    <article class="stat-card">
-        <p class="stat-label">Tổng chi phí</p>
-        <p class="stat-value" style="font-size:22px;">{{ "{:,.0f}".format(total_spent) }}<span style="font-size:12px;font-weight:500;color:var(--text-secondary);"> VND</span></p>
+    <article class="stat-card accent-teal">
+        <p class="stat-label">Số lượt gửi</p>
+        <p class="stat-value">{{ total_sessions }}</p>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:4px;">tổng số phiên</p>
     </article>
 </div>
 
+<!-- Filter -->
 <article class="section-card" style="margin-bottom:16px;">
     <form method="get" action="{{ url_for('self_history') }}" class="filter-bar">
         <div class="form-group">
@@ -42,7 +48,11 @@
     </form>
 </article>
 
+<!-- Table -->
 <article class="section-card">
+    <div class="section-head">
+        <h2 class="section-title">Danh sách chi tiết</h2>
+    </div>
     <div class="table-wrapper">
         <table>
             <thead>
@@ -50,23 +60,31 @@
                     <th>Biển số</th>
                     <th>Thời gian vào</th>
                     <th>Thời gian ra</th>
-                    <th>Cổng</th>
-                    <th>Phí</th>
+                    <th>Cổng V/R</th>
+                    <th>Phí dịch vụ</th>
                     <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in histories %}
                 <tr>
-                    <td><strong>{{ row[0] }}</strong></td>
+                    <td><span class="plate-badge">{{ row[0] }}</span></td>
                     <td>{{ row[1] or '—' }}</td>
                     <td>{{ row[2] or '—' }}</td>
-                    <td>{{ row[5] or '—' }} / {{ row[6] or '—' }}</td>
-                    <td style="font-weight:600;">{{ "{:,.0f}".format(row[3] or 0) }}<span style="font-size:11px;color:var(--text-secondary);"> VND</span></td>
-                    <td><span class="badge {% if row[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(row[4]) }}</span></td>
+                    <td style="font-size:12px;color:var(--text-secondary);">{{ row[5] or '—' }} / {{ row[6] or '—' }}</td>
+                    <td style="font-weight:700;color:var(--primary);">
+                        {{ "{:,.0f}".format(row[3] or 0) }}<span style="font-size:11px;font-weight:400;color:var(--text-secondary);"> VND</span>
+                    </td>
+                    <td>
+                        <span class="badge {% if row[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
+                            {{ translate_status(row[4]) }}
+                        </span>
+                    </td>
                 </tr>
                 {% else %}
-                <tr><td colspan="6" class="muted" style="text-align:center;padding:24px;">Chưa có lịch sử.</td></tr>
+                <tr>
+                    <td colspan="6" class="muted" style="text-align:center;padding:28px;">Chưa có lịch sử.</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

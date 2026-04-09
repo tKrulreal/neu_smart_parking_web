@@ -3,46 +3,113 @@
 {% block title %}Đăng ký - NEU Smart Parking{% endblock %}
 
 {% block content %}
-<div class="auth-shell">
-    <div class="auth-panel" style="width:min(540px,100%);">
-        <div class="auth-logo">
-            <div class="auth-logo-icon">🅿</div>
-            <span class="auth-logo-name">NEU Smart Parking</span>
+<div class="auth-split" style="margin: -32px 0; min-height: 100vh;">
+    <!-- Left: Info panel -->
+    <div class="auth-split-left">
+        <div class="auth-brand">
+            <div class="auth-brand-icon">P</div>
+            <div class="auth-brand-name">
+                NEU Smart Parking
+                <span>ĐH Kinh tế Quốc dân</span>
+            </div>
         </div>
-        <h1 class="page-title">Đăng ký tài khoản sinh viên</h1>
-        <p class="muted" style="margin-bottom:20px;">Hoàn thành thông tin để tạo tài khoản mới.</p>
-        <form method="post" action="{{ url_for('register') }}" class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;">
-            <div class="form-group" style="grid-column:1/-1;">
-                <label for="full_name">Họ và tên</label>
-                <input id="full_name" name="full_name" type="text" required value="{{ full_name or '' }}" placeholder="Nguyễn Văn A">
-            </div>
-            <div class="form-group">
-                <label for="username">Tên đăng nhập</label>
-                <input id="username" name="username" type="text" required value="{{ username or '' }}" placeholder="username">
-            </div>
-            <div class="form-group">
-                <label for="student_code">Mã sinh viên</label>
-                <input id="student_code" name="student_code" type="text" required value="{{ student_code or '' }}" placeholder="11xxxxxx">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" value="{{ email or '' }}" placeholder="email@neu.edu.vn">
-            </div>
-            <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input id="phone" name="phone" type="text" value="{{ phone or '' }}" placeholder="0912xxxxxx">
-            </div>
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <input id="password" name="password" type="password" required placeholder="Ít nhất 6 ký tự">
-            </div>
-            <div class="form-group">
-                <label for="password2">Xác nhận mật khẩu</label>
-                <input id="password2" name="password2" type="password" required placeholder="Nhập lại mật khẩu">
-            </div>
-            <button class="btn btn-primary" type="submit" style="grid-column:1/-1;padding:11px;">Đăng ký</button>
-        </form>
-        <p class="auth-footer">Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p>
+
+        <div class="auth-left-hero">
+            <h1 class="auth-left-title" style="font-size:28px;">Gia nhập cộng đồng<br>NEU Smart.</h1>
+            <p class="auth-left-desc">Hệ thống quản lý bãi đỗ xe thông minh dành riêng cho sinh viên Đại học Kinh tế Quốc dân.</p>
+
+            <ul class="auth-steps">
+                <li class="auth-step">
+                    <div class="auth-step-num">1</div>
+                    <div class="auth-step-body">
+                        <strong>Khởi tạo hồ sơ</strong>
+                        <p>Điền đầy đủ thông tin cá nhân và Mã số sinh viên chính xác.</p>
+                    </div>
+                </li>
+                <li class="auth-step">
+                    <div class="auth-step-num">2</div>
+                    <div class="auth-step-body">
+                        <strong>Xác thực Email</strong>
+                        <p>Kiểm tra hộp thư đến của bạn để kích hoạt tài khoản.</p>
+                    </div>
+                </li>
+                <li class="auth-step">
+                    <div class="auth-step-num">3</div>
+                    <div class="auth-step-body">
+                        <strong>Đăng ký phương tiện</strong>
+                        <p>Nhập biển số xe để bắt đầu sử dụng dịch vụ thông minh.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="auth-left-footer">
+            &copy; {{ current_year }} NEU Smart Parking System
+        </div>
+    </div>
+
+    <!-- Right: Form panel -->
+    <div class="auth-split-right" style="align-items:flex-start;padding-top:48px;">
+        <div class="auth-form-wrap" style="max-width:480px;">
+            <h1 class="auth-form-title">Thông tin đăng ký</h1>
+            <p class="auth-form-subtitle">Vui lòng sử dụng thông tin thật để đảm bảo quyền lợi khi gửi xe.</p>
+
+            <form method="post" action="{{ url_for('register') }}"
+                  class="form-grid"
+                  style="grid-template-columns:1fr 1fr;gap:14px;">
+
+                <div class="form-group" style="grid-column:1/-1;">
+                    <label for="full_name">Họ và tên</label>
+                    <input id="full_name" name="full_name" type="text" required
+                           value="{{ full_name or '' }}" placeholder="Nguyễn Văn A">
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input id="username" name="username" type="text" required
+                           value="{{ username or '' }}" placeholder="nguyenvana123">
+                </div>
+
+                <div class="form-group">
+                    <label for="student_code">Mã sinh viên (MSSV)</label>
+                    <input id="student_code" name="student_code" type="text" required
+                           value="{{ student_code or '' }}" placeholder="11223344">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email sinh viên</label>
+                    <input id="email" name="email" type="email"
+                           value="{{ email or '' }}" placeholder="a.nv@student.neu.edu.vn">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input id="phone" name="phone" type="text"
+                           value="{{ phone or '' }}" placeholder="09xx xxx xxx">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input id="password" name="password" type="password" required
+                           placeholder="Ít nhất 6 ký tự">
+                </div>
+
+                <div class="form-group">
+                    <label for="password2">Xác nhận mật khẩu</label>
+                    <input id="password2" name="password2" type="password" required
+                           placeholder="Nhập lại mật khẩu">
+                </div>
+
+                <button class="btn btn-primary" type="submit"
+                        style="grid-column:1/-1;padding:11px;font-size:14px;">
+                    Đăng ký ngay →
+                </button>
+            </form>
+
+            <p class="auth-footer" style="margin-top:16px;">
+                Đã có tài khoản? <a href="{{ url_for('login') }}"><strong>Đăng nhập tại đây</strong></a>
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

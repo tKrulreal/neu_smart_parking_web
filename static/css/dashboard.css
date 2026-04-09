@@ -6,15 +6,3 @@
     border-bottom: 0;
     padding-bottom: 0;
 }
-
-.stat-card.accent-blue {
-    border-top: 3px solid var(--primary);
-}
-
-.stat-card.accent-green {
-    border-top: 3px solid var(--success);
-}
-
-.stat-card.accent-orange {
-    border-top: 3px solid var(--warning);
-}
