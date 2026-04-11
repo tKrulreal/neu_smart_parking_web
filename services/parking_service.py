@@ -8,6 +8,7 @@ from typing import Optional
 from sqlalchemy import text
 
 from services.db_service import get_engine
+from services.parking_area_service import get_parking_area_by_id
 from services.vehicle_service import get_vehicle_by_plate, normalize_plate
 
 
@@ -81,11 +82,24 @@ def get_active_session_by_plate(plate: str) -> Optional[dict]:
         row = conn.execute(
             text(
                 """
-                SELECT id, plate, student_code, time_in, time_out, gate_in, gate_out, fee, status, note
-                FROM parking_log
+                SELECT
+                    pl.id,
+                    pl.plate,
+                    pl.student_code,
+                    pl.parking_area_id,
+                    COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name,
+                    pl.time_in,
+                    pl.time_out,
+                    pl.gate_in,
+                    pl.gate_out,
+                    pl.fee,
+                    pl.status,
+                    pl.note
+                FROM parking_log pl
+                LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
                 WHERE replace(replace(replace(upper(plate), '-', ''), ' ', ''), '.', '')=:plate
                   AND time_out IS NULL
-                ORDER BY id DESC
+                ORDER BY pl.id DESC
                 LIMIT 1
                 """
             ),
@@ -167,6 +181,7 @@ def analyze_gate_in_scan(
     confidence: float | None,
     source: str | None,
     gate_name: str,
+    parking_area_id: int,
 ) -> dict:
     if not detected_plate:
         _log_plate_scan(
@@ -191,7 +206,15 @@ def analyze_gate_in_scan(
     elif active_session:
         status = "ALREADY_IN_PARKING"
     else:
-        status = "READY_TO_ENTER"
+        parking_area = get_parking_area_by_id(parking_area_id)
+        if not parking_area:
+            status = "INVALID_PARKING_AREA"
+        elif not parking_area["is_active"]:
+            status = "PARKING_AREA_INACTIVE"
+        elif parking_area["is_full"]:
+            status = "PARKING_AREA_FULL"
+        else:
+            status = "READY_TO_ENTER"
 
     _log_plate_scan(
         image_path=image_path,
@@ -206,7 +229,7 @@ def analyze_gate_in_scan(
     return {"status": status, "vehicle": vehicle, "active_session": active_session}
 
 
-def confirm_gate_in(*, plate: str, gate_name: str, note: str | None = None) -> dict:
+def confirm_gate_in(*, plate: str, gate_name: str, parking_area_id: int, note: str | None = None) -> dict:
     vehicle = get_vehicle_by_plate(plate, active_only=True)
     if not vehicle:
         raise ValueError("vehicle_not_found")
@@ -217,18 +240,26 @@ def confirm_gate_in(*, plate: str, gate_name: str, note: str | None = None) -> d
     created_at = _now_iso()
     engine = get_engine()
     with engine.begin() as conn:
+        parking_area = get_parking_area_by_id(parking_area_id, connection=conn)
+        if not parking_area:
+            raise ValueError("invalid_parking_area")
+        if not parking_area["is_active"]:
+            raise ValueError("parking_area_inactive")
+        if parking_area["is_full"]:
+            raise ValueError("parking_area_full")
         conn.execute(
             text(
                 """
                 INSERT INTO parking_log
-                (plate, student_code, time_in, gate_in, fee, status, note, created_at)
+                (plate, student_code, parking_area_id, time_in, gate_in, fee, status, note, created_at)
                 VALUES
-                (:plate, :student_code, :time_in, :gate_in, 0, 'IN_PARKING', :note, :created_at)
+                (:plate, :student_code, :parking_area_id, :time_in, :gate_in, 0, 'IN_PARKING', :note, :created_at)
                 """
             ),
             {
                 "plate": vehicle["plate"],
                 "student_code": vehicle["student_code"],
+                "parking_area_id": int(parking_area_id),
                 "time_in": time_in,
                 "gate_in": gate_name,
                 "note": note or None,
@@ -244,6 +275,8 @@ def confirm_gate_in(*, plate: str, gate_name: str, note: str | None = None) -> d
             "id": parking_log_id,
             "plate": vehicle["plate"],
             "student_code": vehicle["student_code"],
+            "parking_area_id": int(parking_area_id),
+            "parking_area_name": parking_area["name"],
             "time_in": time_in,
             "gate_in": gate_name,
             "status": "IN_PARKING",
@@ -388,35 +421,52 @@ def confirm_gate_out(*, plate: str, gate_name: str, qr_payload: str | None = Non
     }
 
 
-def list_recent_entries(limit: int = 8) -> list[dict]:
+def list_recent_entries(limit: int = 8, *, parking_area_id: int | None = None) -> list[dict]:
+    where_sql = ""
+    params: dict[str, object] = {"limit": int(limit)}
+    if parking_area_id:
+        where_sql = "WHERE pl.parking_area_id = :parking_area_id"
+        params["parking_area_id"] = int(parking_area_id)
     engine = get_engine()
     with engine.connect() as conn:
         rows = conn.execute(
             text(
                 """
-                SELECT plate, student_code, time_in, status
-                FROM parking_log
-                ORDER BY id DESC
+                SELECT
+                    pl.plate,
+                    pl.student_code,
+                    pl.time_in,
+                    pl.status,
+                    pl.parking_area_id,
+                    COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+                FROM parking_log pl
+                LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+                {where_sql}
+                ORDER BY pl.id DESC
                 LIMIT :limit
                 """
+                .format(where_sql=where_sql)
             ),
-            {"limit": int(limit)},
+            params,
         ).mappings().all()
     return [dict(row) for row in rows]
 
 
-def list_history(*, plate: str = "", status: str = "", date: str = "") -> list[dict]:
+def list_history(*, plate: str = "", status: str = "", date: str = "", parking_area_id: int | None = None) -> list[dict]:
     where = []
     params: dict[str, object] = {}
     if plate:
-        where.append("replace(replace(replace(upper(plate), '-', ''), ' ', ''), '.', '') LIKE :plate")
+        where.append("replace(replace(replace(upper(pl.plate), '-', ''), ' ', ''), '.', '') LIKE :plate")
         params["plate"] = f"%{normalize_plate(plate)}%"
     if status:
-        where.append("status = :status")
+        where.append("pl.status = :status")
         params["status"] = status
     if date:
-        where.append("date(time_in) = :date")
+        where.append("date(pl.time_in) = :date")
         params["date"] = date
+    if parking_area_id:
+        where.append("pl.parking_area_id = :parking_area_id")
+        params["parking_area_id"] = int(parking_area_id)
     where_sql = f"WHERE {' AND '.join(where)}" if where else ""
 
     engine = get_engine()
@@ -424,10 +474,23 @@ def list_history(*, plate: str = "", status: str = "", date: str = "") -> list[d
         rows = conn.execute(
             text(
                 f"""
-                SELECT id, plate, student_code, time_in, time_out, gate_in, gate_out, fee, status, note
-                FROM parking_log
+                SELECT
+                    pl.id,
+                    pl.plate,
+                    pl.student_code,
+                    pl.parking_area_id,
+                    COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name,
+                    pl.time_in,
+                    pl.time_out,
+                    pl.gate_in,
+                    pl.gate_out,
+                    pl.fee,
+                    pl.status,
+                    pl.note
+                FROM parking_log pl
+                LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
                 {where_sql}
-                ORDER BY id DESC
+                ORDER BY pl.id DESC
                 """
             ),
             params,
@@ -438,13 +501,16 @@ def list_history(*, plate: str = "", status: str = "", date: str = "") -> list[d
 def build_csv_export(rows: list[dict]) -> str:
     stream = io.StringIO()
     writer = csv.writer(stream)
-    writer.writerow(["ID", "Plate", "Student Code", "Time In", "Time Out", "Gate In", "Gate Out", "Fee", "Status", "Note"])
+    writer.writerow(
+        ["ID", "Plate", "Student Code", "Parking Area", "Time In", "Time Out", "Gate In", "Gate Out", "Fee", "Status", "Note"]
+    )
     for row in rows:
         writer.writerow(
             [
                 row.get("id"),
                 row.get("plate"),
                 row.get("student_code"),
+                row.get("parking_area_name"),
                 row.get("time_in"),
                 row.get("time_out"),
                 row.get("gate_in"),
@@ -463,13 +529,16 @@ def build_excel_export(rows: list[dict]) -> bytes:
     wb = Workbook()
     ws = wb.active
     ws.title = "Parking History"
-    ws.append(["ID", "Plate", "Student Code", "Time In", "Time Out", "Gate In", "Gate Out", "Fee", "Status", "Note"])
+    ws.append(
+        ["ID", "Plate", "Student Code", "Parking Area", "Time In", "Time Out", "Gate In", "Gate Out", "Fee", "Status", "Note"]
+    )
     for row in rows:
         ws.append(
             [
                 row.get("id"),
                 row.get("plate"),
                 row.get("student_code"),
+                row.get("parking_area_name"),
                 row.get("time_in"),
                 row.get("time_out"),
                 row.get("gate_in"),

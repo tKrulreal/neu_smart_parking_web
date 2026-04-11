@@ -16,6 +16,7 @@ from werkzeug.utils import secure_filename
 
 from config import Config
 from services.db_service import get_engine, init_db
+from services.parking_area_service import get_parking_area_stats, list_parking_areas, update_parking_area
 from services.parking_service import (
     analyze_gate_in_scan,
     analyze_gate_out_scan,
@@ -240,6 +241,50 @@ def _vehicle_form_defaults(data: dict | None = None) -> dict:
     return payload
 
 
+def _parking_area_form_defaults(data: dict | None = None) -> dict:
+    payload = {
+        "name": "",
+        "capacity": 50,
+        "description": "",
+        "is_active": True,
+    }
+    if data:
+        payload.update(
+            {
+                "name": data.get("name", ""),
+                "capacity": int(data.get("capacity") or 0),
+                "description": data.get("description") or "",
+                "is_active": bool(data.get("is_active", 1)),
+            }
+        )
+    return payload
+
+
+def _find_parking_area(raw_value: int | str | None, parking_areas: list[dict]) -> dict | None:
+    if raw_value in (None, ""):
+        return None
+    try:
+        area_id = int(raw_value)
+    except (TypeError, ValueError):
+        return None
+    return next((item for item in parking_areas if int(item.get("id") or 0) == area_id), None)
+
+
+def _resolve_selected_parking_area(raw_value: int | str | None, parking_areas: list[dict]) -> dict | None:
+    selected_area = _find_parking_area(raw_value, parking_areas)
+    if selected_area:
+        return selected_area
+    return next((item for item in parking_areas if item.get("is_active")), None) or (parking_areas[0] if parking_areas else None)
+
+
+def _parse_chart_days(raw_value: int | str | None) -> int:
+    try:
+        days = int(raw_value or 7)
+    except (TypeError, ValueError):
+        return 7
+    return days if days in {7, 14, 30} else 7
+
+
 def _issue_session_qr(student_code: str, plate: str, parking_log_id: int) -> dict:
     from services.qr_service import create_qr_asset
 
@@ -314,7 +359,7 @@ def _expire_stale_qr_logs(student_code: str) -> None:
         )
 
 
-def _store_gate_candidate(key: str, plate: str, gate_name: str, **extra: str) -> None:
+def _store_gate_candidate(key: str, plate: str, gate_name: str, **extra: object) -> None:
     session[key] = {
         "plate": normalize_plate(plate),
         "gate_name": _normalize_gate_name(gate_name),
@@ -328,7 +373,7 @@ def _consume_gate_candidate(
     plate: str,
     gate_name: str,
     max_age_minutes: int = 5,
-    **expected: str,
+    **expected: object,
 ) -> bool:
     candidate = session.get(key)
     session.pop(key, None)
@@ -408,6 +453,9 @@ def _translate_status(status: str | None) -> str:
         "QR_PLATE_MISMATCH": "QR không khớp biển số",
         "QR_SESSION_MISMATCH": "QR không khớp phiên gửi xe",
         "QR_USED": "QR đã được sử dụng",
+        "PARKING_AREA_FULL": "Bãi xe đã đầy",
+        "PARKING_AREA_INACTIVE": "Bãi xe tạm dừng hoạt động",
+        "INVALID_PARKING_AREA": "Bãi xe không hợp lệ",
         "NO_ACTIVE_SESSION": "Không có phiên gửi xe",
         "SUCCESS": "Thành công",
         "OPEN": "Mở cổng",
@@ -535,6 +583,7 @@ def dashboard():
     if g.user.get("role") == "student":
         return redirect(url_for("self_dashboard"))
 
+    parking_areas = list_parking_areas(include_inactive=True)
     total_users = int(_fetch_scalar("SELECT COUNT(*) FROM users"))
     total_vehicles = int(_fetch_scalar("SELECT COUNT(*) FROM vehicles"))
     vehicles_in_parking = int(_fetch_scalar("SELECT COUNT(*) FROM parking_log WHERE time_out IS NULL"))
@@ -551,9 +600,16 @@ def dashboard():
     )
     recent_logs = _fetch_all(
         """
-        SELECT plate, student_code, time_in, time_out, status
-        FROM parking_log
-        ORDER BY id DESC
+        SELECT
+            pl.plate,
+            pl.student_code,
+            COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name,
+            pl.time_in,
+            pl.time_out,
+            pl.status
+        FROM parking_log pl
+        LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+        ORDER BY pl.id DESC
         LIMIT 10
         """
     )
@@ -574,6 +630,7 @@ def dashboard():
         today_checkouts=today_checkouts,
         today_revenue=today_revenue,
         current_date=datetime.now().strftime("%d/%m/%Y"),
+        parking_areas=parking_areas,
         recent_logs=recent_logs,
         recent_vehicle_scans=recent_vehicle_scans,
     )
@@ -588,20 +645,36 @@ def gate_in():
     error_message = None
     uploaded_preview = None
     issued_qr = None
+    gate_name = (request.values.get("gate_name") or "Cổng 1").strip() or "Cổng 1"
+    parking_areas = list_parking_areas(include_inactive=True)
+    selected_area = _resolve_selected_parking_area(request.values.get("parking_area_id"), parking_areas)
 
     if request.method == "POST":
         action = request.form.get("action", "scan")
-        gate_name = (request.form.get("gate_name") or "Cổng 1").strip()
+        gate_name = (request.form.get("gate_name") or gate_name).strip() or "Cổng 1"
+        parking_areas = list_parking_areas(include_inactive=True)
+        selected_area = _find_parking_area(request.form.get("parking_area_id"), parking_areas)
 
-        if action == "confirm_entry":
+        if not selected_area:
+            error_message = "Vui lòng chọn bãi xe hợp lệ."
+        elif action == "confirm_entry":
             plate = (request.form.get("plate") or "").strip()
             ocr["plate"] = plate or None
             if plate:
-                if not _consume_gate_candidate("gate_in_candidate", plate, gate_name):
+                if not _consume_gate_candidate(
+                    "gate_in_candidate",
+                    plate,
+                    gate_name,
+                    parking_area_id=str(selected_area["id"]),
+                ):
                     error_message = "Phiên quét vào cổng không hợp lệ hoặc đã hết hạn. Vui lòng quét lại."
                 else:
                     try:
-                        result = confirm_gate_in(plate=plate, gate_name=gate_name)
+                        result = confirm_gate_in(
+                            plate=plate,
+                            gate_name=gate_name,
+                            parking_area_id=int(selected_area["id"]),
+                        )
                         owner = result["vehicle"]
                         entry_session = result["session"]
                         system_status = result["status"]
@@ -611,7 +684,10 @@ def gate_in():
                                 owner["plate"],
                                 entry_session["id"],
                             )
-                            flash(f"Đã xác nhận xe {owner['plate']} vào bãi và tạo QR cho lượt gửi xe.", "success")
+                            flash(
+                                f"Đã xác nhận xe {owner['plate']} vào {selected_area['name']} và tạo QR cho lượt gửi xe.",
+                                "success",
+                            )
                         except Exception:
                             flash(
                                 f"Đã xác nhận xe {owner['plate']} vào bãi nhưng chưa tạo được QR. Vui lòng cấp lại QR từ trang sinh viên.",
@@ -620,9 +696,12 @@ def gate_in():
                     except ValueError as exc:
                         message_map = {
                             "vehicle_not_found": "Không tìm thấy xe đã được phê duyệt.",
-                            "already_in_parking": "Xe này đang ở trong bãi.",
+                            "already_in_parking": "Xe nay dang o trong bai.",
+                            "invalid_parking_area": "Bãi xe không hợp lệ.",
+                            "parking_area_inactive": "Bãi xe đang tạm dừng nhận xe.",
+                            "parking_area_full": f"{selected_area['name']} đã đầy, không thể nhận thêm xe.",
                         }
-                        error_message = message_map.get(str(exc), "Không thể xác nhận xe vào.")
+                        error_message = message_map.get(str(exc), "Khong the xac nhan xe vao.")
             else:
                 error_message = "Thiếu biển số để xác nhận xe vào."
         else:
@@ -644,11 +723,17 @@ def gate_in():
                         confidence=confidence,
                         source=source,
                         gate_name=gate_name,
+                        parking_area_id=int(selected_area["id"]),
                     )
                     owner = analysis["vehicle"]
                     system_status = analysis["status"]
                     if system_status == "READY_TO_ENTER" and plate:
-                        _store_gate_candidate("gate_in_candidate", plate, gate_name)
+                        _store_gate_candidate(
+                            "gate_in_candidate",
+                            plate,
+                            gate_name,
+                            parking_area_id=str(selected_area["id"]),
+                        )
                     else:
                         session.pop("gate_in_candidate", None)
                 except Exception:
@@ -656,13 +741,17 @@ def gate_in():
                 finally:
                     _cleanup_temporary_upload(absolute_path)
 
-    logs = list_recent_entries(limit=8)
+    parking_areas = list_parking_areas(include_inactive=True)
+    selected_area = _resolve_selected_parking_area(selected_area["id"] if selected_area else None, parking_areas)
+    logs = list_recent_entries(limit=8, parking_area_id=int(selected_area["id"])) if selected_area else []
     return render_template(
         "gate_in.html",
-        gate_name="Cổng 1",
+        gate_name=gate_name,
         status="Đang hoạt động",
         current_time=datetime.now().strftime("%H:%M:%S"),
         current_date=datetime.now().strftime("%d/%m/%Y"),
+        parking_areas=parking_areas,
+        selected_area=selected_area,
         ocr=ocr,
         owner=owner,
         system_status=system_status,
@@ -681,6 +770,7 @@ def gate_out():
         "plate": None,
         "student_id": None,
         "entry_time": None,
+        "parking_area_name": None,
         "student_name": None,
         "vehicle": None,
         "is_valid": False,
@@ -715,6 +805,7 @@ def gate_out():
                         {
                             "student_id": vehicle["student_code"],
                             "entry_time": session_data["time_in"],
+                            "parking_area_name": session_data.get("parking_area_name"),
                             "student_name": vehicle["owner_name"],
                             "vehicle": vehicle,
                             "is_valid": False,
@@ -783,6 +874,7 @@ def gate_out():
                     context["student_name"] = context["vehicle"]["owner_name"]
                 if active_session:
                     context["entry_time"] = active_session["time_in"]
+                    context["parking_area_name"] = active_session.get("parking_area_name")
                     context["duration"] = _duration_from_iso(active_session["time_in"])
                 context["fee"] = analysis.get("fee", 0)
                 context["is_valid"] = analysis["status"] == "READY_TO_EXIT"
@@ -824,12 +916,34 @@ def history():
     plate = (request.args.get("plate") or "").strip()
     status = (request.args.get("status") or "").strip()
     date = (request.args.get("date") or "").strip()
+    parking_areas = list_parking_areas(include_inactive=True)
+    selected_area = _find_parking_area(request.args.get("parking_area_id"), parking_areas)
+    scoped_area_id = int(selected_area["id"]) if selected_area else None
+    summary_sql = " AND parking_area_id = :parking_area_id" if scoped_area_id else ""
+    summary_params = {"parking_area_id": scoped_area_id} if scoped_area_id else {}
 
     context = {
-        "history": list_history_records(plate=plate, status=status, date=date),
-        "total_revenue": int(_fetch_scalar("SELECT COALESCE(SUM(fee),0) FROM parking_log WHERE time_out IS NOT NULL")),
-        "today_count": int(_fetch_scalar("SELECT COUNT(*) FROM parking_log WHERE date(time_in)=date('now','localtime')")),
-        "occupancy": int(_fetch_scalar("SELECT COUNT(*) FROM parking_log WHERE time_out IS NULL")),
+        "history": list_history_records(plate=plate, status=status, date=date, parking_area_id=scoped_area_id),
+        "total_revenue": int(
+            _fetch_scalar(
+                f"SELECT COALESCE(SUM(fee),0) FROM parking_log WHERE time_out IS NOT NULL{summary_sql}",
+                summary_params,
+            )
+        ),
+        "today_count": int(
+            _fetch_scalar(
+                f"SELECT COUNT(*) FROM parking_log WHERE date(time_in)=date('now','localtime'){summary_sql}",
+                summary_params,
+            )
+        ),
+        "occupancy": int(
+            _fetch_scalar(
+                f"SELECT COUNT(*) FROM parking_log WHERE time_out IS NULL{summary_sql}",
+                summary_params,
+            )
+        ),
+        "parking_areas": parking_areas,
+        "parking_area_filter": str(scoped_area_id) if scoped_area_id else "",
         "plate_filter": plate,
         "status_filter": status,
         "date_filter": date,
@@ -840,10 +954,15 @@ def history():
 @app.route("/export-csv")
 @roles_required("guard", "admin")
 def export_csv():
+    parking_area = _find_parking_area(
+        request.args.get("parking_area_id"),
+        list_parking_areas(include_inactive=True),
+    )
     rows = list_history_records(
         plate=(request.args.get("plate") or "").strip(),
         status=(request.args.get("status") or "").strip(),
         date=(request.args.get("date") or "").strip(),
+        parking_area_id=int(parking_area["id"]) if parking_area else None,
     )
     csv_text = build_csv_export(rows)
     filename = f"parking_history_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
@@ -857,10 +976,15 @@ def export_csv():
 @app.route("/export-excel")
 @roles_required("guard", "admin")
 def export_excel():
+    parking_area = _find_parking_area(
+        request.args.get("parking_area_id"),
+        list_parking_areas(include_inactive=True),
+    )
     rows = list_history_records(
         plate=(request.args.get("plate") or "").strip(),
         status=(request.args.get("status") or "").strip(),
         date=(request.args.get("date") or "").strip(),
+        parking_area_id=int(parking_area["id"]) if parking_area else None,
     )
     try:
         excel_bytes = build_excel_export(rows)
@@ -879,6 +1003,69 @@ def export_excel():
 @roles_required("admin")
 def admin():
     return render_template("admin.html")
+
+
+@app.route("/admin/parking-areas")
+@roles_required("admin")
+def parking_areas_admin():
+    parking_areas = list_parking_areas(include_inactive=True)
+    selected_area = _resolve_selected_parking_area(request.args.get("area_id"), parking_areas)
+    chart_days = _parse_chart_days(request.args.get("days"))
+    area_stats = get_parking_area_stats(int(selected_area["id"]), days=chart_days) if selected_area else None
+    return render_template(
+        "parking_areas.html",
+        parking_areas=parking_areas,
+        selected_area=selected_area,
+        area_stats=area_stats,
+        selected_days=chart_days,
+        parking_area_form=_parking_area_form_defaults(selected_area),
+    )
+
+
+@app.route("/admin/parking-areas/<int:area_id>")
+@roles_required("admin")
+def parking_area_detail(area_id: int):
+    parking_areas = list_parking_areas(include_inactive=True)
+    selected_area = _find_parking_area(area_id, parking_areas)
+    if not selected_area:
+        flash("Bãi xe không tồn tại.", "error")
+        return redirect(url_for("parking_areas_admin"))
+
+    chart_days = _parse_chart_days(request.args.get("days"))
+    area_stats = get_parking_area_stats(area_id, days=chart_days)
+    return render_template(
+        "parking_areas.html",
+        parking_areas=parking_areas,
+        selected_area=selected_area,
+        area_stats=area_stats,
+        selected_days=chart_days,
+        parking_area_form=_parking_area_form_defaults(selected_area),
+    )
+
+
+@app.post("/admin/parking-areas/<int:area_id>/update")
+@roles_required("admin")
+def update_parking_area_route(area_id: int):
+    chart_days = _parse_chart_days(request.form.get("days"))
+    try:
+        update_parking_area(
+            area_id,
+            name=(request.form.get("name") or "").strip(),
+            capacity=(request.form.get("capacity") or "").strip(),
+            description=(request.form.get("description") or "").strip() or None,
+            is_active=_bool_form("is_active"),
+        )
+        flash("Đã cập nhật thông tin bãi xe.", "success")
+    except ValueError as exc:
+        message_map = {
+            "required": "Vui lòng nhập tên bãi xe.",
+            "invalid_capacity": "Sức chứa phải là số nguyên dương.",
+            "not_found": "Bãi xe không tồn tại.",
+            "capacity_below_occupancy": "Không thể giảm sức chứa nhỏ hơn số xe đang gửi.",
+            "occupied_area_cannot_disable": "Không thể tạm dừng bãi xe khi vẫn còn xe đang gửi.",
+        }
+        flash(message_map.get(str(exc), "Không thể cập nhật bãi xe."), "error")
+    return redirect(url_for("parking_area_detail", area_id=area_id, days=chart_days))
 
 
 @app.route("/admin/users")
@@ -1204,10 +1391,16 @@ def student_qr():
     _expire_stale_qr_logs(student_code)
     active_sessions = _fetch_all(
         """
-        SELECT id, plate, time_in, gate_in
-        FROM parking_log
-        WHERE student_code=:student_code AND time_out IS NULL
-        ORDER BY id DESC
+        SELECT
+            pl.id,
+            pl.plate,
+            pl.time_in,
+            pl.gate_in,
+            COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+        FROM parking_log pl
+        LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+        WHERE pl.student_code=:student_code AND pl.time_out IS NULL
+        ORDER BY pl.id DESC
         """,
         {"student_code": student_code},
     )
@@ -1235,6 +1428,7 @@ def student_qr():
                     "plate": plate,
                     "time_in": active_session[2],
                     "gate_in": active_session[3],
+                    "parking_area_name": active_session[4],
                     "vehicle": vehicle,
                     "ticket": ticket,
                     "qr_image_path": ticket["qr_image_path"] if ticket else None,
@@ -1280,20 +1474,31 @@ def self_dashboard():
     vehicles_rows = list_vehicles(student_code=student_code or "")
     recent_logs = _fetch_all(
         """
-        SELECT plate, time_in, time_out, fee, status
-        FROM parking_log
-        WHERE student_code=:student_code
-        ORDER BY id DESC
+        SELECT
+            pl.plate,
+            pl.time_in,
+            pl.time_out,
+            pl.fee,
+            pl.status,
+            COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+        FROM parking_log pl
+        LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+        WHERE pl.student_code=:student_code
+        ORDER BY pl.id DESC
         LIMIT 8
         """,
         {"student_code": student_code or ""},
     )
     active_vehicles = _fetch_all(
         """
-        SELECT plate, time_in
-        FROM parking_log
-        WHERE student_code=:student_code AND time_out IS NULL
-        ORDER BY id DESC
+        SELECT
+            pl.plate,
+            pl.time_in,
+            COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+        FROM parking_log pl
+        LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+        WHERE pl.student_code=:student_code AND pl.time_out IS NULL
+        ORDER BY pl.id DESC
         """,
         {"student_code": student_code or ""},
     )
@@ -1316,22 +1521,31 @@ def self_history():
     date_from = (request.args.get("date_from") or "").strip()
     date_to = (request.args.get("date_to") or "").strip()
 
-    where = ["student_code=:student_code"]
+    where = ["pl.student_code=:student_code"]
     params = {"student_code": student_code or ""}
     if date_from:
-        where.append("date(time_in) >= :date_from")
+        where.append("date(pl.time_in) >= :date_from")
         params["date_from"] = date_from
     if date_to:
-        where.append("date(time_in) <= :date_to")
+        where.append("date(pl.time_in) <= :date_to")
         params["date_to"] = date_to
 
     where_sql = f"WHERE {' AND '.join(where)}"
     histories = _fetch_all(
         f"""
-        SELECT plate, time_in, time_out, fee, status, gate_in, gate_out
-        FROM parking_log
+        SELECT
+            pl.plate,
+            pl.time_in,
+            pl.time_out,
+            pl.fee,
+            pl.status,
+            pl.gate_in,
+            pl.gate_out,
+            COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+        FROM parking_log pl
+        LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
         {where_sql}
-        ORDER BY id DESC
+        ORDER BY pl.id DESC
         LIMIT 150
         """,
         params,

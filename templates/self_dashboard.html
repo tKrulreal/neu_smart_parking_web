@@ -10,22 +10,15 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h1 class="page-title">Xin chào, {{ user.full_name }} 👋</h1>
-        <p class="page-subtitle">Hôm nay là {{ current_date }}</p>
+        <h1 class="page-title">Xin chào, {{ user.full_name }}</h1>
+        <p class="page-subtitle">Hôm nay là {{ current_date }}</p>
     </div>
     <div class="button-row">
-        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Đăng ký xe mới
-        </a>
-        <a class="btn btn-secondary" href="{{ url_for('student_qr') }}">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg>
-            Mã QR
-        </a>
+        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký xe mới</a>
+        <a class="btn btn-secondary" href="{{ url_for('student_qr') }}">Mã QR</a>
     </div>
 </div>
 
-<!-- Stats row -->
 <div class="grid grid-3" style="margin-bottom:22px;">
     <article class="stat-card accent-blue">
         <p class="stat-label">Xe đã đăng ký</p>
@@ -36,42 +29,35 @@
         <p class="stat-value" style="color:var(--success);">{{ vehicles_in_parking }}</p>
     </article>
     <article class="stat-card accent-orange">
-        <p class="stat-label">Lượt gửi gần đây</p>
+        <p class="stat-label">Phiên gần đây</p>
         <p class="stat-value">{{ recent_sessions_count }}</p>
     </article>
 </div>
 
 <div class="grid grid-2">
-    <!-- Active session card OR empty state -->
     <div>
         {% if active_vehicles %}
-            {% for active_vehicle in active_vehicles %}
-            <div class="active-session-card" style="margin-bottom:14px;">
-                <p class="session-label">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;vertical-align:middle;"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-                    XE ĐANG TRONG BÃI
-                </p>
-                <p class="session-plate">{{ active_vehicle[0] }}</p>
-                <div class="session-meta">
-                    <div class="meta-item">
-                        <label>Giờ vào</label>
-                        <span>{{ active_vehicle[1] }}</span>
-                    </div>
-                    <div class="meta-item">
-                        <label>Trạng thái</label>
-                        <span>Đang gửi</span>
-                    </div>
+        {% for active_vehicle in active_vehicles %}
+        <div class="active-session-card" style="margin-bottom:14px;">
+            <p class="session-label">XE ĐANG TRONG BÃI</p>
+            <p class="session-plate">{{ active_vehicle[0] }}</p>
+            <div class="session-meta">
+                <div class="meta-item">
+                    <label>Giờ vào</label>
+                    <span>{{ active_vehicle[1] }}</span>
                 </div>
-                <a class="btn" href="{{ url_for('student_qr') }}"
-                   style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;width:100%;justify-content:center;padding:9px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/></svg>
-                    Xuất trình mã QR
-                </a>
+                <div class="meta-item">
+                    <label>Bãi xe</label>
+                    <span>{{ active_vehicle[2] or '—' }}</span>
+                </div>
             </div>
-            {% endfor %}
+            <a class="btn" href="{{ url_for('student_qr') }}" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;width:100%;justify-content:center;padding:9px;">
+                Xuất trình mã QR
+            </a>
+        </div>
+        {% endfor %}
         {% else %}
         <article class="section-card" style="text-align:center;padding:36px 20px;">
-            <div style="font-size:40px;margin-bottom:10px;opacity:0.35;">🅿</div>
             <p style="font-weight:600;color:var(--text);margin-bottom:6px;">Không có xe trong bãi</p>
             <p class="muted" style="font-size:13px;margin-bottom:16px;">Mã QR sẽ xuất hiện khi xe của bạn vào bãi thành công.</p>
             <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle') }}">Xem phương tiện</a>
@@ -79,7 +65,6 @@
         {% endif %}
     </div>
 
-    <!-- Recent history -->
     <article class="section-card">
         <div class="section-head">
             <h2 class="section-title">Hoạt động gần đây</h2>
@@ -90,8 +75,8 @@
                 <thead>
                     <tr>
                         <th>Biển số</th>
+                        <th>Bãi xe</th>
                         <th>Vào</th>
-                        <th>Ra</th>
                         <th>Phí</th>
                         <th>TT</th>
                     </tr>
@@ -100,8 +85,8 @@
                     {% for log in recent_logs %}
                     <tr>
                         <td><span class="plate-badge">{{ log[0] }}</span></td>
+                        <td style="font-size:12px;">{{ log[5] or '—' }}</td>
                         <td style="font-size:12px;">{{ log[1] or '—' }}</td>
-                        <td style="font-size:12px;">{{ log[2] or '—' }}</td>
                         <td style="font-weight:600;">{{ "{:,.0f}".format(log[3] or 0) }}<span style="font-size:10px;color:var(--text-secondary);"> đ</span></td>
                         <td>
                             <span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}" style="font-size:10px;">

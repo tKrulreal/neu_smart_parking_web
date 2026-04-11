@@ -11,17 +11,17 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Bảng điều khiển quản trị</h1>
-        <p class="page-subtitle">Điều phối người dùng, phương tiện và giao dịch toàn hệ thống.</p>
+        <p class="page-subtitle">Quản lý người dùng, phương tiện, giao dịch và từng bãi xe trong hệ thống.</p>
     </div>
 </div>
 
-<div class="grid grid-3">
+<div class="grid grid-4">
     <article class="section-card" style="border-top:3px solid var(--primary);">
         <div style="width:44px;height:44px;background:var(--primary-muted);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
         <h3 class="section-title">Người dùng</h3>
-        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Thêm, sửa, khóa hoặc xóa tài khoản người dùng trong hệ thống.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Tạo, cập nhật, khóa hoặc xóa tài khoản.</p>
         <a class="btn btn-primary" href="{{ url_for('user_management') }}">Mở quản lý người dùng</a>
     </article>
 
@@ -30,7 +30,7 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         </div>
         <h3 class="section-title">Phương tiện</h3>
-        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Quản lý danh sách xe, duyệt đăng ký và theo dõi trạng thái.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Duyệt xe, chỉnh sửa thông tin và theo dõi trạng thái gửi.</p>
         <a class="btn btn-primary" href="{{ url_for('vehicles') }}">Mở quản lý phương tiện</a>
     </article>
 
@@ -39,8 +39,17 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <h3 class="section-title">Lịch sử</h3>
-        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Theo dõi các giao dịch vào ra bãi xe, xuất báo cáo CSV/Excel.</p>
+        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Tra cứu giao dịch vào/ra và xuất báo cáo theo từng bãi.</p>
         <a class="btn btn-primary" href="{{ url_for('history') }}">Mở lịch sử</a>
+    </article>
+
+    <article class="section-card" style="border-top:3px solid #0d9488;">
+        <div style="width:44px;height:44px;background:#ecfeff;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2"><path d="M3 7h18"/><path d="M5 7v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7"/><path d="M9 11h6"/><path d="M9 15h4"/></svg>
+        </div>
+        <h3 class="section-title">Bãi xe</h3>
+        <p class="muted" style="font-size:13px;margin-bottom:16px;line-height:1.6;">Theo dõi công suất, sức chứa và thống kê riêng cho từng bãi xe.</p>
+        <a class="btn btn-primary" href="{{ url_for('parking_areas_admin') }}">Mở quản lý bãi xe</a>
     </article>
 </div>
 {% endblock %}

@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+
+{% block title %}Bãi xe - NEU Smart Parking{% endblock %}
+{% block topbar_title %}Quản lý bãi xe{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Quản lý và thống kê bãi xe</h1>
+        <p class="page-subtitle">Chọn bãi xe để xem biểu đồ lưu lượng vào ra theo ngày và cấu hình sức chứa.</p>
+    </div>
+</div>
+
+{% if selected_area and area_stats %}
+<div class="parking-area-top-stats">
+    <article class="section-card parking-area-stat">
+        <p class="parking-area-stat-label">Bãi đang chọn</p>
+        <p class="parking-area-stat-value">{{ selected_area.name }}</p>
+        <p class="parking-area-stat-note">{{ selected_area.code }}</p>
+    </article>
+    <article class="section-card parking-area-stat">
+        <p class="parking-area-stat-label">Xe đang gửi</p>
+        <p class="parking-area-stat-value" style="color:var(--warning);">{{ area_stats.area.occupancy }}</p>
+        <p class="parking-area-stat-note">{{ area_stats.area.capacity }} chỗ tối đa</p>
+    </article>
+    <article class="section-card parking-area-stat">
+        <p class="parking-area-stat-label">Lượt vào hôm nay</p>
+        <p class="parking-area-stat-value" style="color:var(--success);">{{ area_stats.stats.today_checkins }}</p>
+        <p class="parking-area-stat-note">{{ area_stats.daily_chart.range_days }} ngày gần nhất</p>
+    </article>
+    <article class="section-card parking-area-stat">
+        <p class="parking-area-stat-label">Lượt ra hôm nay</p>
+        <p class="parking-area-stat-value" style="color:var(--primary);">{{ area_stats.stats.today_checkouts }}</p>
+        <p class="parking-area-stat-note">{{ area_stats.daily_chart.total_checkouts }} lượt trong kỳ</p>
+    </article>
+    <article class="section-card parking-area-stat">
+        <p class="parking-area-stat-label">Doanh thu</p>
+        <p class="parking-area-stat-value" style="color:#0d9488;">{{ "{:,.0f}".format(area_stats.stats.total_revenue) }}</p>
+        <p class="parking-area-stat-note">Tỷ lệ lấp đầy {{ area_stats.area.occupancy_rate }}%</p>
+    </article>
+</div>
+
+<article class="section-card parking-area-toolbar-card">
+    <div class="parking-area-toolbar">
+        <form method="get" action="{{ url_for('parking_areas_admin') }}" class="parking-area-selector">
+            <input type="hidden" name="days" value="{{ selected_days or 7 }}">
+            <label for="area_id">Chọn bãi xe</label>
+            <select id="area_id" name="area_id" onchange="this.form.submit()">
+                {% for area in parking_areas %}
+                <option value="{{ area.id }}" {% if selected_area and area.id == selected_area.id %}selected{% endif %}>
+                    {{ area.name }} | {{ area.occupancy }}/{{ area.capacity }} xe
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <div class="parking-area-range">
+            <a class="btn {% if selected_days == 7 %}btn-primary{% else %}btn-secondary{% endif %} btn-small" href="{{ url_for('parking_areas_admin', area_id=selected_area.id, days=7) }}">7 ngày</a>
+            <a class="btn {% if selected_days == 14 %}btn-primary{% else %}btn-secondary{% endif %} btn-small" href="{{ url_for('parking_areas_admin', area_id=selected_area.id, days=14) }}">14 ngày</a>
+            <a class="btn {% if selected_days == 30 %}btn-primary{% else %}btn-secondary{% endif %} btn-small" href="{{ url_for('parking_areas_admin', area_id=selected_area.id, days=30) }}">30 ngày</a>
+        </div>
+    </div>
+</article>
+
+<article class="section-card parking-area-chart-shell">
+    <div class="section-head">
+        <div>
+            <h2 class="section-title">Biểu đồ lưu lượng xe theo ngày</h2>
+            <p class="muted" style="margin:6px 0 0;">Dữ liệu lượt xe vào và ra tại {{ selected_area.name }} trong {{ area_stats.daily_chart.range_days }} ngày gần nhất.</p>
+        </div>
+    </div>
+
+    <div class="parking-area-chart-grid">
+        <article class="parking-area-chart-card">
+            <div class="parking-area-chart-header">
+                <div>
+                    <p class="parking-area-chart-title">Lượt xe vào</p>
+                    <p class="parking-area-chart-subtitle">Tổng {{ area_stats.daily_chart.total_checkins }} lượt</p>
+                </div>
+                <span class="badge badge-success">Vào bãi</span>
+            </div>
+            <div class="parking-area-chart-columns">
+                {% for day in area_stats.daily_chart.days %}
+                <div class="parking-area-chart-column">
+                    <span class="parking-area-chart-value">{{ day.checkins }}</span>
+                    <div class="parking-area-chart-bar parking-area-chart-bar-in" style="height: {{ day.checkin_height }}px;"></div>
+                    <span class="parking-area-chart-label">{{ day.label }}</span>
+                    <span class="parking-area-chart-weekday">{{ day.weekday }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="parking-area-chart-card">
+            <div class="parking-area-chart-header">
+                <div>
+                    <p class="parking-area-chart-title">Lượt xe ra</p>
+                    <p class="parking-area-chart-subtitle">Tổng {{ area_stats.daily_chart.total_checkouts }} lượt</p>
+                </div>
+                <span class="badge badge-primary">Ra bãi</span>
+            </div>
+            <div class="parking-area-chart-columns">
+                {% for day in area_stats.daily_chart.days %}
+                <div class="parking-area-chart-column">
+                    <span class="parking-area-chart-value">{{ day.checkouts }}</span>
+                    <div class="parking-area-chart-bar parking-area-chart-bar-out" style="height: {{ day.checkout_height }}px;"></div>
+                    <span class="parking-area-chart-label">{{ day.label }}</span>
+                    <span class="parking-area-chart-weekday">{{ day.weekday }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+    </div>
+</article>
+
+<div class="grid grid-2" style="margin-top:20px;align-items:start;">
+    <article class="section-card">
+        <h2 class="section-title">Cấu hình {{ selected_area.name }}</h2>
+        <form method="post" action="{{ url_for('update_parking_area_route', area_id=selected_area.id) }}" class="grid admin-form-grid">
+            <input type="hidden" name="days" value="{{ selected_days or 7 }}">
+
+            <div class="form-group">
+                <label for="name">Tên bãi xe</label>
+                <input id="name" name="name" type="text" value="{{ parking_area_form.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="capacity">Sức chứa tối đa</label>
+                <input id="capacity" name="capacity" type="number" min="1" value="{{ parking_area_form.capacity }}" required>
+            </div>
+            <div class="form-group form-group-wide">
+                <label for="description">Mô tả</label>
+                <textarea id="description" name="description" rows="4">{{ parking_area_form.description }}</textarea>
+            </div>
+            <label class="checkbox-row">
+                <input type="checkbox" name="is_active" {% if parking_area_form.is_active %}checked{% endif %}>
+                <span>Bãi xe đang hoạt động</span>
+            </label>
+            <div class="button-row">
+                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+            </div>
+        </form>
+    </article>
+
+    <article class="section-card">
+        <div class="section-head">
+            <h2 class="section-title">Lịch sử gần đây</h2>
+            <a class="btn btn-secondary btn-small" href="{{ url_for('history', parking_area_id=selected_area.id) }}">Mở lịch sử</a>
+        </div>
+        <div class="table-wrapper" style="max-height:360px;overflow-y:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Biển số</th>
+                        <th>MSSV</th>
+                        <th>Vào</th>
+                        <th>Ra</th>
+                        <th>Phí</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in area_stats.recent_logs %}
+                    <tr>
+                        <td>#{{ log.id }}</td>
+                        <td><span class="plate-badge">{{ log.plate }}</span></td>
+                        <td>{{ log.student_code }}</td>
+                        <td>{{ log.time_in or '—' }}</td>
+                        <td>{{ log.time_out or '—' }}</td>
+                        <td>{{ "{:,.0f}".format(log.fee or 0) }}</td>
+                        <td>
+                            <span class="badge {% if log.status == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
+                                {{ translate_status(log.status) }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="muted" style="text-align:center;padding:24px;">Chưa có giao dịch nào.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</div>
+{% endif %}
+
+<style>
+.parking-area-top-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.parking-area-stat {
+    padding: 18px 20px;
+}
+
+.parking-area-stat-label {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text-secondary);
+}
+
+.parking-area-stat-value {
+    margin: 10px 0 6px;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.parking-area-stat-note {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.parking-area-toolbar-card {
+    margin-bottom: 18px;
+}
+
+.parking-area-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.parking-area-selector {
+    min-width: min(420px, 100%);
+}
+
+.parking-area-selector label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.parking-area-selector select {
+    width: 100%;
+}
+
+.parking-area-range {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.parking-area-chart-shell {
+    padding: 22px;
+}
+
+.parking-area-chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.parking-area-chart-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,249,252,.95));
+}
+
+.parking-area-chart-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+}
+
+.parking-area-chart-title {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.parking-area-chart-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.parking-area-chart-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+    gap: 12px;
+    align-items: end;
+    min-height: 260px;
+}
+
+.parking-area-chart-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    gap: 8px;
+    min-width: 0;
+}
+
+.parking-area-chart-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.parking-area-chart-bar {
+    width: 100%;
+    max-width: 34px;
+    min-height: 10px;
+    border-radius: 10px 10px 4px 4px;
+    box-shadow: inset 0 -8px 16px rgba(255,255,255,.18);
+}
+
+.parking-area-chart-bar-in {
+    background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+}
+
+.parking-area-chart-bar-out {
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.parking-area-chart-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.parking-area-chart-weekday {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 1280px) {
+    .parking-area-top-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 980px) {
+    .parking-area-top-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .parking-area-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .parking-area-top-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .parking-area-chart-columns {
+        grid-template-columns: repeat(7, minmax(32px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 6px;
+    }
+}
+</style>
+{% endblock %}

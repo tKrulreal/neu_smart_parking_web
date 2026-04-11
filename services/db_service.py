@@ -5,6 +5,13 @@ from config import Config
 
 _ENGINE = None
 
+DEFAULT_PARKING_AREAS = (
+    {"code": "LOT-1", "name": "Bãi xe 1", "capacity": 60, "description": "Khu gửi xe số 1"},
+    {"code": "LOT-2", "name": "Bãi xe 2", "capacity": 80, "description": "Khu gửi xe số 2"},
+    {"code": "LOT-3", "name": "Bãi xe 3", "capacity": 100, "description": "Khu gửi xe số 3"},
+    {"code": "LOT-4", "name": "Bãi xe 4", "capacity": 120, "description": "Khu gửi xe số 4"},
+)
+
 
 def get_engine():
     global _ENGINE
@@ -82,6 +89,7 @@ def migrate_qr_logs_table(conn) -> None:
 
 
 def drop_all_tables(conn):
+    conn.execute(text("DROP TABLE IF EXISTS parking_areas"))
     conn.execute(text("DROP TABLE IF EXISTS qr_logs"))
     conn.execute(text("DROP TABLE IF EXISTS plate_scan_log"))
     conn.execute(text("DROP TABLE IF EXISTS parking_log"))
@@ -123,12 +131,27 @@ def create_vehicles_table(conn):
     """))
 
 
+def create_parking_areas_table(conn):
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS parking_areas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            code TEXT UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            capacity INTEGER NOT NULL DEFAULT 50,
+            description TEXT,
+            is_active INTEGER NOT NULL DEFAULT 1,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    """))
+
+
 def create_parking_log_table(conn):
     conn.execute(text("""
         CREATE TABLE IF NOT EXISTS parking_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             plate TEXT NOT NULL,
             student_code TEXT NOT NULL,
+            parking_area_id INTEGER,
             time_in TEXT NOT NULL,
             time_out TEXT,
             gate_in TEXT,
@@ -174,7 +197,28 @@ def create_qr_logs_table(conn):
     """))
 
 
+def migrate_parking_log_table(conn) -> None:
+    if not table_exists(conn, "parking_log"):
+        return
+    if not column_exists(conn, "parking_log", "parking_area_id"):
+        conn.execute(text("ALTER TABLE parking_log ADD COLUMN parking_area_id INTEGER"))
+
+    default_area_id = conn.execute(text("SELECT id FROM parking_areas ORDER BY id LIMIT 1")).scalar()
+    if default_area_id is not None:
+        conn.execute(
+            text(
+                """
+                UPDATE parking_log
+                SET parking_area_id = :parking_area_id
+                WHERE parking_area_id IS NULL
+                """
+            ),
+            {"parking_area_id": int(default_area_id)},
+        )
+
+
 def create_indexes(conn):
+    conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_areas_code ON parking_areas(code)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_users_student_code ON users(student_code)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_vehicles_plate ON vehicles(plate)"))
@@ -182,6 +226,7 @@ def create_indexes(conn):
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_log_plate ON parking_log(plate)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_log_status ON parking_log(status)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_log_time_in ON parking_log(time_in)"))
+    conn.execute(text("CREATE INDEX IF NOT EXISTS idx_parking_log_parking_area_id ON parking_log(parking_area_id)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_plate_scan_log_plate ON plate_scan_log(normalized_plate)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_qr_logs_student_code ON qr_logs(student_code)"))
     conn.execute(text("CREATE INDEX IF NOT EXISTS idx_qr_logs_parking_log_id ON qr_logs(parking_log_id)"))
@@ -252,6 +297,19 @@ def seed_default_users(conn):
         )
 
 
+def seed_default_parking_areas(conn):
+    for area in DEFAULT_PARKING_AREAS:
+        conn.execute(
+            text(
+                """
+                INSERT OR IGNORE INTO parking_areas (code, name, capacity, description, is_active)
+                VALUES (:code, :name, :capacity, :description, 1)
+                """
+            ),
+            area,
+        )
+
+
 def seed_default_vehicles(conn):
     conn.execute(text("""
         INSERT OR IGNORE INTO vehicles (plate, student_code, owner_name, vehicle_type, brand, color, image_path)
@@ -301,10 +359,13 @@ def init_db():
         migrate_users_table_add_guard_role(conn)
         create_users_table(conn)
         create_vehicles_table(conn)
+        create_parking_areas_table(conn)
         create_parking_log_table(conn)
         create_plate_scan_log_table(conn)
         create_qr_logs_table(conn)
         migrate_qr_logs_table(conn)
+        seed_default_parking_areas(conn)
+        migrate_parking_log_table(conn)
         create_indexes(conn)
         seed_default_users(conn)
         seed_default_vehicles(conn)
@@ -320,10 +381,12 @@ def recreate_db():
         drop_all_tables(conn)
         create_users_table(conn)
         create_vehicles_table(conn)
+        create_parking_areas_table(conn)
         create_parking_log_table(conn)
         create_plate_scan_log_table(conn)
         create_qr_logs_table(conn)
         create_indexes(conn)
+        seed_default_parking_areas(conn)
         seed_default_users(conn)
         seed_default_vehicles(conn)
 

@@ -10,12 +10,11 @@
 {% block content %}
 <div class="page-header">
     <div>
-        <h1 class="page-title">Mã QR Sinh Viên</h1>
-        <p class="page-subtitle">Sử dụng mã này để ra vào cổng bãi đỗ xe NEU.</p>
+        <h1 class="page-title">Mã QR sinh viên</h1>
+        <p class="page-subtitle">Mỗi mã QR gắn với đúng xe và đúng phiên gửi xe hiện tại.</p>
     </div>
 </div>
 
-<!-- Student info bar -->
 <div class="grid grid-3" style="margin-bottom:22px;">
     <article class="stat-card accent-blue">
         <p class="stat-label">Họ và tên</p>
@@ -35,25 +34,24 @@
 <div class="qr-session-grid">
     {% for item in qr_sessions %}
     <article class="section-card qr-session-card" style="padding:0;overflow:hidden;">
-
-        <!-- Card header -->
         <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
             <div>
                 <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:4px;">Xe đang gửi</p>
                 <span class="plate-badge" style="font-size:15px;padding:5px 14px;">{{ item.plate }}</span>
             </div>
-            <span class="badge badge-success">ĐANG GỬI XE</span>
+            <span class="badge badge-success">Đang gửi xe</span>
         </div>
 
-        <!-- Body: info left + QR right -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-
-            <!-- Left: vehicle & session info -->
             <div style="padding:18px 20px;border-right:1px solid var(--border);">
                 <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
                     <div>
                         <p style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Loại xe</p>
                         <p style="font-size:13.5px;font-weight:600;">{{ translate_vehicle_type(item.vehicle.vehicle_type) if item.vehicle else '—' }}</p>
+                    </div>
+                    <div>
+                        <p style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Bãi xe</p>
+                        <p style="font-size:13.5px;font-weight:600;">{{ item.parking_area_name or '—' }}</p>
                     </div>
                     <div>
                         <p style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Thời gian vào</p>
@@ -65,42 +63,21 @@
                     </div>
                 </div>
 
-                {% if item.ticket %}
-                <div style="background:var(--success-bg);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    <div>
-                        <p style="font-size:11.5px;font-weight:700;color:var(--success-text);">Mã QR có hiệu lực</p>
-                        <p style="font-size:11px;color:var(--success-text);opacity:0.8;">Hạn dùng đến khi xe ra cổng</p>
-                    </div>
-                </div>
-                {% endif %}
-
                 <form method="post" action="{{ url_for('student_qr') }}" style="width:100%;">
                     <input type="hidden" name="session_id" value="{{ item.session_id }}">
-                    <button class="btn btn-secondary btn-small" type="submit" style="width:100%;">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-                        Cấp lại QR
-                    </button>
+                    <button class="btn btn-secondary btn-small" type="submit" style="width:100%;">Cấp lại QR</button>
                 </form>
             </div>
 
-            <!-- Right: QR code -->
             <div style="padding:18px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafbfc;">
                 {% if item.ticket %}
-                <img src="{{ url_for('static', filename=item.qr_image_path) }}"
-                     alt="QR {{ item.plate }}"
-                     style="width:min(100%,180px);border-radius:10px;border:1px solid var(--border);padding:8px;background:#fff;margin-bottom:10px;">
+                <img src="{{ url_for('static', filename=item.qr_image_path) }}" alt="QR {{ item.plate }}" style="width:min(100%,180px);border-radius:10px;border:1px solid var(--border);padding:8px;background:#fff;margin-bottom:10px;">
                 <div style="text-align:center;">
-                    <p style="font-size:10px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:2px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                        Mã đã được mã hóa an toàn
-                    </p>
-                    <p style="font-size:11px;color:var(--text-secondary);">Quét tại đầu đọc thẻ</p>
+                    <p style="font-size:11px;color:var(--text-secondary);">Quét tại cổng ra</p>
                     <p style="font-size:10px;color:var(--text-secondary);word-break:break-all;margin-top:6px;max-width:160px;">{{ item.ticket.qr_payload }}</p>
                 </div>
                 {% else %}
                 <div style="text-align:center;padding:20px;">
-                    <div style="font-size:32px;margin-bottom:8px;opacity:0.3;">📱</div>
                     <p style="font-size:12px;color:var(--text-secondary);">Chưa tạo được QR</p>
                 </div>
                 <div class="alert alert-danger" style="font-size:12px;">Vui lòng thử cấp lại QR.</div>
@@ -108,47 +85,14 @@
             </div>
         </div>
 
-        <!-- Footer note -->
         <div style="padding:10px 20px;background:var(--bg);border-top:1px solid var(--border);">
-            <p style="font-size:11.5px;color:var(--text-secondary);">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                QR này chỉ hợp lệ cho đúng xe <strong>{{ item.plate }}</strong> và phiên gửi xe hiện tại. Không chia sẻ cho người khác.
-            </p>
+            <p style="font-size:11.5px;color:var(--text-secondary);">QR này chỉ hợp lệ cho xe <strong>{{ item.plate }}</strong> và phiên gửi xe hiện tại tại <strong>{{ item.parking_area_name }}</strong>.</p>
         </div>
-
     </article>
     {% endfor %}
 </div>
-
-<!-- Usage guide -->
-<div class="grid grid-2" style="margin-top:20px;">
-    <article class="section-card">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:36px;height:36px;border-radius:8px;background:var(--info-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--info-text)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            </div>
-            <div>
-                <p style="font-weight:700;font-size:13.5px;margin-bottom:4px;">Ngày hiệu lực</p>
-                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Mã QR được tạo khi xe vào bãi và có giá trị sử dụng cho đến khi bạn yêu cầu cấp lại mã mới.</p>
-            </div>
-        </div>
-    </article>
-    <article class="section-card">
-        <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:36px;height:36px;border-radius:8px;background:var(--success-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <div>
-                <p style="font-weight:700;font-size:13.5px;margin-bottom:4px;">Cách sử dụng</p>
-                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Khi đến cổng ra, chỉ cần mở trang này hoặc in ra. Giữ QR cách camera đầu đọc khoảng 15–20cm.</p>
-            </div>
-        </div>
-    </article>
-</div>
-
 {% else %}
 <article class="section-card" style="text-align:center;padding:52px 20px;">
-    <div style="font-size:52px;margin-bottom:14px;opacity:0.2;">📱</div>
     <h2 class="section-title" style="font-size:18px;margin-bottom:8px;">Chưa có xe đang gửi</h2>
     <p class="muted" style="margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.6;">
         Mã QR sẽ được tạo tự động ngay sau khi xe của bạn vào bãi thành công qua cổng nhận diện.
