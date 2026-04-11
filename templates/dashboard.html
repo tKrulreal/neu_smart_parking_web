@@ -9,7 +9,10 @@
 
 {% block topbar_actions %}
 <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+    </svg>
     Lịch sử
 </a>
 {% endblock %}
@@ -18,83 +21,96 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Tổng quan hệ thống</h1>
-        <p class="page-subtitle">Chào mừng trở lại — hôm nay {{ current_date }}</p>
+        <p class="page-subtitle">Chào mừng trở lại — hôm nay là {{ current_date }}</p>
     </div>
 </div>
 
-<!-- Stat cards -->
-<div class="grid grid-3" style="margin-bottom:22px;">
-    <article class="stat-card accent-blue">
-        <p class="stat-label">Xe trong bãi</p>
-        <p class="stat-value">{{ vehicles_in_parking }}</p>
+<!-- ── Hàng 1: Xe trong bãi · Lượt vào · Lượt ra ── -->
+<div class="db-row-3" style="margin-bottom:16px;">
+    <article class="db-stat-card">
+        <div class="db-stat-icon db-icon-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+        </div>
+        <p class="db-stat-label">XE TRONG BÃI</p>
+        <p class="db-stat-value">{{ vehicles_in_parking }}</p>
     </article>
-    <article class="stat-card accent-green">
-        <p class="stat-label">Lượt vào hôm nay</p>
-        <p class="stat-value">{{ today_checkins }}</p>
+
+    <article class="db-stat-card">
+        <div class="db-stat-icon db-icon-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+            </svg>
+        </div>
+        <p class="db-stat-label">LƯỢT VÀO HÔM NAY</p>
+        <p class="db-stat-value">{{ today_checkins }}</p>
     </article>
-    <article class="stat-card accent-orange">
-        <p class="stat-label">Lượt ra hôm nay</p>
-        <p class="stat-value">{{ today_checkouts }}</p>
-    </article>
-    <article class="stat-card accent-teal">
-        <p class="stat-label">Tổng người dùng</p>
-        <p class="stat-value">{{ total_users }}</p>
-    </article>
-    <article class="stat-card accent-blue">
-        <p class="stat-label">Tổng phương tiện</p>
-        <p class="stat-value">{{ total_vehicles }}</p>
-    </article>
-    <article class="stat-card dark">
-        <p class="stat-label">Doanh thu hôm nay</p>
-        <p class="stat-value" style="font-size:22px;">
-            {{ "{:,.0f}".format(today_revenue) }}
-            <span style="font-size:13px;font-weight:500;opacity:0.7;"> VND</span>
-        </p>
+
+    <article class="db-stat-card">
+        <div class="db-stat-icon db-icon-orange">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </div>
+        <p class="db-stat-label">LƯỢT RA HÔM NAY</p>
+        <p class="db-stat-value">{{ today_checkouts }}</p>
     </article>
 </div>
 
-<!-- Tables -->
-<div class="grid grid-2">
-    <article class="section-card">
-        <div class="section-head">
-            <h2 class="section-title">Lịch sử gửi xe gần đây</h2>
-            <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">Xem tất cả</a>
+<!-- ── Hàng 2: Tổng người dùng · Tổng phương tiện (nền xanh đậm) ── -->
+<div class="db-row-2" style="margin-bottom:16px;">
+    <article class="db-stat-card db-stat-dark">
+        <div class="db-stat-icon db-icon-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
         </div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Biển số</th>
-                        <th>Mã SV</th>
-                        <th>Thời gian vào</th>
-                        <th>Thời gian ra</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for log in recent_logs %}
-                    <tr>
-                        <td><span class="plate-badge">{{ log[0] }}</span></td>
-                        <td>{{ log[1] }}</td>
-                        <td>{{ log[2] or '—' }}</td>
-                        <td>{{ log[3] or '—' }}</td>
-                        <td>
-                            <span class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
-                                {{ translate_status(log[4]) }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="5" class="muted" style="text-align:center;padding:20px;">Chưa có dữ liệu.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <p class="db-stat-label">TỔNG NGƯỜI DÙNG</p>
+        <p class="db-stat-value">{{ total_users }}</p>
+    </article>
+
+    <article class="db-stat-card db-stat-dark">
+        <div class="db-stat-icon db-icon-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+        </div>
+        <p class="db-stat-label">TỔNG PHƯƠNG TIỆN</p>
+        <p class="db-stat-value">{{ total_vehicles }}</p>
+    </article>
+</div>
+
+<!-- ── Hàng 3: Doanh thu · Lượt quét gần đây ── -->
+<div class="db-row-revenue" style="margin-bottom:22px;">
+
+    <!-- Doanh thu: ảnh nền tối -->
+    <article class="db-revenue-card">
+        <div class="db-revenue-overlay"></div>
+        <div class="db-revenue-content">
+            <p class="db-revenue-label">DOANH THU HÔM NAY</p>
+            <p class="db-revenue-value">
+                {{ "{:,.0f}".format(today_revenue) }}
+                <span class="db-revenue-unit">VND</span>
+            </p>
         </div>
     </article>
 
-    <article class="section-card">
+    <!-- Lượt quét gần đây -->
+    <article class="section-card" style="margin-bottom:0;">
         <div class="section-head">
             <h2 class="section-title">Lượt quét gần đây</h2>
         </div>
@@ -106,7 +122,8 @@
                     <p style="font-size:12px;color:var(--text-secondary);margin-top:3px;">{{ scan[1] or '—' }}</p>
                 </div>
                 <div style="text-align:right;">
-                    <span class="badge {% if scan[2] in ['SUCCESS','OPEN'] %}badge-success{% elif scan[2] == 'UNKNOWN' %}badge-danger{% else %}badge-secondary{% endif %}">
+                    <span
+                        class="badge {% if scan[2] in ['SUCCESS','OPEN'] %}badge-success{% elif scan[2] == 'UNKNOWN' %}badge-danger{% else %}badge-secondary{% endif %}">
                         {{ translate_status(scan[2]) }}
                     </span>
                     <p style="font-size:11px;color:var(--text-secondary);margin-top:3px;">{{ scan[3] }}</p>
@@ -118,4 +135,266 @@
         </ul>
     </article>
 </div>
+
+<!-- ── Hàng 4: Lịch sử gửi xe gần đây (full width) ── -->
+<article class="section-card">
+    <div class="section-head">
+        <div>
+            <h2 class="section-title" style="margin-bottom:2px;">Lịch sử gửi xe gần đây</h2>
+        </div>
+        <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">Xem tất cả</a>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Biển số xe</th>
+                    <th>Mã SV</th>
+                    <th>Thời gian vào</th>
+                    <th>Thời gian ra</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in recent_logs %}
+                <tr>
+                    <td><span class="plate-badge">{{ log[0] }}</span></td>
+                    <td>{{ log[1] }}</td>
+                    <td>{{ log[2] or '—' }}</td>
+                    <td>{{ log[3] or '—' }}</td>
+                    <td>
+                        <span
+                            class="badge {% if log[4] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
+                            {{ translate_status(log[4]) }}
+                        </span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="muted" style="text-align:center;padding:20px;">Chưa có dữ liệu.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</article>
+
+<style>
+    /* ── Hàng 3 stat cards ── */
+    .db-row-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    /* ── Hàng 2 dark stat cards ── */
+    .db-row-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    /* ── Stat card base ── */
+    .db-stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 20px 22px;
+        box-shadow:
+            0 2px 6px rgba(0, 0, 0, 0.04),
+            0 8px 20px rgba(0, 0, 0, 0.06),
+            0 20px 40px rgba(0, 0, 0, 0.08);
+
+        transition: all 0.25s ease;
+    }
+
+    .db-stat-card:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 4px 10px rgba(0, 0, 0, 0.06),
+            0 12px 28px rgba(0, 0, 0, 0.1),
+            0 30px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .db-stat-card {
+        backdrop-filter: blur(6px);
+    }
+
+    .db-stat-card:hover {
+        box-shadow:
+            0 0 0 1px rgba(59, 130, 246, 0.15),
+            0 10px 30px rgba(59, 130, 246, 0.15);
+    }
+
+    .section-card {
+        box-shadow:
+            0 1px 3px rgba(0, 0, 0, 0.05),
+            0 6px 16px rgba(0, 0, 0, 0.08);
+
+        transition: 0.25s;
+    }
+
+    .section-card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 6px 18px rgba(0, 0, 0, 0.12),
+            0 16px 40px rgba(0, 0, 0, 0.14);
+    }
+
+    /* Dark variant */
+    .db-stat-dark {
+        background: var(--primary);
+        border-color: var(--primary-dark);
+    }
+
+    .db-stat-dark .db-stat-label {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .db-stat-dark .db-stat-value {
+        color: #fff;
+    }
+
+    /* Icon */
+    .db-stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4px;
+    }
+
+    .db-icon-blue {
+        background: #dbeafe;
+        color: var(--primary);
+    }
+
+    .db-icon-green {
+        background: var(--success-bg);
+        color: var(--success);
+    }
+
+    .db-icon-orange {
+        background: var(--warning-bg);
+        color: var(--warning);
+    }
+
+    .db-icon-white {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+    }
+
+    .db-stat-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .db-stat-value {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -1px;
+        line-height: 1;
+        margin: 0;
+    }
+
+    /* ── Revenue + Scans row ── */
+    .db-row-revenue {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    /* Revenue card */
+    .db-revenue-card {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        position: relative;
+        min-height: 200px;
+        display: flex;
+        align-items: flex-end;
+        /* ← thay YOUR_IMAGE_URL bằng link ảnh thực của bạn */
+        background: url('static/images/neu-beautiful-top.jpg') center center / cover no-repeat;
+        background-color: #1e293b;
+        /* fallback khi chưa có ảnh */
+        box-shadow: var(--shadow-md);
+    }
+
+    .db-revenue-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(160deg, rgba(10, 20, 50, 0.55) 0%, rgba(10, 20, 50, 0.85) 100%);
+    }
+
+    .db-revenue-content {
+        position: relative;
+        z-index: 1;
+        padding: 28px 28px 32px;
+    }
+
+    .db-revenue-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0 0 10px;
+    }
+
+    .db-revenue-value {
+        font-size: 36px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+        line-height: 1;
+        margin: 0;
+    }
+
+    .db-revenue-unit {
+        font-size: 16px;
+        font-weight: 500;
+        opacity: 0.7;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+
+    .db-revenue-card {
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.25),
+            0 30px 80px rgba(0, 0, 0, 0.15);
+
+        transition: 0.3s;
+    }
+
+    .db-revenue-card:hover {
+        transform: scale(1.005);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+
+        .db-row-3,
+        .db-row-2,
+        .db-row-revenue {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .db-stat-value {
+            font-size: 26px;
+        }
+
+        .db-revenue-value {
+            font-size: 28px;
+        }
+    }
+</style>
+
 {% endblock %}

@@ -17,24 +17,156 @@
 
 <!-- Stats -->
 <div class="grid grid-4" style="margin-bottom:22px;">
-    <article class="stat-card accent-blue">
-        <p class="stat-label">Tổng người dùng</p>
-        <p class="stat-value">{{ total_users }}</p>
+    <article class="um-stat-card um-stat-dark">
+        <div class="um-stat-top">
+            <div class="um-stat-icon um-icon-white">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="um-stat-label">TỔNG NGƯỜI DÙNG</span>
+        </div>
+        <p class="um-stat-value">{{ total_users }}</p>
+        <div class="um-stat-bg-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.1"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
     </article>
-    <article class="stat-card accent-green">
-        <p class="stat-label">Đang hoạt động</p>
-        <p class="stat-value">{{ active_users }}</p>
+    <article class="um-stat-card um-stat-green">
+        <div class="um-stat-top">
+            <div class="um-stat-icon um-icon-green">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <span class="um-stat-label">ĐANG HOẠT ĐỘNG</span>
+        </div>
+        <p class="um-stat-value um-val-green">{{ active_users }}</p>
     </article>
-    <article class="stat-card accent-red">
-        <p class="stat-label">Tài khoản khóa</p>
-        <p class="stat-value">{{ locked_users }}</p>
+    <article class="um-stat-card um-stat-red">
+        <div class="um-stat-top">
+            <div class="um-stat-icon um-icon-red">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <span class="um-stat-label">TÀI KHOẢN KHÓA</span>
+        </div>
+        <p class="um-stat-value um-val-red">{{ locked_users }}</p>
     </article>
-    <article class="stat-card accent-orange">
-        <p class="stat-label">Yêu cầu mới</p>
-        <p class="stat-value">—</p>
+    <article class="um-stat-card um-stat-orange">
+        <div class="um-stat-top">
+            <div class="um-stat-icon um-icon-orange">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <span class="um-stat-label">YÊU CẦU MỚI</span>
+        </div>
+        <p class="um-stat-value um-val-orange">—</p>
     </article>
 </div>
 
+
+<!-- Filter -->
+<article class="section-card" style="margin-bottom:16px;">
+    <form method="get" action="{{ url_for('user_management') }}" class="filter-bar">
+        <div class="form-group">
+            <label for="q">Tìm người dùng</label>
+            <input id="q" name="q" type="text" value="{{ q }}" placeholder="Tên, email, mã SV...">
+        </div>
+        <div class="form-group">
+            <label for="role_filter">Vai trò</label>
+            <select id="role_filter" name="role">
+                <option value="">Tất cả</option>
+                <option value="admin"   {% if role_filter == 'admin'   %}selected{% endif %}>Quản trị viên</option>
+                <option value="guard"   {% if role_filter == 'guard'   %}selected{% endif %}>Bảo vệ</option>
+                <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Sinh viên</option>
+            </select>
+        </div>
+        <div>
+            <button class="um-action-btn um-btn-primary" type="submit" style="width:100%;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                Lọc
+            </button>
+        </div>
+    </form>
+</article>
+
+<!-- Table -->
+<article class="section-card">
+    <div class="table-wrapper" style="max-height:310px;overflow-y:auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Người dùng</th>
+                    <th>Mã sinh viên</th>
+                    <th>Vai trò</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td style="color:var(--text-secondary);font-size:12px;">#{{ user.id }}</td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <div style="width:30px;height:30px;border-radius:50%;background:var(--primary-muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--primary);flex-shrink:0;">
+                                {{ user.full_name[0]|upper if user.full_name else 'U' }}
+                            </div>
+                            <div>
+                                <div style="font-weight:600;">{{ user.full_name }}</div>
+                                <div style="font-size:11px;color:var(--text-secondary);">{{ user.username }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ user.student_code or '—' }}</td>
+                    <td>
+                        <span class="badge no-dot {% if user.role == 'admin' %}badge-primary{% elif user.role == 'guard' %}badge-info{% else %}badge-secondary{% endif %}">
+                            {{ translate_role(user.role) }}
+                        </span>
+                    </td>
+                    <td>{{ user.email or '—' }}</td>
+                    <td>
+                        {% if user.is_active %}
+                            <span class="badge badge-success">Hoạt động</span>
+                        {% else %}
+                            <span class="badge badge-danger">Bị khóa</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="um-actions">
+                            <!-- Sửa -->
+                            <a class="um-icon-btn um-icon-edit"
+                               href="{{ url_for('user_management', edit=user.id, q=q, role=role_filter) }}"
+                               title="Sửa">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </a>
+                            <!-- Khóa / Mở khóa -->
+                            <form method="post" action="{{ url_for('toggle_user_route', user_id=user.id) }}" style="margin:0;">
+                                <button class="um-icon-btn {{ 'um-icon-lock' if user.is_active else 'um-icon-unlock' }}"
+                                        type="submit"
+                                        title="{{ 'Khóa' if user.is_active else 'Mở khóa' }}">
+                                    {% if user.is_active %}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    {% else %}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <!-- Xóa -->
+                            <form method="post" action="{{ url_for('delete_user_route', user_id=user.id) }}"
+                                  onsubmit="return confirm('Xóa người dùng này?');" style="margin:0;">
+                                <button class="um-icon-btn um-icon-delete" type="submit" title="Xóa">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="muted" style="text-align:center;padding:28px;">Không có người dùng phù hợp.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</article>
 <!-- Add / Edit form -->
 <article class="section-card" style="margin-bottom:16px;">
     <h2 class="section-title">{{ 'Cập nhật người dùng' if editing_user else 'Thêm người dùng mới' }}</h2>
@@ -82,103 +214,98 @@
             </label>
         </div>
         <div class="button-row" style="grid-column:1/-1;">
-            <button class="btn btn-primary" type="submit">
-                {{ 'Lưu cập nhật' if editing_user else 'Tạo người dùng' }}
+            <button class="um-action-btn um-btn-primary" type="submit">
+                {% if editing_user %}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v14a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Lưu cập nhật
+                {% else %}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Tạo người dùng
+                {% endif %}
             </button>
             {% if editing_user %}
-            <a class="btn btn-secondary" href="{{ url_for('user_management') }}">Hủy sửa</a>
+            <a class="um-action-btn um-btn-secondary" href="{{ url_for('user_management') }}">Hủy sửa</a>
             {% endif %}
         </div>
     </form>
 </article>
 
-<!-- Filter -->
-<article class="section-card" style="margin-bottom:16px;">
-    <form method="get" action="{{ url_for('user_management') }}" class="filter-bar">
-        <div class="form-group">
-            <label for="q">Tìm người dùng</label>
-            <input id="q" name="q" type="text" value="{{ q }}" placeholder="Tên, email, mã SV...">
-        </div>
-        <div class="form-group">
-            <label for="role_filter">Vai trò</label>
-            <select id="role_filter" name="role">
-                <option value="">Tất cả</option>
-                <option value="admin"   {% if role_filter == 'admin'   %}selected{% endif %}>Quản trị viên</option>
-                <option value="guard"   {% if role_filter == 'guard'   %}selected{% endif %}>Bảo vệ</option>
-                <option value="student" {% if role_filter == 'student' %}selected{% endif %}>Sinh viên</option>
-            </select>
-        </div>
-        <div>
-            <button class="btn btn-primary" type="submit" style="width:100%;">Lọc</button>
-        </div>
-    </form>
-</article>
+<style>
+/* ── Stat cards ── */
+.um-stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.um-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.um-stat-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.um-stat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: var(--text-secondary); }
+.um-stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.um-stat-value { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin: 0; color: var(--text); }
+/* Dark blue */
+.um-stat-dark { background: var(--primary); border-color: var(--primary-dark); }
+.um-stat-dark .um-stat-label { color: rgba(255,255,255,0.6); }
+.um-stat-dark .um-stat-value { color: #fff; }
+.um-icon-white  { background: rgba(255,255,255,0.18); color: #fff; }
+.um-stat-bg-icon { position: absolute; right: -8px; bottom: -8px; pointer-events: none; color: #fff; }
+/* Green */
+.um-stat-green { border-left: 4px solid var(--success); }
+.um-icon-green { background: var(--success-bg); color: var(--success); }
+.um-val-green  { color: var(--success); }
+/* Red */
+.um-stat-red { border-left: 4px solid var(--danger); }
+.um-icon-red { background: var(--danger-bg); color: var(--danger); }
+.um-val-red  { color: var(--danger); }
+/* Orange */
+.um-stat-orange { border-left: 4px solid var(--warning); }
+.um-icon-orange { background: var(--warning-bg); color: var(--warning); }
+.um-val-orange  { color: var(--warning); }
 
-<!-- Table -->
-<article class="section-card">
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Người dùng</th>
-                    <th>Mã sinh viên</th>
-                    <th>Vai trò</th>
-                    <th>Email</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td style="color:var(--text-secondary);font-size:12px;">#{{ user.id }}</td>
-                    <td>
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <div style="width:30px;height:30px;border-radius:50%;background:var(--primary-muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--primary);flex-shrink:0;">
-                                {{ user.full_name[0]|upper if user.full_name else 'U' }}
-                            </div>
-                            <div>
-                                <div style="font-weight:600;">{{ user.full_name }}</div>
-                                <div style="font-size:11px;color:var(--text-secondary);">{{ user.username }}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>{{ user.student_code or '—' }}</td>
-                    <td>
-                        <span class="badge no-dot {% if user.role == 'admin' %}badge-primary{% elif user.role == 'guard' %}badge-info{% else %}badge-secondary{% endif %}">
-                            {{ translate_role(user.role) }}
-                        </span>
-                    </td>
-                    <td>{{ user.email or '—' }}</td>
-                    <td>
-                        {% if user.is_active %}
-                            <span class="badge badge-success">Hoạt động</span>
-                        {% else %}
-                            <span class="badge badge-danger">Bị khóa</span>
-                        {% endif %}
-                    </td>
-                    <td class="actions-cell actions-stack">
-                        <a class="btn btn-secondary btn-small"
-                           href="{{ url_for('user_management', edit=user.id, q=q, role=role_filter) }}">Sửa</a>
-                        <form method="post" action="{{ url_for('toggle_user_route', user_id=user.id) }}">
-                            <button class="btn btn-secondary btn-small" type="submit">
-                                {{ 'Khóa' if user.is_active else 'Mở khóa' }}
-                            </button>
-                        </form>
-                        <form method="post" action="{{ url_for('delete_user_route', user_id=user.id) }}"
-                              onsubmit="return confirm('Xóa người dùng này?');">
-                            <button class="btn btn-danger btn-small" type="submit">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="7" class="muted" style="text-align:center;padding:28px;">Không có người dùng phù hợp.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</article>
+/* ── Shared action buttons ── */
+.um-action-btn {
+    display: inline-flex; align-items: center; gap: 7px; border-radius: 8px;
+    padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; border: 1px solid transparent;
+    transition: background 0.16s ease, box-shadow 0.16s ease, transform 0.14s ease;
+    text-decoration: none; white-space: nowrap;
+}
+.um-action-btn:hover { transform: translateY(-1px); text-decoration: none; }
+.um-action-btn:active { transform: translateY(0); box-shadow: none; }
+.um-btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.um-btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); box-shadow: 0 4px 12px rgba(26,60,143,0.28); color: #fff; }
+.um-btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+.um-btn-secondary:hover { background: var(--bg); border-color: #c9d1e0; color: var(--text); }
+
+/* ── Icon-only buttons in table ── */
+.um-actions { display: flex; gap: 5px; align-items: center; }
+.um-actions form { margin: 0; }
+.um-icon-btn {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid transparent;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; background: transparent;
+    transition: background 0.14s, border-color 0.14s, transform 0.12s;
+    text-decoration: none; padding: 0; flex-shrink: 0;
+}
+.um-icon-btn:hover { transform: translateY(-1px); text-decoration: none; }
+.um-icon-edit   { color: var(--primary); }
+.um-icon-edit:hover   { background: var(--primary-muted); border-color: rgba(26,60,143,0.2); color: var(--primary); }
+.um-icon-lock   { color: var(--warning); }
+.um-icon-lock:hover   { background: var(--warning-bg); border-color: rgba(217,119,6,0.25); }
+.um-icon-unlock { color: var(--success); }
+.um-icon-unlock:hover { background: var(--success-bg); border-color: rgba(5,150,105,0.25); }
+.um-icon-delete { color: var(--danger); }
+.um-icon-delete:hover { background: var(--danger-bg); border-color: rgba(220,38,38,0.25); }
+
+/* ── Table scrollbar ── */
+.table-wrapper { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.table-wrapper::-webkit-scrollbar { width: 6px; }
+.table-wrapper::-webkit-scrollbar-track { background: transparent; }
+.table-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+
 {% endblock %}

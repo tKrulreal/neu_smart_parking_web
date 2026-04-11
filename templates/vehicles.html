@@ -21,78 +21,48 @@
 
 <!-- Stats -->
 <div class="grid grid-4" style="margin-bottom:22px;">
-    <article class="stat-card accent-blue">
-        <p class="stat-label">Tổng phương tiện</p>
-        <p class="stat-value">{{ total }}</p>
+    <article class="vm-stat-card vm-stat-dark">
+        <div class="vm-stat-top">
+            <div class="vm-stat-icon vm-icon-white">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <span class="vm-stat-label">TỔNG PHƯƠNG TIỆN</span>
+        </div>
+        <p class="vm-stat-value">{{ total }}</p>
+        <div class="vm-stat-bg-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.1"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
     </article>
-    <article class="stat-card accent-green">
-        <p class="stat-label">Đang trong bãi</p>
-        <p class="stat-value">{{ in_parking }}</p>
+    <article class="vm-stat-card vm-stat-green">
+        <div class="vm-stat-top">
+            <div class="vm-stat-icon vm-icon-green">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <span class="vm-stat-label">ĐANG TRONG BÃI</span>
+        </div>
+        <p class="vm-stat-value vm-val-green">{{ in_parking }}</p>
     </article>
-    <article class="stat-card accent-orange">
-        <p class="stat-label">Đang chờ duyệt</p>
-        <p class="stat-value">{{ pending }}</p>
+    <article class="vm-stat-card vm-stat-orange">
+        <div class="vm-stat-top">
+            <div class="vm-stat-icon vm-icon-orange">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="vm-stat-label">ĐANG CHỜ DUYỆT</span>
+        </div>
+        <p class="vm-stat-value vm-val-orange">{{ pending }}</p>
     </article>
-    <article class="stat-card accent-teal">
-        <p class="stat-label">Đã được duyệt</p>
-        <p class="stat-value">{{ approved }}</p>
+    <article class="vm-stat-card vm-stat-teal">
+        <div class="vm-stat-top">
+            <div class="vm-stat-icon vm-icon-teal">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="vm-stat-label">ĐÃ ĐƯỢC DUYỆT</span>
+        </div>
+        <p class="vm-stat-value vm-val-teal">{{ approved }}</p>
     </article>
 </div>
 
-<!-- Add / Edit form -->
-<article class="section-card" id="vehicle-form" style="margin-bottom:16px;">
-    <h2 class="section-title">{{ 'Cập nhật phương tiện' if editing_vehicle else 'Thêm phương tiện mới' }}</h2>
-    <form method="post" enctype="multipart/form-data"
-          action="{{ url_for('update_vehicle_route', vehicle_id=editing_vehicle.id) if editing_vehicle else url_for('create_vehicle_route') }}"
-          class="form-grid admin-form-grid vehicle-form-grid">
-        <div class="form-group">
-            <label for="plate">Biển số</label>
-            <input id="plate" name="plate" type="text" required value="{{ vehicle_form.plate }}" placeholder="VD: 29A-123.45">
-        </div>
-        <div class="form-group">
-            <label for="student_code">Mã sinh viên</label>
-            <input id="student_code" name="student_code" type="text" required value="{{ vehicle_form.student_code }}">
-        </div>
-        <div class="form-group">
-            <label for="owner_name">Tên chủ xe</label>
-            <input id="owner_name" name="owner_name" type="text" value="{{ vehicle_form.owner_name }}">
-        </div>
-        <div class="form-group">
-            <label for="vehicle_type">Loại xe</label>
-            <select id="vehicle_type" name="vehicle_type">
-                <option value="motorbike" {% if vehicle_form.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
-                <option value="car"       {% if vehicle_form.vehicle_type == 'car'       %}selected{% endif %}>Ô tô</option>
-                <option value="electric"  {% if vehicle_form.vehicle_type == 'electric'  %}selected{% endif %}>Xe điện</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="brand">Hãng xe</label>
-            <input id="brand" name="brand" type="text" value="{{ vehicle_form.brand }}" placeholder="Honda, Toyota...">
-        </div>
-        <div class="form-group">
-            <label for="color">Màu xe</label>
-            <input id="color" name="color" type="text" value="{{ vehicle_form.color }}" placeholder="Đen, Trắng...">
-        </div>
-        <div class="form-group form-group-wide">
-            <label for="image">Ảnh xe</label>
-            <input id="image" name="image" type="file" accept="image/*">
-        </div>
-        <div class="form-group checkbox-row">
-            <label class="checkbox-label">
-                <input name="is_active" type="checkbox" {% if vehicle_form.is_active %}checked{% endif %}>
-                Đã được phê duyệt
-            </label>
-        </div>
-        <div class="button-row vehicle-form-actions">
-            <button class="btn btn-primary" type="submit">
-                {{ 'Lưu cập nhật' if editing_vehicle else 'Tạo phương tiện' }}
-            </button>
-            {% if editing_vehicle %}
-            <a class="btn btn-secondary" href="{{ url_for('vehicles') }}">Hủy sửa</a>
-            {% endif %}
-        </div>
-    </form>
-</article>
+
 
 <!-- Filter tabs + search -->
 <article class="section-card" style="margin-bottom:16px;">
@@ -123,14 +93,17 @@
                    placeholder="Tìm biển số...">
         </div>
         <div>
-            <button class="btn btn-primary" type="submit" style="width:100%;">Tìm kiếm</button>
+            <button class="vm-action-btn vm-btn-primary" type="submit" style="width:100%;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Tìm kiếm
+            </button>
         </div>
     </form>
 </article>
 
 <!-- Table -->
 <article class="section-card">
-    <div class="table-wrapper">
+    <div class="table-wrapper" style="max-height:310px;overflow-y:auto;">
         <table class="vehicles-table">
             <thead>
                 <tr>
@@ -165,23 +138,42 @@
                             <span class="badge badge-secondary">Đã duyệt</span>
                         {% endif %}
                     </td>
-                    <td class="actions-cell actions-stack vehicle-actions">
-                        <a class="btn btn-secondary btn-small"
-                           href="{{ url_for('vehicles', edit=vehicle.id, plate=plate_filter, type=type_filter) }}#vehicle-form">Sửa</a>
-                        {% if not vehicle.is_active %}
-                        <form method="post" action="{{ url_for('approve_vehicle_route', vehicle_id=vehicle.id) }}">
-                            <button class="btn btn-primary btn-small" type="submit">Duyệt</button>
-                        </form>
-                        {% endif %}
-                        <form method="post" action="{{ url_for('toggle_vehicle_route', vehicle_id=vehicle.id) }}">
-                            <button class="btn btn-secondary btn-small" type="submit">
-                                {{ 'Tạm khóa' if vehicle.is_active else 'Kích hoạt' }}
-                            </button>
-                        </form>
-                        <form method="post" action="{{ url_for('delete_vehicle_route', vehicle_id=vehicle.id) }}"
-                              onsubmit="return confirm('Xóa phương tiện này?');">
-                            <button class="btn btn-danger btn-small" type="submit">Xóa</button>
-                        </form>
+                    <td>
+                        <div class="vm-actions">
+                            <!-- Sửa -->
+                            <a class="vm-icon-btn vm-icon-edit"
+                               href="{{ url_for('vehicles', edit=vehicle.id, plate=plate_filter, type=type_filter) }}#vehicle-form"
+                               title="Sửa">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </a>
+                            <!-- Duyệt -->
+                            {% if not vehicle.is_active %}
+                            <form method="post" action="{{ url_for('approve_vehicle_route', vehicle_id=vehicle.id) }}" style="margin:0;">
+                                <button class="vm-icon-btn vm-icon-approve" type="submit" title="Duyệt xe">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                </button>
+                            </form>
+                            {% endif %}
+                            <!-- Tạm khóa / Kích hoạt -->
+                            <form method="post" action="{{ url_for('toggle_vehicle_route', vehicle_id=vehicle.id) }}" style="margin:0;">
+                                <button class="vm-icon-btn {{ 'vm-icon-lock' if vehicle.is_active else 'vm-icon-unlock' }}"
+                                        type="submit"
+                                        title="{{ 'Tạm khóa' if vehicle.is_active else 'Kích hoạt' }}">
+                                    {% if vehicle.is_active %}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    {% else %}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <!-- Xóa -->
+                            <form method="post" action="{{ url_for('delete_vehicle_route', vehicle_id=vehicle.id) }}"
+                                  onsubmit="return confirm('Xóa phương tiện này?');" style="margin:0;">
+                                <button class="vm-icon-btn vm-icon-delete" type="submit" title="Xóa">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% else %}
@@ -193,4 +185,254 @@
         </table>
     </div>
 </article>
+
+<!-- Add / Edit form -->
+<article class="section-card" id="vehicle-form" style="margin-bottom:16px;">
+    <h2 class="section-title">{{ 'Cập nhật phương tiện' if editing_vehicle else 'Thêm phương tiện mới' }}</h2>
+    <form method="post" enctype="multipart/form-data"
+          action="{{ url_for('update_vehicle_route', vehicle_id=editing_vehicle.id) if editing_vehicle else url_for('create_vehicle_route') }}">
+        <div class="vm-form-split">
+
+            <!-- Left: text fields -->
+            <div class="vm-form-fields">
+                <div class="vm-form-row">
+                    <div class="form-group">
+                        <label for="plate">Biển số</label>
+                        <input id="plate" name="plate" type="text" required value="{{ vehicle_form.plate }}" placeholder="VD: 29A-123.45">
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicle_type">Loại xe</label>
+                        <select id="vehicle_type" name="vehicle_type">
+                            <option value="motorbike" {% if vehicle_form.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
+                            <option value="car"       {% if vehicle_form.vehicle_type == 'car'       %}selected{% endif %}>Ô tô</option>
+                            <option value="electric"  {% if vehicle_form.vehicle_type == 'electric'  %}selected{% endif %}>Xe điện</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="vm-form-row">
+                    <div class="form-group">
+                        <label for="owner_name">Tên chủ xe</label>
+                        <input id="owner_name" name="owner_name" type="text" value="{{ vehicle_form.owner_name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="student_code">Mã sinh viên</label>
+                        <input id="student_code" name="student_code" type="text" required value="{{ vehicle_form.student_code }}">
+                    </div>
+                </div>
+                <div class="vm-form-row">
+                    <div class="form-group">
+                        <label for="brand">Hãng xe</label>
+                        <input id="brand" name="brand" type="text" value="{{ vehicle_form.brand }}" placeholder="Honda, Toyota...">
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Màu xe</label>
+                        <input id="color" name="color" type="text" value="{{ vehicle_form.color }}" placeholder="Đen, Trắng...">
+                    </div>
+                </div>
+                <div class="form-group checkbox-row" style="margin-top:4px;">
+                    <label class="checkbox-label">
+                        <input name="is_active" type="checkbox" {% if vehicle_form.is_active %}checked{% endif %}>
+                        Đã được phê duyệt
+                    </label>
+                </div>
+                <div class="button-row" style="margin-top:20px;">
+                    <button class="vm-action-btn vm-btn-primary" type="submit">
+                        {% if editing_vehicle %}
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v14a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Lưu cập nhật
+                        {% else %}
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Tạo phương tiện
+                        {% endif %}
+                    </button>
+                    {% if editing_vehicle %}
+                    <a class="vm-action-btn vm-btn-secondary" href="{{ url_for('vehicles') }}">Hủy sửa</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right: image upload -->
+            <div class="vm-form-image">
+                <label class="vm-upload-label">Ảnh xe</label>
+                <label class="vm-upload-zone" id="vm-upload-zone">
+                    <input id="image" name="image" type="file" accept="image/*"
+                           style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;"
+                           onchange="vmPreviewImage(this)">
+                    <div class="vm-upload-inner" id="vm-upload-inner">
+                        <div class="vm-upload-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="3" ry="3"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <p class="vm-upload-title">Kéo thả hoặc nhấn để chọn</p>
+                        <p class="vm-upload-hint">PNG, JPG tối đa 5MB</p>
+                    </div>
+                    <img id="vm-preview-img" src="" alt="" class="vm-preview-img" style="display:none;">
+                </label>
+            </div>
+
+        </div>
+    </form>
+</article>
+
+<script>
+function vmPreviewImage(input) {
+    const img = document.getElementById('vm-preview-img');
+    const inner = document.getElementById('vm-upload-inner');
+    const zone = document.getElementById('vm-upload-zone');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+            inner.style.display = 'none';
+            zone.style.border = '2px solid var(--primary)';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+<style>
+/* ── Stat cards (same pattern as user_management) ── */
+.vm-stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px 22px 18px;
+    box-shadow: var(--shadow); position: relative; overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vm-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.vm-stat-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.vm-stat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: var(--text-secondary); }
+.vm-stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.vm-stat-value { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin: 0; color: var(--text); }
+/* Dark blue */
+.vm-stat-dark { background: var(--primary); border-color: var(--primary-dark); }
+.vm-stat-dark .vm-stat-label { color: rgba(255,255,255,0.6); }
+.vm-stat-dark .vm-stat-value { color: #fff; }
+.vm-icon-white  { background: rgba(255,255,255,0.18); color: #fff; }
+.vm-stat-bg-icon { position: absolute; right: -8px; bottom: -8px; pointer-events: none; color: #fff; }
+/* Green */
+.vm-stat-green { border-left: 4px solid var(--success); }
+.vm-icon-green { background: var(--success-bg); color: var(--success); }
+.vm-val-green  { color: var(--success); }
+/* Orange */
+.vm-stat-orange { border-left: 4px solid var(--warning); }
+.vm-icon-orange { background: var(--warning-bg); color: var(--warning); }
+.vm-val-orange  { color: var(--warning); }
+/* Teal */
+.vm-stat-teal { border-left: 4px solid #0d9488; }
+.vm-icon-teal { background: #f0fdfa; color: #0d9488; }
+.vm-val-teal  { color: #0d9488; }
+
+/* ── Shared action buttons ── */
+.vm-action-btn {
+    display: inline-flex; align-items: center; gap: 7px; border-radius: 8px;
+    padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; border: 1px solid transparent;
+    transition: background 0.16s ease, box-shadow 0.16s ease, transform 0.14s ease;
+    text-decoration: none; white-space: nowrap;
+}
+.vm-action-btn:hover { transform: translateY(-1px); text-decoration: none; }
+.vm-action-btn:active { transform: translateY(0); box-shadow: none; }
+.vm-btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.vm-btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); box-shadow: 0 4px 12px rgba(26,60,143,0.28); color: #fff; }
+.vm-btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+.vm-btn-secondary:hover { background: var(--bg); border-color: #c9d1e0; color: var(--text); }
+
+/* ── Icon-only action buttons ── */
+.vm-actions { display: flex; gap: 5px; align-items: center; }
+.vm-actions form { margin: 0; }
+.vm-icon-btn {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid transparent;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; background: transparent;
+    transition: background 0.14s, border-color 0.14s, transform 0.12s;
+    text-decoration: none; padding: 0; flex-shrink: 0;
+}
+.vm-icon-btn:hover { transform: translateY(-1px); text-decoration: none; }
+.vm-icon-edit    { color: var(--primary); }
+.vm-icon-edit:hover    { background: var(--primary-muted); border-color: rgba(26,60,143,0.2); color: var(--primary); }
+.vm-icon-approve { color: var(--success); }
+.vm-icon-approve:hover { background: var(--success-bg); border-color: rgba(5,150,105,0.25); }
+.vm-icon-lock    { color: var(--warning); }
+.vm-icon-lock:hover    { background: var(--warning-bg); border-color: rgba(217,119,6,0.25); }
+.vm-icon-unlock  { color: #0d9488; }
+.vm-icon-unlock:hover  { background: #f0fdfa; border-color: rgba(13,148,136,0.25); }
+.vm-icon-delete  { color: var(--danger); }
+.vm-icon-delete:hover  { background: var(--danger-bg); border-color: rgba(220,38,38,0.25); }
+
+/* ── Table scrollbar ── */
+.table-wrapper { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.table-wrapper::-webkit-scrollbar { width: 6px; }
+.table-wrapper::-webkit-scrollbar-track { background: transparent; }
+.table-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Form split layout ── */
+.vm-form-split {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 28px;
+    align-items: start;
+}
+.vm-form-fields { display: flex; flex-direction: column; gap: 14px; }
+.vm-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ── Image upload ── */
+.vm-upload-label {
+    display: block;
+    font-weight: 600; font-size: 12.5px; color: var(--text);
+    letter-spacing: 0.01em; margin-bottom: 8px;
+}
+.vm-upload-zone {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    background: #fafbfc;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
+}
+.vm-upload-zone:hover {
+    border-color: var(--primary);
+    background: var(--primary-muted);
+}
+.vm-upload-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    text-align: center;
+}
+.vm-upload-icon {
+    width: 64px; height: 64px;
+    background: var(--primary-muted);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary);
+}
+.vm-upload-title { font-size: 13px; font-weight: 600; color: var(--text); margin: 0; }
+.vm-upload-hint  { font-size: 11.5px; color: var(--text-secondary); margin: 0; }
+.vm-preview-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+@media (max-width: 760px) {
+    .vm-form-split { grid-template-columns: 1fr; }
+    .vm-upload-zone { aspect-ratio: 16/7; }
+    .vm-form-row { grid-template-columns: 1fr; }
+}
+</style>
+
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Đăng nhập - NEU Smart Parking{% endblock %}
 
 {% block content %}
-<div class="auth-split" style="margin: -32px -0px; min-height: 100vh;">
+<div class="auth-split" style="min-height: 100vh;">
     <!-- Left: Branding panel -->
     <div class="auth-split-left">
         <div class="auth-brand">
@@ -19,16 +19,16 @@
             <p class="auth-left-desc">Hệ thống quản lý bãi đỗ xe thông minh dành riêng cho cán bộ, giảng viên và sinh viên Đại học Kinh tế Quốc dân.</p>
             <div class="auth-left-stats">
                 <div class="auth-stat">
-                    <span class="auth-stat-value">2,500+</span>
+                    <span class="auth-stat-value">10,000+</span>
                     <span class="auth-stat-label">Chỗ đỗ xe</span>
                 </div>
                 <div class="auth-stat">
-                    <span class="auth-stat-value">15</span>
+                    <span class="auth-stat-value">4</span>
                     <span class="auth-stat-label">Khu vực đỗ</span>
                 </div>
                 <div class="auth-stat">
-                    <span class="auth-stat-value">AI</span>
-                    <span class="auth-stat-label">Công nghệ NHBN</span>
+                    <span class="auth-stat-value">AI OCR</span>
+                    <span class="auth-stat-label">Công nghệ nhận diện biển thông minh</span>
                 </div>
             </div>
         </div>
@@ -72,4 +72,42 @@
         </div>
     </div>
 </div>
+
+<style>
+
+.auth-split {
+  position: relative;
+  min-height: 100vh;
+  background: url("{{ url_for('static', filename='images/neu-beautiful-top.jpg') }}") no-repeat center center;
+  background-size: cover;
+}
+.auth-split-left {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+
+  /* nền overlay */
+  background: rgba(24, 33, 56, 0.75); /* xanh đậm xám */
+  backdrop-filter: blur(6px); /* kính mờ xịn xịn */
+}
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+}
+.auth-split {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+.auth-split-left,
+.auth-split-right {
+  padding: 100px;
+  margin-top: -32px;
+  margin-bottom: -32px;
+}
+</style>
+
 {% endblock %}
