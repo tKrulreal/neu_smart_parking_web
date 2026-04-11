@@ -24,24 +24,34 @@
             <input type="hidden" name="action" value="scan">
             <input type="hidden" name="gate_name" value="{{ gate_name }}">
 
-            {% if uploaded_preview %}
-            <div class="upload-zone has-preview" style="margin-bottom:12px;">
-                <img src="{{ uploaded_preview }}" alt="Ảnh xe vào cổng">
-            </div>
-            {% else %}
-            <div class="upload-zone" id="uploadZone" style="margin-bottom:12px;">
-                <input type="file" name="vehicle_image" accept="image/*" required
-                       onchange="handleFileChange(this)">
+            <div class="upload-zone {% if uploaded_preview %}has-preview{% endif %}" id="uploadZone"
+                style="margin-bottom:12px;" onclick="document.getElementById('vehicleFileInput').click()">
+
+                <input type="file" name="vehicle_image" accept="image/*" required id="vehicleFileInput"
+                    style="display:none;" onchange="handleFileChange(this)">
+
+                {% if uploaded_preview %}
+                <img src="{{ uploaded_preview }}" alt="Ảnh xe vào cổng" style="max-width:100%;border-radius:6px;">
+                <p class="upload-zone-hint" style="margin-top:8px;">Nhấn để chọn ảnh khác</p>
+                {% else %}
                 <div class="upload-zone-icon">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        opacity="0.4">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
                 </div>
                 <p class="upload-zone-label" id="uploadLabel">Kéo thả ảnh hoặc nhấn để chọn</p>
                 <p class="upload-zone-hint">Hỗ trợ JPG, PNG — ảnh chụp xe vào cổng</p>
+                {% endif %}
             </div>
-            {% endif %}
 
             <button class="btn btn-primary" type="submit" style="width:100%;padding:10px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
                 Nhận diện biển số (OCR)
             </button>
         </form>
@@ -60,7 +70,7 @@
                 <span class="info-row-label">Biển số phát hiện</span>
                 <span class="info-row-value">
                     {% if ocr.plate %}
-                        <span class="plate-badge" style="font-size:15px;padding:4px 14px;">{{ ocr.plate }}</span>
+                    <span class="plate-badge" style="font-size:15px;padding:4px 14px;">{{ ocr.plate }}</span>
                     {% else %}—{% endif %}
                 </span>
             </div>
@@ -68,7 +78,7 @@
                 <span class="info-row-label">Độ tin cậy</span>
                 <span class="info-row-value">
                     {% if ocr.confidence %}
-                        <span style="font-weight:700;color:var(--success);">{{ ocr.confidence }}%</span>
+                    <span style="font-weight:700;color:var(--success);">{{ ocr.confidence }}%</span>
                     {% else %}—{% endif %}
                 </span>
             </div>
@@ -76,8 +86,9 @@
                 <span class="info-row-label">Chủ xe &amp; MSSV</span>
                 <span class="info-row-value">
                     {% if owner %}
-                        <strong>{{ owner.owner_name }}</strong>
-                        <span style="color:var(--text-secondary);font-size:12px;margin-left:6px;">{{ owner.student_code }}</span>
+                    <strong>{{ owner.owner_name }}</strong>
+                    <span style="color:var(--text-secondary);font-size:12px;margin-left:6px;">{{ owner.student_code
+                        }}</span>
                     {% else %}—{% endif %}
                 </span>
             </div>
@@ -89,19 +100,19 @@
                 <span class="info-row-label">Trạng thái hệ thống</span>
                 <span class="info-row-value">
                     {% if system_status == 'READY_TO_ENTER' %}
-                        <span class="badge badge-success">SẴN SÀNG VÀO BÃI</span>
+                    <span class="badge badge-success">SẴN SÀNG VÀO BÃI</span>
                     {% elif system_status == 'ENTRY_CONFIRMED' %}
-                        <span class="badge badge-success">ĐÃ XÁC NHẬN VÀO</span>
+                    <span class="badge badge-success">ĐÃ XÁC NHẬN VÀO</span>
                     {% elif system_status == 'ALREADY_IN_PARKING' %}
-                        <span class="badge badge-warning">XE ĐANG TRONG BÃI</span>
+                    <span class="badge badge-warning">XE ĐANG TRONG BÃI</span>
                     {% elif system_status == 'PENDING_APPROVAL' %}
-                        <span class="badge badge-warning">CHỜ PHÊ DUYỆT</span>
+                    <span class="badge badge-warning">CHỜ PHÊ DUYỆT</span>
                     {% elif system_status == 'UNKNOWN_VEHICLE' %}
-                        <span class="badge badge-danger">KHÔNG TÌM THẤY XE</span>
+                    <span class="badge badge-danger">KHÔNG TÌM THẤY XE</span>
                     {% elif system_status == 'UNREADABLE' %}
-                        <span class="badge badge-danger">KHÔNG ĐỌC ĐƯỢC BIỂN SỐ</span>
+                    <span class="badge badge-danger">KHÔNG ĐỌC ĐƯỢC BIỂN SỐ</span>
                     {% else %}
-                        <span class="badge badge-secondary">CHỜ QUÉT</span>
+                    <span class="badge badge-secondary">CHỜ QUÉT</span>
                     {% endif %}
                 </span>
             </div>
@@ -113,7 +124,9 @@
             <input type="hidden" name="gate_name" value="{{ gate_name }}">
             <input type="hidden" name="plate" value="{{ ocr.plate }}">
             <button class="btn btn-primary" type="submit" style="width:100%;padding:10px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
                 Xác nhận xe vào bãi
             </button>
         </form>
@@ -121,9 +134,13 @@
 
         {% if issued_qr %}
         <div style="margin-top:16px;background:var(--bg);border-radius:10px;padding:16px;text-align:center;">
-            <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:10px;">QR vừa được cấp</p>
-            <img src="{{ url_for('static', filename=issued_qr.qr_image_path) }}" alt="Entry QR" class="qr-image" style="margin:0 auto;width:160px;">
-            <p style="font-size:11px;color:var(--text-secondary);margin-top:8px;word-break:break-all;">{{ issued_qr.qr_payload }}</p>
+            <p
+                style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);margin-bottom:10px;">
+                QR vừa được cấp</p>
+            <img src="{{ url_for('static', filename=issued_qr.qr_image_path) }}" alt="Entry QR" class="qr-image"
+                style="margin:0 auto;width:160px;">
+            <p style="font-size:11px;color:var(--text-secondary);margin-top:8px;word-break:break-all;">{{
+                issued_qr.qr_payload }}</p>
         </div>
         {% endif %}
     </article>
@@ -136,7 +153,8 @@
         <h2 class="section-title">Lượt vào gần đây</h2>
         <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">Xem lịch sử đầy đủ</a>
     </div>
-    <div class="table-wrapper" style="max-height:310px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+    <div class="table-wrapper"
+        style="max-height:310px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
         <table>
             <thead>
                 <tr>
@@ -167,12 +185,12 @@
 
 {% block extra_js %}
 <script>
-function handleFileChange(input) {
-    if (input.files && input.files[0]) {
-        document.getElementById('uploadLabel').textContent = input.files[0].name;
-        document.getElementById('uploadZone').style.borderColor = 'var(--primary)';
-        document.getElementById('uploadZone').style.background = 'var(--primary-muted)';
+    function handleFileChange(input) {
+        if (input.files && input.files[0]) {
+            document.getElementById('uploadLabel').textContent = input.files[0].name;
+            document.getElementById('uploadZone').style.borderColor = 'var(--primary)';
+            document.getElementById('uploadZone').style.background = 'var(--primary-muted)';
+        }
     }
-}
 </script>
 {% endblock %}

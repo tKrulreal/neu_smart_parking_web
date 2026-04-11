@@ -5,7 +5,11 @@ from typing import List, Tuple
 import cv2
 import easyocr
 from ultralytics import YOLO
-MODEL_PATH = "models/license_plate_detector.pt"
+
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "license_plate_detector.pt")
+
 ALLOWLIST = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 UPSCALE_FACTOR = 3.0
 EARLY_STOP_PATTERN_SCORE = 8
