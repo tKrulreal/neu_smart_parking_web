@@ -21,28 +21,28 @@
 </div>
 
 <!-- Step indicator -->
-<div style="display:flex;align-items:center;gap:0;margin-bottom:28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 24px;box-shadow:var(--shadow);">
-    <div style="display:flex;align-items:center;gap:10px;flex:1;">
-        <div style="width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+<div class="snv-steps" id="stepBar">
+    <div class="snv-step" id="step1-indicator">
+        <div class="snv-step-circle" id="circle1">1</div>
         <div>
-            <p style="font-size:12px;font-weight:700;color:var(--primary);">THÔNG TIN XE</p>
-            <p style="font-size:11px;color:var(--text-secondary);">Nhập thông tin phương tiện</p>
+            <p class="snv-step-title">THÔNG TIN XE</p>
+            <p class="snv-step-sub">Nhập thông tin phương tiện</p>
         </div>
     </div>
-    <div style="height:2px;flex:0 0 40px;background:var(--border);"></div>
-    <div style="display:flex;align-items:center;gap:10px;flex:1;">
-        <div style="width:30px;height:30px;border-radius:50%;background:var(--border);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+    <div class="snv-step-line" id="line1"></div>
+    <div class="snv-step" id="step2-indicator">
+        <div class="snv-step-circle snv-circle-inactive" id="circle2">2</div>
         <div>
-            <p style="font-size:12px;font-weight:600;color:var(--text-secondary);">TẢI HỒ SƠ</p>
-            <p style="font-size:11px;color:var(--text-secondary);">Ảnh đăng ký xe</p>
+            <p class="snv-step-title snv-title-inactive" id="title2">TẢI HỒ SƠ</p>
+            <p class="snv-step-sub">Ảnh đăng ký xe</p>
         </div>
     </div>
-    <div style="height:2px;flex:0 0 40px;background:var(--border);"></div>
-    <div style="display:flex;align-items:center;gap:10px;flex:1;">
-        <div style="width:30px;height:30px;border-radius:50%;background:var(--border);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+    <div class="snv-step-line" id="line2"></div>
+    <div class="snv-step" id="step3-indicator">
+        <div class="snv-step-circle snv-circle-inactive" id="circle3">3</div>
         <div>
-            <p style="font-size:12px;font-weight:600;color:var(--text-secondary);">XÁC NHẬN</p>
-            <p style="font-size:11px;color:var(--text-secondary);">Chờ admin duyệt</p>
+            <p class="snv-step-title snv-title-inactive" id="title3">XÁC NHẬN</p>
+            <p class="snv-step-sub">Chờ admin duyệt</p>
         </div>
     </div>
 </div>
@@ -112,13 +112,7 @@
             </div>
         </article>
 
-        <div class="button-row">
-            <button class="btn btn-primary" type="submit" form="vehicleForm" style="padding:10px 24px;">
-                Gửi yêu cầu
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-            <a class="btn btn-secondary" href="{{ url_for('my_vehicle') }}">Lưu nháp</a>
-        </div>
+        </article>
     </div>
 
     <!-- Right sidebar: Notes -->
@@ -136,10 +130,6 @@
                 <li style="display:flex;gap:8px;align-items:flex-start;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
                     <p style="font-size:12.5px;color:rgba(255,255,255,0.8);line-height:1.5;">Ảnh chụp giấy tờ cần rõ nét, không bị lóa sáng hoặc mất góc.</p>
-                </li>
-                <li style="display:flex;gap:8px;align-items:flex-start;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
-                    <p style="font-size:12.5px;color:rgba(255,255,255,0.8);line-height:1.5;">Thời gian xét duyệt dự kiến từ 24h–48h làm việc.</p>
                 </li>
             </ul>
         </article>
@@ -170,19 +160,232 @@
                 </li>
             </ul>
         </article>
+
+        <!-- Step 3: Xác nhận — submit button -->
+        <article class="section-card" style="margin-top:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--primary-muted);display:flex;align-items:center;justify-content:center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h2 class="section-title" style="margin:0;">Bước 3: Xác nhận & gửi</h2>
+            </div>
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6;">
+                Kiểm tra lại thông tin trước khi gửi.
+            </p>
+            <!-- Success alert (hidden by default) -->
+            <div id="snv-success-alert" style="display:none;background:var(--warning-bg);border:1px solid #fcd34d;border-radius:8px;padding:12px 14px;margin-bottom:14px;display:none;">
+                <div style="display:flex;align-items:flex-start;gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <div>
+                        <p style="font-size:13px;font-weight:700;color:var(--warning-text);margin-bottom:3px;">Yêu cầu đã được gửi!</p>
+                        <p style="font-size:12.5px;color:var(--warning-text);">Hệ thống đang xét duyệt. Bạn có thể <a href="{{ url_for('my_vehicle') }}" style="color:var(--warning-text);font-weight:700;text-decoration:underline;">quay lại trang Xe của tôi</a> để theo dõi trạng thái.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="snv-submit-btn" type="submit" form="vehicleForm" id="snvSubmitBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                Gửi yêu cầu đăng ký
+            </button>
+        </article>
     </div>
 
 </div>
+
+<style>
+/* ── Step bar ── */
+.snv-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 24px;
+    box-shadow: var(--shadow);
+}
+.snv-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+.snv-step-line {
+    height: 2px;
+    flex: 0 0 40px;
+    background: var(--border);
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+.snv-step-line.done { background: var(--success); }
+
+.snv-step-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.snv-step-circle.snv-circle-inactive {
+    background: var(--border);
+    color: var(--text-secondary);
+}
+.snv-step-circle.snv-circle-done {
+    background: var(--success) !important;
+    color: #fff !important;
+}
+.snv-step-circle.snv-circle-pending {
+    background: var(--warning) !important;
+    color: #fff !important;
+}
+
+.snv-step-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    transition: color 0.3s;
+}
+.snv-step-title.snv-title-inactive { color: var(--text-secondary); }
+.snv-step-title.snv-title-done { color: var(--success) !important; }
+.snv-step-title.snv-title-pending { color: var(--warning-text) !important; }
+
+.snv-step-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* ── Submit button ── */
+.snv-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+    background: var(--primary);
+    color: #fff;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.13s;
+}
+.snv-submit-btn:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 4px 14px rgba(26,60,143,0.28);
+    transform: translateY(-1px);
+}
+.snv-submit-btn:active { transform: translateY(0); }
+</style>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+/* ── Helper: set step state ── */
+function setStep(n, state) {
+    // state: 'active' | 'done' | 'pending' | 'inactive'
+    const circle = document.getElementById('circle' + n);
+    const title  = document.getElementById('title' + n);
+    // Reset
+    circle.classList.remove('snv-circle-inactive','snv-circle-done','snv-circle-pending');
+    if (title) title.classList.remove('snv-title-inactive','snv-title-done','snv-title-pending');
+
+    if (state === 'done') {
+        circle.classList.add('snv-circle-done');
+        circle.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+        if (title) title.classList.add('snv-title-done');
+    } else if (state === 'pending') {
+        circle.classList.add('snv-circle-pending');
+        circle.textContent = n;
+        if (title) title.classList.add('snv-title-pending');
+    } else if (state === 'inactive') {
+        circle.classList.add('snv-circle-inactive');
+        circle.textContent = n;
+        if (title) title.classList.add('snv-title-inactive');
+    } else {
+        // active — primary blue, default
+        circle.textContent = n;
+    }
+}
+
+function setLine(n, done) {
+    const line = document.getElementById('line' + n);
+    if (line) line.classList.toggle('done', done);
+}
+
+/* ── Check step 1 completeness ── */
+const step1Fields = ['plate','vehicle_type','color','brand'];
+function checkStep1() {
+    const plate = document.getElementById('plate').value.trim();
+    const type  = document.getElementById('vehicle_type').value;
+    return plate.length > 0 && type.length > 0;
+}
+
+step1Fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateSteps);
+    if (el && el.tagName === 'SELECT') el.addEventListener('change', updateSteps);
+});
+
+/* ── Check step 2 ── */
+let step2Done = false;
 function updateUpload(input) {
     if (input.files && input.files[0]) {
         document.getElementById('imgLabel').textContent = input.files[0].name;
         document.getElementById('imgZone').style.borderColor = 'var(--primary)';
         document.getElementById('imgZone').style.background = 'var(--primary-muted)';
+        step2Done = true;
+        updateSteps();
     }
 }
+
+/* ── Master update ── */
+function updateSteps() {
+    const s1 = checkStep1();
+    const s2 = step2Done;
+
+    if (s1) {
+        setStep(1, 'done');
+        setLine(1, true);
+        setStep(2, s2 ? 'done' : 'active');
+        if (s2) {
+            setLine(2, true);
+            setStep(3, 'active');
+        } else {
+            setLine(2, false);
+            setStep(3, 'inactive');
+        }
+    } else {
+        setStep(1, 'active');
+        setLine(1, false);
+        setStep(2, 'inactive');
+        setLine(2, false);
+        setStep(3, 'inactive');
+    }
+}
+
+/* ── Step 3: intercept submit → show alert, turn yellow ── */
+document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+    // Let the form submit normally but also update UI
+    setStep(3, 'pending');
+    const alert = document.getElementById('snv-success-alert');
+    if (alert) { alert.style.display = 'block'; }
+    const btn = document.getElementById('snvSubmitBtn');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.style.cursor = 'default'; }
+    // Don't preventDefault — form submits normally
+});
+
+// Init
+updateSteps();
 </script>
 {% endblock %}
