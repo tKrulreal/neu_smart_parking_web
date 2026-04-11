@@ -4,67 +4,750 @@
 {% block topbar_title %}Trang chủ{% endblock %}
 
 {% block content %}
-<div class="hero" style="margin-bottom:28px;">
-    <div style="position:relative;z-index:1;max-width:580px;">
-        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.65);margin-bottom:10px;">NEU Smart Parking</p>
-        <h1 class="page-title" style="font-size:30px;margin-bottom:10px;color:#fff;letter-spacing:-0.5px;">Hệ thống Đỗ xe<br>Thông minh NEU</h1>
-        <p style="color:rgba(255,255,255,0.8);margin-bottom:24px;font-size:14px;line-height:1.65;">
-            Nền tảng quản lý bãi đỗ xe hiện đại dành cho sinh viên, bảo vệ và quản trị viên. Tự động hóa hoàn toàn với công nghệ nhận diện biển số và xác thực QR.
-        </p>
-        <div class="button-row">
-            {% if current_user %}
-                <a class="btn btn-primary"
-                   style="background:#fff;color:var(--primary);border-color:#fff;padding:10px 22px;"
-                   href="{{ url_for('dashboard') if current_user.role in ['admin', 'guard'] else url_for('self_dashboard') }}">
-                    Vào trang chính →
-                </a>
-            {% else %}
-                <a class="btn btn-primary"
-                   style="background:#fff;color:var(--primary);border-color:#fff;padding:10px 22px;"
-                   href="{{ url_for('login') }}">
-                    Đăng nhập
-                </a>
-                <a class="btn btn-secondary"
-                   style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.4);padding:10px 22px;"
-                   href="{{ url_for('register') }}">
-                    Đăng ký ngay
-                </a>
-            {% endif %}
+
+<!-- ===== HERO SECTION ===== -->
+<section class="home-hero full-width-section">
+  <div class="home-hero-inner">
+
+    <!-- Left -->
+    <div class="home-hero-text">
+      <p class="home-hero-label">NEU Smart Parking</p>
+      <h1 class="home-hero-title">
+        Hệ thống Đỗ xe<br>
+        Thông minh<br>
+        <span class="home-hero-title-accent">NEU</span>
+      </h1>
+      <p class="home-hero-desc">
+        Giải pháp quản lý bãi đỗ xe hiện đại tại Đại học Kinh tế Quốc dân.
+        Tự động hóa hoàn toàn với công nghệ tiên tiến nhất.
+      </p>
+
+      <!-- Feature pills -->
+      <div class="home-feature-grid">
+        <div class="home-feature-pill">
+          <span class="home-feature-pill-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
+          </span>
+          Xác thực QR
         </div>
+        <div class="home-feature-pill">
+          <span class="home-feature-pill-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </span>
+          Nhận diện biển số
+        </div>
+        <div class="home-feature-pill">
+          <span class="home-feature-pill-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </span>
+          Dashboard thống kê
+        </div>
+        <div class="home-feature-pill">
+          <span class="home-feature-pill-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          </span>
+          Quản lý xe ra vào
+        </div>
+      </div>
+
+      <div style="margin-top:28px;">
+        {% if current_user %}
+          <a class="home-cta-btn"
+             href="{{ url_for('dashboard') if current_user.role in ['admin', 'guard'] else url_for('self_dashboard') }}">
+            Vào trang chính &nbsp;→
+          </a>
+        {% else %}
+          <a class="home-cta-btn" href="{{ url_for('login') }}">
+            Khám phá ngay &nbsp;→
+          </a>
+        {% endif %}
+      </div>
     </div>
-</div>
 
-<div style="margin-bottom:10px;">
-    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);margin-bottom:6px;">Tính năng cốt lõi</p>
-    <h2 style="font-size:20px;font-weight:700;color:var(--primary);margin-bottom:20px;">Nền tảng Quản lý Thông minh</h2>
-</div>
+    <!-- Right: image + floating card -->
+    <div class="home-hero-visual">
+      <div class="home-hero-img-wrap">
+        <img
+          src="{{ url_for('static', filename='images/neu-beautiful-top.jpg') }}"
+          alt="NEU Parking"
+          class="home-hero-img"
+        />
 
-<div class="grid grid-3">
-    <article class="section-card" style="border-top:3px solid var(--primary);">
-        <div style="width:42px;height:42px;background:var(--primary-muted);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== TÍNH NĂNG CỐT LÕI ===== -->
+<section class="home-features-section full-width-section">
+  <div class="home-section-inner">
+    <p class="home-section-eyebrow">Tính năng cốt lõi</p>
+    <h2 class="home-section-title">Nền tảng Quản lý Thông minh</h2>
+
+    <div class="grid grid-3" style="margin-top:28px;">
+
+      <article class="home-feat-card">
+        <div class="home-feat-card-icon" style="background:#eef2ff;color:#4338ca;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         </div>
-        <h3 class="section-title">Quản lý xe vào/ra</h3>
-        <p class="muted" style="font-size:13px;line-height:1.6;">Hệ thống ghi nhận thời gian thực mọi phương tiện di chuyển qua cổng với độ trễ cực thấp.</p>
-        <a href="{{ url_for('login') }}" style="font-size:12.5px;font-weight:600;color:var(--primary);margin-top:10px;display:inline-block;">Xem chi tiết →</a>
-    </article>
+        <h3 class="home-feat-card-title">Quản lý xe vào/ra</h3>
+        <p class="home-feat-card-desc">Hệ thống ghi nhận thời gian thực mọi phương tiện di chuyển qua cổng với độ trễ cực thấp.</p>
+        <a href="{{ url_for('login') }}" class="home-feat-card-link">Xem chi tiết &nbsp;›</a>
+      </article>
 
-    <article class="section-card" style="border-top:3px solid #0d9488;">
-        <div style="width:42px;height:42px;background:#f0fdfa;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
+      <article class="home-feat-card">
+        <div class="home-feat-card-icon" style="background:#f0fdfa;color:#0d9488;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
         </div>
-        <h3 class="section-title">Xác thực QR</h3>
-        <p class="muted" style="font-size:13px;line-height:1.6;">Quét mã QR cá nhân trên ứng dụng sinh viên để xác thực nhanh chóng mà không cần thẻ vật lý.</p>
-        <a href="{{ url_for('login') }}" style="font-size:12.5px;font-weight:600;color:#0d9488;margin-top:10px;display:inline-block;">Xem chi tiết →</a>
-    </article>
+        <h3 class="home-feat-card-title">Xác thực QR</h3>
+        <p class="home-feat-card-desc">Quét mã QR cá nhân trên ứng dụng sinh viên để xác thực nhanh chóng mà không cần thẻ vật lý.</p>
+        <a href="{{ url_for('login') }}" class="home-feat-card-link" style="color:#0d9488;">Xem chi tiết &nbsp;›</a>
+      </article>
 
-    <article class="section-card" style="border-top:3px solid var(--warning);">
-        <div style="width:42px;height:42px;background:var(--warning-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <article class="home-feat-card">
+        <div class="home-feat-card-icon" style="background:#fff7ed;color:#ea580c;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         </div>
-        <h3 class="section-title">Thống kê bãi xe</h3>
-        <p class="muted" style="font-size:13px;line-height:1.6;">Báo cáo chi tiết về mật độ đỗ xe, doanh thu và lưu lượng theo từng khung giờ trong ngày.</p>
-        <a href="{{ url_for('login') }}" style="font-size:12.5px;font-weight:600;color:var(--warning);margin-top:10px;display:inline-block;">Xem chi tiết →</a>
-    </article>
-</div>
+        <h3 class="home-feat-card-title">Thống kê bãi xe</h3>
+        <p class="home-feat-card-desc">Báo cáo chi tiết về mật độ đỗ xe, doanh thu và lưu lượng theo từng khung thời gian.</p>
+        <a href="{{ url_for('login') }}" class="home-feat-card-link" style="color:#ea580c;">Xem chi tiết &nbsp;›</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HỆ THỐNG BÃI ĐỂ XE ===== -->
+<section class="home-lots-section full-width-section">
+  <div class="home-section-inner">
+    <p class="home-section-eyebrow">Hệ thống bãi đỗ xe</p>
+    <h2 class="home-section-title">Các Bãi Xe NEU</h2>
+
+    <div class="home-lots-grid" style="margin-top:28px;">
+
+      <div class="home-lot-card">
+        <div class="home-lot-img-wrap">
+          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 1" class="home-lot-img" />
+          <span class="home-lot-badge">Đang hoạt động</span>
+        </div>
+        <div class="home-lot-body">
+          <p class="home-lot-number">Bãi xe 1</p>
+          <h3 class="home-lot-name">Cổng Trần Đại Nghĩa</h3>
+          <p class="home-lot-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội
+          </p>
+        </div>
+      </div>
+
+      <div class="home-lot-card">
+        <div class="home-lot-img-wrap">
+          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 4" class="home-lot-img" />
+          <span class="home-lot-badge">Đang hoạt động</span>
+        </div>
+        <div class="home-lot-body">
+          <p class="home-lot-number">Bãi xe 4</p>
+          <h3 class="home-lot-name">Cổng Trần Đại Nghĩa</h3>
+          <p class="home-lot-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội
+          </p>
+        </div>
+      </div>
+
+      <div class="home-lot-card">
+        <div class="home-lot-img-wrap">
+          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 2" class="home-lot-img" />
+          <span class="home-lot-badge">Đang hoạt động</span>
+        </div>
+        <div class="home-lot-body">
+          <p class="home-lot-number">Bãi xe 2</p>
+          <h3 class="home-lot-name">Cổng Phố Vọng</h3>
+          <p class="home-lot-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Phố Vọng, Hai Bà Trưng
+          </p>
+        </div>
+      </div>
+
+      <div class="home-lot-card">
+        <div class="home-lot-img-wrap">
+          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 3" class="home-lot-img" />
+          <span class="home-lot-badge">Đang hoạt động</span>
+        </div>
+        <div class="home-lot-body">
+          <p class="home-lot-number">Bãi xe 3</p>
+          <h3 class="home-lot-name">Ký túc xá</h3>
+          <p class="home-lot-meta">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Khu Ký túc xá NEU
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HIỆU SUẤT TỐI ĐA ===== -->
+<section class="home-perf-section full-width-section">
+  <div class="home-section-inner">
+    <div class="home-perf-inner">
+
+      <div class="home-perf-img-wrap">
+        <img src="{{ url_for('static', filename='images/neu-beautiful-top.jpg') }}" alt="Hệ thống quản lý" class="home-perf-img" />
+      </div>
+
+      <div class="home-perf-text">
+        <h2 class="home-perf-title">Hiệu suất tối đa,<br>Quản lý tối giản.</h2>
+        <ul class="home-perf-list">
+          <li class="home-perf-item">
+            <span class="home-perf-dot"></span>
+            <div>
+              <strong>Tự động nhận diện biển số (OCR)</strong>
+              <p>Độ chính xác lên tới cao trong mọi điều kiện thời tiết và ánh sáng.</p>
+            </div>
+          </li>
+          <li class="home-perf-item">
+            <span class="home-perf-dot"></span>
+            <div>
+              <strong>Hệ thống thanh toán thế hệ mới</strong>
+              <p>Tích hợp tài khoản sinh viên NEU và thông tin biển số cá nhân.</p>
+            </div>
+          </li>
+          <li class="home-perf-item">
+            <span class="home-perf-dot"></span>
+            <div>
+              <strong>Cảnh báo thông minh</strong>
+              <p>Phát hiện và thông báo ngay lập tức các trường hợp không nhận diện được biển số.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="home-cta-section full-width-section">
+  <div class="home-section-inner">
+    <div class="home-cta-card">
+      <h2 class="home-cta-title">Sẵn sàng trải nghiệm dịch vụ đỗ xe thế hệ mới?</h2>
+      <p class="home-cta-desc">
+        Gia nhập hệ thống ngay hôm nay để quản lý phương tiện của bạn dễ dàng hơn bao giờ hết.
+      </p>
+      <div class="home-cta-actions">
+        <a href="{{ url_for('register') }}" class="home-cta-btn-primary">Đăng ký ngay</a>
+        <a href="{{ url_for('login') }}" class="home-cta-btn-outline">Đăng nhập</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOME PAGE STYLES ===== -->
+<style>
+/* Full width sections break out of the page-content padding */
+.full-width-section {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+/* ---- Shared ---- */
+.home-section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+.home-section-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.home-section-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+/* ---- HERO ---- */
+.home-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  padding: 72px 28px 64px;
+  /* Break out of page-content padding to go full width */
+  margin-top: -24px;
+}
+.home-hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.home-hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.home-hero-title {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: #fff;
+  margin-bottom: 18px;
+}
+.home-hero-title-accent {
+  color: #93c5fd;
+}
+.home-hero-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: 28px;
+}
+/* Feature pills */
+.home-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 380px;
+}
+.home-feature-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.home-feature-pill-icon {
+  color: #93c5fd;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+/* CTA button */
+.home-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.home-cta-btn:hover {
+  opacity: 0.93;
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: var(--primary);
+}
+/* Hero image */
+.home-hero-visual {
+  display: flex;
+  justify-content: center;
+}
+.home-hero-img-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+.home-hero-img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(26,60,143,0.18);
+  display: block;
+  /* placeholder when no image */
+  background: #dde3f0;
+}
+/* Floating stat card */
+.home-hero-stat-card {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 24px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  min-width: 200px;
+  text-align: left;
+}
+.home-hero-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.home-hero-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.home-hero-stat-value {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+.home-hero-stat-ring {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  display: block;
+}
+
+/* ---- FEATURES SECTION ---- */
+.home-features-section {
+  background: #f8fafc;
+  padding: 72px 28px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.home-feat-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.home-feat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.home-feat-card-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.home-feat-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.home-feat-card-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.home-feat-card-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+.home-feat-card-link:hover {
+  text-decoration: underline;
+}
+
+/* ---- LOTS SECTION ---- */
+.home-lots-section {
+  padding: 72px 28px;
+  background: #fff;
+}
+.home-lots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.home-lot-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: #fff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.home-lot-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.home-lot-img-wrap {
+  position: relative;
+}
+.home-lot-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  /* placeholder */
+  background: #dde3f0;
+}
+.home-lot-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--success-bg);
+  color: var(--success-text);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+}
+.home-lot-body {
+  padding: 16px 18px;
+}
+.home-lot-number {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+.home-lot-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.home-lot-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.home-lot-meta svg {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+/* ---- PERFORMANCE SECTION ---- */
+.home-perf-section {
+  background: #f8fafc;
+  padding: 72px 28px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.home-perf-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.home-perf-img-wrap {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+}
+.home-perf-img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+  /* placeholder */
+  background: #1e293b;
+}
+.home-perf-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  margin-bottom: 28px;
+}
+.home-perf-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.home-perf-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.home-perf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+.home-perf-item strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.home-perf-item p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---- CTA SECTION ---- */
+.home-cta-section {
+  padding: 72px 28px 80px;
+  background: var(--primary);
+  margin-bottom: -32px;
+  text-align: center;
+}
+.home-cta-card {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  text-align: center;
+  box-shadow: none;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.home-cta-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.6px;
+  margin-bottom: 14px;
+}
+.home-cta-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.home-cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.home-cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.home-cta-btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: var(--primary);
+}
+.home-cta-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.home-cta-btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #fff;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .home-hero-inner,
+  .home-perf-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .home-hero {
+    padding: 48px 16px 56px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+  .home-features-section,
+  .home-lots-section,
+  .home-perf-section,
+  .home-cta-section {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .home-hero-title {
+    font-size: 36px;
+  }
+  .home-hero-visual {
+    order: -1;
+  }
+  .home-hero-img {
+    height: 220px;
+  }
+  .home-cta-card {
+    padding: 36px 24px;
+  }
+  .home-cta-title {
+    font-size: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .home-section-inner,
+  .home-hero-inner {
+    padding: 0 16px;
+  }
+  .home-feature-grid {
+    max-width: 100%;
+  }
+  .home-lots-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 420px) {
+  .home-lots-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 {% endblock %}
