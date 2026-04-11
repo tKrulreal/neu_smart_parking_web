@@ -61,7 +61,7 @@
 
 <!-- Main table -->
 <article class="section-card" style="margin-bottom:20px;">
-    <div class="table-wrapper">
+    <div class="table-wrapper" style="max-height:310px;overflow-y:auto;">
         <table>
             <thead>
                 <tr>
@@ -161,6 +161,11 @@
 </div>
 
 <style>
+/* ── Scrollbar ── */
+.table-wrapper { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.table-wrapper::-webkit-scrollbar { width: 6px; }
+.table-wrapper::-webkit-scrollbar-track { background: transparent; }
+.table-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 /* ── Base card ── */
 .hs-stat-card {
     background: var(--surface);

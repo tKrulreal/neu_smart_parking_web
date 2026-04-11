@@ -114,8 +114,8 @@
         <div class="section-head">
             <h2 class="section-title">Lượt quét gần đây</h2>
         </div>
-        <ul class="list-plain">
-            {% for scan in recent_vehicle_scans %}
+        <ul class="list-plain" style="max-height:336px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+            {% for scan in recent_vehicle_scans[:8] %}
             <li class="list-item">
                 <div>
                     <span class="plate-badge" style="margin-bottom:2px;">{{ scan[0] }}</span>
@@ -144,7 +144,7 @@
         </div>
         <a class="btn btn-secondary btn-small" href="{{ url_for('history') }}">Xem tất cả</a>
     </div>
-    <div class="table-wrapper">
+    <div class="table-wrapper" style="max-height:310px;overflow-y:auto;">
         <table>
             <thead>
                 <tr>
@@ -375,6 +375,12 @@
     .db-revenue-card:hover {
         transform: scale(1.005);
     }
+
+    /* ── Scrollbar ── */
+    .table-wrapper { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .table-wrapper::-webkit-scrollbar { width: 6px; }
+    .table-wrapper::-webkit-scrollbar-track { background: transparent; }
+    .table-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
