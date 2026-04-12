@@ -1337,14 +1337,132 @@ def my_vehicle():
     vehicles_rows = list_vehicles(student_code=student_code)
     active_map = _active_parking_map()
     in_parking = sum(1 for row in vehicles_rows if active_map.get(normalize_plate(row["plate"])))
+    selected_vehicle_id = (request.args.get("vehicle_id") or "").strip()
+    selected_vehicle = next((row for row in vehicles_rows if str(row["id"]) == selected_vehicle_id), None)
+    if not selected_vehicle:
+        selected_vehicle = vehicles_rows[0] if vehicles_rows else None
+    edit_mode = (request.args.get("edit") or "").strip() == "1" and bool(selected_vehicle)
+    selected_history = []
+    selected_active_session = None
+    selected_history_count = 0
+    selected_total_spent = 0
+    if selected_vehicle:
+        selected_active_session = get_active_session_by_plate(selected_vehicle["plate"])
+        selected_history = _fetch_all(
+            """
+            SELECT
+                pl.id,
+                pl.plate,
+                pl.time_in,
+                pl.time_out,
+                pl.fee,
+                pl.status,
+                pl.gate_in,
+                pl.gate_out,
+                COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name
+            FROM parking_log pl
+            LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+            WHERE replace(replace(replace(upper(pl.plate), '-', ''), ' ', ''), '.', '') = :plate
+              AND pl.student_code = :student_code
+            ORDER BY pl.id DESC
+            LIMIT 12
+            """,
+            {"plate": normalize_plate(selected_vehicle["plate"]), "student_code": student_code},
+        )
+        selected_history_count = int(
+            _fetch_scalar(
+                """
+                SELECT COUNT(*)
+                FROM parking_log
+                WHERE replace(replace(replace(upper(plate), '-', ''), ' ', ''), '.', '') = :plate
+                  AND student_code = :student_code
+                """,
+                {"plate": normalize_plate(selected_vehicle["plate"]), "student_code": student_code},
+            )
+        )
+        selected_total_spent = int(
+            _fetch_scalar(
+                """
+                SELECT COALESCE(SUM(fee), 0)
+                FROM parking_log
+                WHERE replace(replace(replace(upper(plate), '-', ''), ' ', ''), '.', '') = :plate
+                  AND student_code = :student_code
+                """,
+                {"plate": normalize_plate(selected_vehicle["plate"]), "student_code": student_code},
+            )
+        )
     return render_template(
         "student_my_vehicle.html",
         total_vehicle=len(vehicles_rows),
         in_parking=in_parking,
-        main_vehicle=vehicles_rows[0] if vehicles_rows else None,
+        main_vehicle=selected_vehicle,
         vehicles=vehicles_rows,
         active_map=active_map,
+        edit_mode=edit_mode,
+        selected_history=selected_history,
+        selected_active_session=selected_active_session,
+        selected_history_count=selected_history_count,
+        selected_total_spent=selected_total_spent,
     )
+
+
+@app.post("/my-vehicle/<int:vehicle_id>/update")
+@roles_required("student")
+def update_my_vehicle_route(vehicle_id: int):
+    student_code = g.user.get("student_code") or ""
+    current_vehicle = get_vehicle_by_id(vehicle_id)
+    if not current_vehicle or current_vehicle.get("student_code") != student_code:
+        flash("Phương tiện không tồn tại hoặc không thuộc về bạn.", "error")
+        return redirect(url_for("my_vehicle"))
+    if get_active_session_by_plate(current_vehicle["plate"]):
+        flash("Không thể chỉnh sửa phương tiện khi xe đang ở trong bãi.", "error")
+        return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+    image_path = None
+    try:
+        image_path, _ = _save_upload(request.files.get("image"), prefix="student_vehicle")
+        update_vehicle(
+            vehicle_id,
+            plate=(request.form.get("plate") or "").strip(),
+            student_code=student_code,
+            owner_name=g.user.get("full_name"),
+            vehicle_type=(request.form.get("vehicle_type") or "motorbike").strip(),
+            brand=(request.form.get("brand") or "").strip() or None,
+            color=(request.form.get("color") or "").strip() or None,
+            image_path=image_path,
+            is_active=bool(current_vehicle.get("is_active")),
+        )
+        if image_path and current_vehicle.get("image_path") and current_vehicle["image_path"] != image_path:
+            _delete_static_asset(current_vehicle["image_path"])
+        flash("Đã cập nhật thông tin xe.", "success")
+    except ValueError as exc:
+        message_map = {
+            "required": "Vui lòng nhập biển số xe.",
+            "conflict": "Biển số xe đã tồn tại trong hệ thống.",
+            "invalid_vehicle_type": "Loại xe không hợp lệ.",
+        }
+        _delete_static_asset(image_path)
+        flash(message_map.get(str(exc), "Không thể cập nhật xe."), "error")
+        return redirect(url_for("my_vehicle", vehicle_id=vehicle_id, edit=1))
+    return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+
+@app.post("/my-vehicle/<int:vehicle_id>/delete")
+@roles_required("student")
+def delete_my_vehicle_route(vehicle_id: int):
+    student_code = g.user.get("student_code") or ""
+    vehicle = get_vehicle_by_id(vehicle_id)
+    if not vehicle or vehicle.get("student_code") != student_code:
+        flash("Phương tiện không tồn tại hoặc không thuộc về bạn.", "error")
+        return redirect(url_for("my_vehicle"))
+    if get_active_session_by_plate(vehicle["plate"]):
+        flash("Không thể xóa phương tiện khi xe đang ở trong bãi.", "error")
+        return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+    delete_vehicle(vehicle_id)
+    _delete_static_asset(vehicle.get("image_path"))
+    flash("Đã xóa phương tiện.", "success")
+    return redirect(url_for("my_vehicle"))
 
 
 @app.route("/my-new-vehicle", methods=["GET", "POST"])
