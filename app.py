@@ -1337,6 +1337,15 @@ def my_vehicle():
     vehicles_rows = list_vehicles(student_code=student_code)
     active_map = _active_parking_map()
     in_parking = sum(1 for row in vehicles_rows if active_map.get(normalize_plate(row["plate"])))
+
+    vehicle_id_param = (request.args.get("vehicle_id") or "").strip()
+    if vehicle_id_param.isdigit():
+        vid = int(vehicle_id_param)
+        main_vehicle = next((v for v in vehicles_rows if v["id"] == vid), None) \
+                   or (vehicles_rows[0] if vehicles_rows else None)
+    else:
+        main_vehicle = vehicles_rows[0] if vehicles_rows else None
+        
     return render_template(
         "student_my_vehicle.html",
         total_vehicle=len(vehicles_rows),

@@ -45,10 +45,6 @@
                 </div>
                 {% endif %}
                 <div class="mv-hero-overlay"></div>
-                <div class="mv-hero-badge">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    MẶC ĐỊNH
-                </div>
                 <div class="mv-hero-bottom">
                     <p class="mv-hero-type">
                         {{ translate_vehicle_type(main_vehicle.vehicle_type) }}
@@ -165,7 +161,9 @@
     {% for vehicle in vehicles %}
     {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
     {% if not main_vehicle or vehicle.id != main_vehicle.id %}
-    <div class="mv-other-row {% if not vehicle.is_active %}mv-row-pending{% endif %}">
+    <div class="mv-other-row {% if not vehicle.is_active %}mv-row-pending{% endif %}" 
+         onclick="window.location.href='{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}'"
+         style="cursor:pointer;" title="Xem {{ vehicle.plate }}">
         <!-- Icon -->
         <div class="mv-other-icon">
             {% if vehicle.vehicle_type == 'car' %}
@@ -201,6 +199,10 @@
             {% else %}
                 <span class="badge badge-secondary">Sẵn sàng</span>
             {% endif %}
+        </div>
+        <!-- Chevron -->
+        <div style="color:var(--text-secondary);flex-shrink:0;padding-left:4px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
     </div>
     {% endif %}
@@ -482,7 +484,7 @@
 }
 .mv-other-row {
     display: grid;
-    grid-template-columns: 52px 1fr auto auto;
+    grid-template-columns: 52px 1fr auto auto 20px;
     align-items: center;
     gap: 16px;
     padding: 16px 20px;
