@@ -142,7 +142,23 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             {{ area.location }}
           </p>
-          <div class="home-lot-capacity">{{ area.occupancy }}/{{ area.capacity }}</div>
+          <div class="home-lot-stats">
+            <div class="home-lot-stats-head">
+              <div>
+                <p class="home-lot-stats-label">Mức lấp đầy</p>
+                <p class="home-lot-stats-value">{{ area.occupancy }}/{{ area.capacity }}</p>
+              </div>
+              <span class="home-lot-capacity">{{ area.occupancy }}/{{ area.capacity }}</span>
+            </div>
+            <div class="home-lot-progress {{ area.status_class }}">
+              <span class="home-lot-progress-bar" style="width: {{ 100 if area.occupancy_rate > 100 else area.occupancy_rate }}%;"></span>
+            </div>
+            <div class="home-lot-summary">
+              <span>Đã đỗ: <strong>{{ area.occupancy }}</strong></span>
+              <span>Còn trống: <strong>{{ area.available_slots }}</strong></span>
+              <span>{{ area.occupancy_rate|round(0)|int }}%</span>
+            </div>
+          </div>
         </div>
       </div>
       {% else %}
@@ -151,70 +167,6 @@
       </div>
       {% endfor %}
     </div>
-
-    {#
-
-      <div class="home-lot-card">
-        <div class="home-lot-img-wrap">
-          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 1" class="home-lot-img" />
-          <span class="home-lot-badge">Đang hoạt động</span>
-        </div>
-        <div class="home-lot-body">
-          <p class="home-lot-number">Bãi xe 1</p>
-          <h3 class="home-lot-name">Cổng Trần Đại Nghĩa</h3>
-          <p class="home-lot-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội
-          </p>
-        </div>
-      </div>
-
-      <div class="home-lot-card">
-        <div class="home-lot-img-wrap">
-          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 4" class="home-lot-img" />
-          <span class="home-lot-badge">Đang hoạt động</span>
-        </div>
-        <div class="home-lot-body">
-          <p class="home-lot-number">Bãi xe 4</p>
-          <h3 class="home-lot-name">Cổng Trần Đại Nghĩa</h3>
-          <p class="home-lot-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội
-          </p>
-        </div>
-      </div>
-
-      <div class="home-lot-card">
-        <div class="home-lot-img-wrap">
-          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 2" class="home-lot-img" />
-          <span class="home-lot-badge">Đang hoạt động</span>
-        </div>
-        <div class="home-lot-body">
-          <p class="home-lot-number">Bãi xe 2</p>
-          <h3 class="home-lot-name">Cổng Phố Vọng</h3>
-          <p class="home-lot-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Phố Vọng, Hai Bà Trưng
-          </p>
-        </div>
-      </div>
-
-      <div class="home-lot-card">
-        <div class="home-lot-img-wrap">
-          <img src="{{ url_for('static', filename='images/cong-tran-dai-nghia-4.jpg') }}" alt="Bãi xe 3" class="home-lot-img" />
-          <span class="home-lot-badge">Đang hoạt động</span>
-        </div>
-        <div class="home-lot-body">
-          <p class="home-lot-number">Bãi xe 3</p>
-          <h3 class="home-lot-name">Ký túc xá</h3>
-          <p class="home-lot-meta">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Khu Ký túc xá NEU
-          </p>
-        </div>
-      </div>
-
-    #}
   </div>
 </section>
 
@@ -412,47 +364,6 @@
   background: #dde3f0;
 }
 /* Floating stat card */
-.home-hero-stat-card {
-  position: absolute;
-  bottom: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border-radius: 14px;
-  padding: 14px 24px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-  min-width: 200px;
-  text-align: left;
-}
-.home-hero-stat-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-}
-.home-hero-stat-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.home-hero-stat-value {
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -1px;
-}
-.home-hero-stat-ring {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  display: block;
-}
-
 /* ---- FEATURES SECTION ---- */
 .home-features-section {
   background: #f8fafc;
@@ -591,14 +502,75 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 84px;
-  margin-top: 14px;
+  min-width: 88px;
   padding: 8px 14px;
   border-radius: 999px;
   background: #eff6ff;
   border: 1px solid #bfdbfe;
   color: var(--primary);
   font-size: 14px;
+  font-weight: 700;
+}
+.home-lot-stats {
+  margin-top: 14px;
+}
+.home-lot-stats-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.home-lot-stats-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin: 0 0 4px;
+}
+.home-lot-stats-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+.home-lot-progress {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.home-lot-progress-bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+}
+.home-lot-progress.is-success .home-lot-progress-bar {
+  background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+}
+.home-lot-progress.is-danger .home-lot-progress-bar {
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+}
+.home-lot-progress.is-muted .home-lot-progress-bar {
+  background: linear-gradient(90deg, #94a3b8 0%, #64748b 100%);
+}
+.home-lot-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.home-lot-summary strong {
+  color: var(--text);
   font-weight: 700;
 }
 .home-lot-empty {
