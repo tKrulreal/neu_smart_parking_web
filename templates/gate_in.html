@@ -22,34 +22,51 @@
 </div>
 
 {% if selected_area %}
-<div class="grid grid-3" style="margin-bottom:20px;">
-    <article class="section-card">
-        <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Bãi xe</p>
-        <p style="font-size:26px;font-weight:800;margin:6px 0 0;">{{ selected_area.name }}</p>
+<div style="display:grid;grid-template-columns:1fr auto;gap:16px;margin-bottom:20px;align-items:stretch;">
+    <!-- Card bãi xe: wide, background image, dark overlay, white text -->
+    <article style="
+        position:relative;overflow:hidden;border-radius:16px;padding:28px 28px;
+        min-height:140px;display:flex;flex-direction:column;justify-content:flex-end;
+        background-image:url('{{ url_for('static', filename='images/neu-beautiful-top.jpg') }}');
+        background-size:cover;
+        background-position:center;
+        background-color:#1e293b;
+        box-shadow:0 2px 12px rgba(0,0,0,.10);
+        height: 93%;
+    ">
+        <!-- Dark overlay -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,.72) 0%,rgba(30,41,59,.55) 100%);border-radius:16px;"></div>
+        <div style="position:relative;z-index:1;">
+            <p style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6);margin:0 0 8px;">Bãi xe</p>
+            <p style="font-size:32px;font-weight:800;margin:0;color:#fff;line-height:1.1;">{{ selected_area.name }}</p>
+        </div>
     </article>
-    <article class="section-card">
-        <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Sức chứa hiện tại</p>
-        <p style="font-size:26px;font-weight:800;margin:6px 0 0;">{{ selected_area.occupancy }}/{{ selected_area.capacity }}</p>
-    </article>
-    <article class="section-card">
-        <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Chỗ trống còn lại</p>
-        <p style="font-size:26px;font-weight:800;margin:6px 0 0;color:{% if selected_area.available_slots == 0 %}var(--danger){% else %}var(--success){% endif %};">
-            {{ selected_area.available_slots }}
-        </p>
-    </article>
+
+    <!-- Right column: 2 compact stacked cards -->
+    <div style="display:flex;flex-direction:column;gap:12px;width:220px;">
+        <article class="section-card" style="padding:14px 18px;flex:1; margin-bottom: 5px;">
+            <p class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px;">Sức chứa hiện tại</p>
+            <p style="font-size:24px;font-weight:800;margin:0;">{{ selected_area.occupancy }}/{{ selected_area.capacity }}</p>
+        </article>
+        <article class="section-card" style="padding:14px 18px;flex:1;">
+            <p class="muted" style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 6px;">Chỗ trống còn lại</p>
+            <p style="font-size:24px;font-weight:800;margin:0;color:{% if selected_area.available_slots == 0 %}var(--danger){% else %}var(--success){% endif %};">
+                {{ selected_area.available_slots }}
+            </p>
+        </article>
+    </div>
 </div>
 {% endif %}
 
 <div class="grid grid-2" style="margin-bottom:20px;">
     <article class="section-card">
         <h2 class="section-title">Quét xe vào bãi</h2>
-        <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_in') }}">
-            <input type="hidden" name="action" value="scan">
-            <input type="hidden" name="gate_name" value="{{ gate_name }}">
 
+        <!-- Form GET: chỉ để chọn bãi, reload trang ngay khi đổi -->
+        <form method="get" action="{{ url_for('gate_in') }}" id="areaSelectForm">
             <div class="form-group">
                 <label for="parking_area_id">Chọn bãi xe</label>
-                <select id="parking_area_id" name="parking_area_id" required>
+                <select id="parking_area_id" name="parking_area_id" onchange="this.form.submit()">
                     {% for area in parking_areas %}
                     <option value="{{ area.id }}" {% if selected_area and area.id == selected_area.id %}selected{% endif %}>
                         {{ area.name }} | {{ area.occupancy }}/{{ area.capacity }}
@@ -58,8 +75,15 @@
                     {% endfor %}
                 </select>
             </div>
+        </form>
 
-            <div class="upload-zone {% if uploaded_preview %}has-preview{% endif %}" id="uploadZone" style="margin-bottom:12px;" onclick="document.getElementById('vehicleFileInput').click()">
+        <!-- Form POST: quét ảnh xe -->
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('gate_in') }}">
+            <input type="hidden" name="action" value="scan">
+            <input type="hidden" name="gate_name" value="{{ gate_name }}">
+            <input type="hidden" name="parking_area_id" value="{{ selected_area.id if selected_area else '' }}">
+
+            <div class="upload-zone {% if uploaded_preview %}has-preview{% endif %}" id="uploadZone" style="margin-bottom:12px;margin-top:16px;" onclick="document.getElementById('vehicleFileInput').click()">
                 <input type="file" name="vehicle_image" accept="image/*" required id="vehicleFileInput" style="display:none;" onchange="handleFileChange(this)">
 
                 {% if uploaded_preview %}
