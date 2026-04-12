@@ -27,7 +27,9 @@
         <!-- Brand -->
         <div class="sidebar-brand">
             <a class="sidebar-brand-logo" href="{{ url_for('index') }}">
-                <div class="sidebar-brand-icon">P</div>
+                <div class="sidebar-brand-icon">
+                    <img src="{{ url_for('static', filename='images/logo-neu.png') }}" alt="NEU logo">
+                </div>
                 <div>
                     <div>NEU Parking</div>
                     <div class="sidebar-brand-subtitle">ĐH Kinh tế Quốc dân</div>
@@ -189,7 +191,7 @@
         <main class="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="alerts-stack">
+                    <div class="alerts-stack alerts-toast">
                         {% for category, message in messages %}
                             <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">
                                 {% if category == 'success' %}
@@ -240,7 +242,9 @@
     <header class="public-topbar">
         <div class="public-topbar-inner">
             <a class="public-brand" href="{{ url_for('index') }}">
-                <div class="public-brand-icon">P</div>
+                <div class="public-brand-icon">
+                    <img src="{{ url_for('static', filename='images/logo-neu.png') }}" alt="NEU logo">
+                </div>
                 NEU Smart Parking
             </a>
             <nav class="public-nav">
@@ -254,7 +258,7 @@
         <div class="public-container">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="alerts-stack">
+                    <div class="alerts-stack alerts-toast">
                         {% for category, message in messages %}
                             <div class="alert {% if category == 'success' %}alert-success{% else %}alert-danger{% endif %}">{{ message }}</div>
                         {% endfor %}
@@ -292,6 +296,14 @@ function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('sidebarOverlay').classList.remove('open');
 }
+document.querySelectorAll('.alerts-toast .alert').forEach(function (alertEl) {
+    window.setTimeout(function () {
+        alertEl.classList.add('is-hidden');
+    }, 2600);
+    window.setTimeout(function () {
+        alertEl.remove();
+    }, 3000);
+});
 </script>
 </body>
 </html>

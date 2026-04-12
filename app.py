@@ -491,7 +491,41 @@ def inject_user():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    area_overrides = {
+        1: {
+            "image": "images/cong-tran-dai-nghia-4.jpg",
+            "location": "Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội",
+        },
+        2: {
+            "image": "images/cong-pho-vong.jpg",
+            "location": "Phố Vọng, Hai Bà Trưng, Hà Nội",
+        },
+        3: {
+            "image": "images/neu-beautiful-top.jpg",
+            "location": "Khu Ký túc xá NEU",
+        },
+        4: {
+            "image": "images/cong-tran-dai-nghia-4.jpg",
+            "location": "Số 184 Trần Đại Nghĩa, Bạch Mai, Hà Nội",
+        },
+    }
+    parking_areas = []
+    for area in list_parking_areas(include_inactive=True):
+        payload = dict(area)
+        override = area_overrides.get(int(payload["id"]), {})
+        payload["hero_image"] = override.get("image", "images/neu-beautiful-top.jpg")
+        payload["location"] = override.get("location") or payload.get("description") or "Khuôn viên Đại học Kinh tế Quốc dân"
+        if not payload["is_active"]:
+            payload["status_label"] = "Tạm dừng"
+            payload["status_class"] = "is-muted"
+        elif payload["is_full"]:
+            payload["status_label"] = "Đã đầy"
+            payload["status_class"] = "is-danger"
+        else:
+            payload["status_label"] = "Đang hoạt động"
+            payload["status_class"] = "is-success"
+        parking_areas.append(payload)
+    return render_template("index.html", parking_areas=parking_areas)
 
 
 @app.route("/login", methods=["GET", "POST"])
