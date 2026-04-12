@@ -67,12 +67,12 @@
         <p style="font-size:34px;font-weight:800;margin:8px 0 0;">{{ today_count }}</p>
     </article>
     <article class="section-card">
-        <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Doanh thu</p>
-        <p style="font-size:34px;font-weight:800;margin:8px 0 0;color:var(--primary);">{{ "{:,.0f}".format(total_revenue) }}</p>
-    </article>
-    <article class="section-card">
         <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;">Xe đang trong bãi</p>
         <p style="font-size:34px;font-weight:800;margin:8px 0 0;color:var(--warning);">{{ occupancy }}</p>
+    </article>
+    <article class="section-card" style="background-color: rgb(11, 40, 166);">
+        <p class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em; color: white;">Doanh thu</p>
+        <p style="font-size:34px;font-weight:800;margin:8px 0 0;color: white;">{{ "{:,.0f}".format(total_revenue) }}</p>
     </article>
 </div>
 

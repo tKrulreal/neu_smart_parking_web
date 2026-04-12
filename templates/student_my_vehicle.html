@@ -8,10 +8,12 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- ── Page header ── -->
 <div class="page-header">
     <div>
         <h1 class="page-title">Xe của tôi</h1>
-        <p class="page-subtitle">Quản lý từng phương tiện, theo dõi lịch sử ra vào và cập nhật thông tin xe ngay trên một màn hình.</p>
+        <p class="page-subtitle">Quản lý các phương tiện đã đăng ký trong hệ thống bãi đỗ xe Đại học Kinh tế Quốc dân.</p>
     </div>
     <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
@@ -19,243 +21,151 @@
     </a>
 </div>
 
+<!-- ── Main layout: left = vehicle, right = stats ── -->
 {% if main_vehicle %}
 {% set main_key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
 
-<div class="myv-top-grid">
-    <div class="myv-hero-card">
-        <div class="myv-hero-media">
-            {% if main_vehicle.image_path %}
-            <img src="{{ url_for('static', filename=main_vehicle.image_path) }}" alt="{{ main_vehicle.plate }}" class="myv-hero-image">
-            {% else %}
-            <div class="myv-hero-placeholder">
-                <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2">
+<div class="mv-layout">
+
+    <!-- ── LEFT: main vehicle card ── -->
+    <div class="mv-left">
+        <div class="mv-main-card">
+
+            <!-- Image hero -->
+            <div class="mv-hero">
+                {% if main_vehicle.image_path %}
+                <img src="{{ url_for('static', filename=main_vehicle.image_path) }}"
+                     alt="{{ main_vehicle.plate }}" class="mv-hero-img">
+                {% else %}
+                <div class="mv-hero-placeholder">
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2">
+                        <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                        <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                    </svg>
+                </div>
+                {% endif %}
+                <div class="mv-hero-overlay"></div>
+                <div class="mv-hero-bottom">
+                    <p class="mv-hero-type">
+                        {{ translate_vehicle_type(main_vehicle.vehicle_type) }}
+                        {% if main_vehicle.brand %}&bull; {{ main_vehicle.brand }}{% endif %}
+                    </p>
+                    <span class="mv-hero-plate">{{ main_vehicle.plate }}</span>
+                </div>
+            </div>
+
+            <!-- Info below image -->
+            <div class="mv-info">
+                <div class="mv-info-grid">
+                    <div class="mv-info-cell">
+                        <p class="mv-info-label">BIỂN SỐ XE</p>
+                        <p class="mv-info-plate">{{ main_vehicle.plate }}</p>
+                    </div>
+                    <div class="mv-info-cell">
+                        <p class="mv-info-label">TRẠNG THÁI HIỆN TẠI</p>
+                        <div class="mv-info-status">
+                            {% if active_map.get(main_key) %}
+                                <span class="mv-status-dot mv-dot-green"></span>
+                                <span>Đang trong bãi</span>
+                            {% elif not main_vehicle.is_active %}
+                                <span class="mv-status-dot mv-dot-orange"></span>
+                                <span>Chờ duyệt</span>
+                            {% else %}
+                                <span class="mv-status-dot mv-dot-gray"></span>
+                                <span>Sẵn sàng</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if main_vehicle.color %}
+                    <div class="mv-info-cell">
+                        <p class="mv-info-label">MÀU XE</p>
+                        <p class="mv-info-value">{{ main_vehicle.color }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="mv-action-row">
+                    <a class="mv-btn mv-btn-outline" href="{{ url_for('self_history') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Lịch sử ra vào
+                    </a>
+                    {% if active_map.get(main_key) %}
+                    <a class="mv-btn mv-btn-outline" href="{{ url_for('student_qr') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
+                        Xem QR
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── RIGHT: stat cards stacked ── -->
+    <div class="mv-right">
+        <article class="mv-stat-card mv-stat-blue">
+            <div class="mv-stat-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
                     <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
                 </svg>
             </div>
-            {% endif %}
-            <div class="myv-hero-overlay"></div>
-            <div class="myv-hero-header">
-                <span class="myv-hero-badge">Xe đang chọn</span>
-                {% if main_vehicle.is_active %}
-                <span class="badge badge-success">Đã duyệt</span>
-                {% else %}
-                <span class="badge badge-warning">Chờ duyệt</span>
-                {% endif %}
-            </div>
-            <div class="myv-hero-footer">
-                <p class="myv-hero-title">{{ main_vehicle.brand or translate_vehicle_type(main_vehicle.vehicle_type) }}</p>
-                <p class="myv-hero-subtitle">
-                    {{ translate_vehicle_type(main_vehicle.vehicle_type) }}
-                    {% if main_vehicle.color %} • {{ main_vehicle.color }}{% endif %}
-                </p>
-            </div>
-        </div>
+            <p class="mv-stat-num">{{ total_vehicle }}</p>
+            <p class="mv-stat-label">ĐÃ ĐĂNG KÝ</p>
+        </article>
 
-        <div class="myv-hero-body">
-            <div class="myv-meta-grid">
-                <div class="myv-meta-box">
-                    <p class="myv-meta-label">Biển số xe</p>
-                    <p class="myv-meta-plate">{{ main_vehicle.plate }}</p>
-                </div>
-                <div class="myv-meta-box">
-                    <p class="myv-meta-label">Trạng thái hiện tại</p>
-                    <div class="myv-status-chip">
-                        {% if active_map.get(main_key) %}
-                        <span class="myv-status-dot myv-dot-green"></span>
-                        <span>Đang trong bãi{% if selected_active_session and selected_active_session.parking_area_name %} ({{ selected_active_session.parking_area_name }}){% endif %}</span>
-                        {% elif not main_vehicle.is_active %}
-                        <span class="myv-status-dot myv-dot-orange"></span>
-                        <span>Chờ phê duyệt</span>
-                        {% else %}
-                        <span class="myv-status-dot myv-dot-gray"></span>
-                        <span>Sẵn sàng sử dụng</span>
-                        {% endif %}
-                    </div>
-                </div>
+        <article class="mv-stat-card mv-stat-teal">
+            <div class="mv-stat-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
             </div>
-
-            <div class="myv-action-row">
-                <a class="mv-btn mv-btn-outline" href="{{ url_for('my_vehicle', vehicle_id=main_vehicle.id, edit=1) }}#vehicle-manage">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-                    Sửa thông tin
-                </a>
-                <a class="mv-btn mv-btn-outline" href="#vehicle-history">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    Lịch sử ra vào
-                </a>
-                {% if active_map.get(main_key) %}
-                <a class="mv-btn mv-btn-outline" href="{{ url_for('student_qr') }}">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/></svg>
-                    Xem QR
-                </a>
-                {% endif %}
-            </div>
-        </div>
+            <p class="mv-stat-num">{{ in_parking }}</p>
+            <p class="mv-stat-label">TRONG BÃI</p>
+        </article>
     </div>
 
-    <div class="myv-side-stack">
-        <article class="myv-stat-panel myv-stat-panel-blue">
-            <p class="myv-stat-number">{{ total_vehicle }}</p>
-            <p class="myv-stat-label">Đã đăng ký</p>
-        </article>
-        <article class="myv-stat-panel myv-stat-panel-peach">
-            <p class="myv-stat-number">{{ in_parking }}</p>
-            <p class="myv-stat-label">Trong bãi</p>
-        </article>
-        <article class="section-card myv-note-panel">
-            <h3 class="myv-note-title">Thông tin xe đang chọn</h3>
-            <div class="myv-note-list">
-                <div>
-                    <p class="myv-note-label">Lượt gửi xe</p>
-                    <p class="myv-note-value">{{ selected_history_count }}</p>
-                </div>
-                <div>
-                    <p class="myv-note-label">Tổng chi phí</p>
-                    <p class="myv-note-value">{{ "{:,.0f}".format(selected_total_spent) }}đ</p>
-                </div>
-                <div>
-                    <p class="myv-note-label">Chủ sở hữu</p>
-                    <p class="myv-note-value">{{ main_vehicle.owner_name or current_user.full_name }}</p>
-                </div>
+</div>
+{% else %}
+
+<!-- No main vehicle: just stats + empty -->
+<div class="mv-layout" style="margin-bottom:22px;">
+    <div class="mv-right" style="flex-direction:row;gap:16px;">
+        <article class="mv-stat-card mv-stat-blue" style="flex:1;">
+            <div class="mv-stat-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             </div>
+            <p class="mv-stat-num">{{ total_vehicle }}</p>
+            <p class="mv-stat-label">ĐÃ ĐĂNG KÝ</p>
+        </article>
+        <article class="mv-stat-card mv-stat-teal" style="flex:1;">
+            <div class="mv-stat-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <p class="mv-stat-num">{{ in_parking }}</p>
+            <p class="mv-stat-label">TRONG BÃI</p>
         </article>
     </div>
 </div>
+{% endif %}
 
-<div class="myv-detail-grid">
-    <article class="section-card" id="vehicle-manage">
-        <div class="section-head">
-            <div>
-                <h2 class="section-title">Quản lý xe {{ main_vehicle.plate }}</h2>
-                <p class="muted" style="margin:6px 0 0;">Bạn có thể cập nhật thông tin của xe này khi xe không ở trong bãi.</p>
-            </div>
-            {% if edit_mode %}
-            <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle', vehicle_id=main_vehicle.id) }}">Đóng chỉnh sửa</a>
-            {% endif %}
-        </div>
-
-        {% if edit_mode %}
-        <form method="post" enctype="multipart/form-data" action="{{ url_for('update_my_vehicle_route', vehicle_id=main_vehicle.id) }}" class="grid admin-form-grid">
-            <div class="form-group">
-                <label for="plate">Biển số xe</label>
-                <input id="plate" name="plate" type="text" value="{{ main_vehicle.plate }}" required>
-            </div>
-            <div class="form-group">
-                <label for="vehicle_type">Loại xe</label>
-                <select id="vehicle_type" name="vehicle_type" required>
-                    <option value="motorbike" {% if main_vehicle.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
-                    <option value="car" {% if main_vehicle.vehicle_type == 'car' %}selected{% endif %}>Ô tô</option>
-                    <option value="electric" {% if main_vehicle.vehicle_type == 'electric' %}selected{% endif %}>Xe điện</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="brand">Hãng xe</label>
-                <input id="brand" name="brand" type="text" value="{{ main_vehicle.brand or '' }}">
-            </div>
-            <div class="form-group">
-                <label for="color">Màu xe</label>
-                <input id="color" name="color" type="text" value="{{ main_vehicle.color or '' }}">
-            </div>
-            <div class="form-group form-group-wide">
-                <label for="image">Ảnh xe</label>
-                <input id="image" name="image" type="file" accept="image/*">
-                {% if main_vehicle.image_path %}
-                <p class="muted" style="margin-top:8px;">Ảnh hiện tại đang được sử dụng.</p>
-                {% endif %}
-            </div>
-            <div class="button-row myv-manage-actions">
-                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
-                <button class="btn btn-secondary" type="submit" formaction="{{ url_for('delete_my_vehicle_route', vehicle_id=main_vehicle.id) }}" formmethod="post" onclick="return confirm('Bạn có chắc muốn xóa xe này?');">Xóa xe</button>
-            </div>
-        </form>
-        {% else %}
-        <div class="myv-manage-readonly">
-            <div class="myv-manage-item">
-                <p class="myv-manage-label">Mã chủ xe</p>
-                <p class="myv-manage-value">{{ main_vehicle.student_code }}</p>
-            </div>
-            <div class="myv-manage-item">
-                <p class="myv-manage-label">Ngày đăng ký</p>
-                <p class="myv-manage-value">{{ main_vehicle.created_at or '—' }}</p>
-            </div>
-            <div class="myv-manage-item">
-                <p class="myv-manage-label">Loại xe</p>
-                <p class="myv-manage-value">{{ translate_vehicle_type(main_vehicle.vehicle_type) }}</p>
-            </div>
-            <div class="myv-manage-item">
-                <p class="myv-manage-label">Màu xe</p>
-                <p class="myv-manage-value">{{ main_vehicle.color or '—' }}</p>
-            </div>
-        </div>
-        <div class="myv-manage-actions">
-            <a class="btn btn-primary" href="{{ url_for('my_vehicle', vehicle_id=main_vehicle.id, edit=1) }}#vehicle-manage">Sửa thông tin</a>
-            <form method="post" action="{{ url_for('delete_my_vehicle_route', vehicle_id=main_vehicle.id) }}" onsubmit="return confirm('Bạn có chắc muốn xóa xe này?');">
-                <button class="btn btn-secondary" type="submit">Xóa xe</button>
-            </form>
-        </div>
-        {% endif %}
-    </article>
-
-    <article class="section-card" id="vehicle-history">
-        <div class="section-head">
-            <div>
-                <h2 class="section-title">Lịch sử của {{ main_vehicle.plate }}</h2>
-                <p class="muted" style="margin:6px 0 0;">12 lượt ra vào gần nhất của xe đang chọn.</p>
-            </div>
-            <a class="btn btn-secondary btn-small" href="{{ url_for('self_history') }}">Xem tất cả</a>
-        </div>
-
-        <div class="table-wrapper" style="max-height:420px;overflow-y:auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Bãi xe</th>
-                        <th>Vào</th>
-                        <th>Ra</th>
-                        <th>Cổng</th>
-                        <th>Phí</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in selected_history %}
-                    <tr>
-                        <td>{{ row[8] or '—' }}</td>
-                        <td>{{ row[2] or '—' }}</td>
-                        <td>{{ row[3] or '—' }}</td>
-                        <td style="font-size:12px;color:var(--text-secondary);">{{ row[6] or '—' }} / {{ row[7] or '—' }}</td>
-                        <td>{{ "{:,.0f}".format(row[4] or 0) }}đ</td>
-                        <td>
-                            <span class="badge {% if row[5] == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">
-                                {{ translate_status(row[5]) }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6" class="muted" style="text-align:center;padding:28px;">Xe này chưa có lịch sử ra vào.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </article>
+<!-- ── Phương tiện khác ── -->
+<div class="mv-other-header">
+    <h2 class="mv-other-title">Phương tiện khác</h2>
+    <a class="mv-other-link" href="{{ url_for('my_new_vehicle') }}">+ Thêm xe</a>
 </div>
 
-<div class="myv-other-header">
-    <h2 class="myv-other-title">Phương tiện khác</h2>
-    <a class="myv-other-link" href="{{ url_for('my_new_vehicle') }}">+ Thêm xe</a>
-</div>
-
-{% if vehicles|length > 1 %}
-<div class="myv-other-list">
+{% if vehicles %}
+<div class="mv-other-list">
     {% for vehicle in vehicles %}
-    {% if vehicle.id != main_vehicle.id %}
     {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
-    <div class="myv-other-row {% if not vehicle.is_active %}myv-row-muted{% endif %}">
-        <div class="myv-other-icon">
+    {% if not main_vehicle or vehicle.id != main_vehicle.id %}
+    <div class="mv-other-row {% if not vehicle.is_active %}mv-row-pending{% endif %}" 
+         onclick="window.location.href='{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}'"
+         style="cursor:pointer;" title="Xem {{ vehicle.plate }}">
+        <!-- Icon -->
+        <div class="mv-other-icon">
             {% if vehicle.vehicle_type == 'car' %}
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             {% elif vehicle.vehicle_type == 'electric' %}
@@ -264,44 +174,40 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6H2L2 14h13V6z"/><path d="M15 9h3l3 4v2h-6V9z"/></svg>
             {% endif %}
         </div>
-
-        <div class="myv-other-meta">
-            <p class="myv-other-name">{{ vehicle.brand or translate_vehicle_type(vehicle.vehicle_type) }}</p>
-            <p class="myv-other-sub">{{ translate_vehicle_type(vehicle.vehicle_type) }}{% if vehicle.color %} • {{ vehicle.color }}{% endif %}</p>
+        <!-- Name & type -->
+        <div class="mv-other-meta">
+            <p class="mv-other-name">
+                {% if vehicle.brand %}{{ vehicle.brand }}{% else %}{{ translate_vehicle_type(vehicle.vehicle_type) }}{% endif %}
+            </p>
+            <p class="mv-other-sub">
+                {{ translate_vehicle_type(vehicle.vehicle_type) }}
+                {% if vehicle.color %}&bull; {{ vehicle.color }}{% endif %}
+            </p>
         </div>
-
-        <div class="myv-other-plate-col">
-            <p class="myv-other-col-label">Biển số</p>
+        <!-- Plate -->
+        <div class="mv-other-plate-col">
+            <p class="mv-other-col-label">BIỂN SỐ</p>
             <span class="plate-badge">{{ vehicle.plate }}</span>
         </div>
-
-        <div class="myv-other-status-col">
-            <p class="myv-other-col-label">Trạng thái</p>
+        <!-- Status -->
+        <div class="mv-other-status-col">
+            <p class="mv-other-col-label">TRẠNG THÁI</p>
             {% if active_map.get(key) %}
-            <span class="badge badge-success">Đang trong bãi</span>
+                <span class="badge badge-success">Đang gửi</span>
             {% elif not vehicle.is_active %}
-            <span class="badge badge-warning">Chờ duyệt</span>
+                <span class="badge badge-warning">Chờ duyệt</span>
             {% else %}
-            <span class="badge badge-secondary">Sẵn sàng</span>
+                <span class="badge badge-secondary">Sẵn sàng</span>
             {% endif %}
         </div>
-
-        <div class="myv-other-actions">
-            <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}">Quản lý</a>
-            <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}#vehicle-history">Lịch sử</a>
+        <!-- Chevron -->
+        <div style="color:var(--text-secondary);flex-shrink:0;padding-left:4px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
     </div>
     {% endif %}
     {% endfor %}
 </div>
-{% else %}
-<div class="empty-state">
-    <div class="empty-state-icon">🏍</div>
-    <p>Hiện bạn chỉ có một phương tiện trong hệ thống.</p>
-    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký thêm phương tiện</a>
-</div>
-{% endif %}
-
 {% else %}
 <div class="empty-state">
     <div class="empty-state-icon">🏍</div>
@@ -311,433 +217,339 @@
 {% endif %}
 
 <style>
-.myv-top-grid {
+/* ── Main layout ── */
+.mv-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
+    grid-template-columns: 1fr 220px;
     gap: 20px;
-    margin-bottom: 22px;
+    align-items: stretch;
+    margin-bottom: 28px;
 }
+.mv-left { min-width: 0; display: flex; flex-direction: column; }
+.mv-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+/* Make stat cards grow to fill equal height */
+.mv-stat-card { flex: 1; }
 
-.myv-hero-card {
+/* ── Main vehicle card ── */
+.mv-main-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
     box-shadow: var(--shadow-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.myv-hero-media {
+/* Hero image */
+.mv-hero {
     position: relative;
-    min-height: 300px;
-    background: linear-gradient(135deg, #0f1f4a 0%, #254f8d 100%);
+    height: 240px;
+    background: linear-gradient(135deg, #0f1f4a 0%, #1a3c8f 100%);
+    overflow: hidden;
 }
-
-.myv-hero-image {
+.mv-hero-img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0.82;
 }
-
-.myv-hero-placeholder {
+.mv-hero-placeholder {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-.myv-hero-overlay {
+.mv-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(6,18,38,.1) 0%, rgba(6,18,38,.7) 100%);
+    background: linear-gradient(to top, rgba(10,20,50,0.72) 0%, transparent 55%);
 }
-
-.myv-hero-header,
-.myv-hero-footer {
+.mv-hero-badge {
     position: absolute;
+    top: 14px;
+    right: 14px;
     z-index: 2;
-    left: 22px;
-    right: 22px;
-}
-
-.myv-hero-header {
-    top: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.myv-hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(4px);
     border-radius: 999px;
-    padding: 6px 14px;
-    background: rgba(255,255,255,.16);
-    border: 1px solid rgba(255,255,255,.24);
-    color: #fff;
+    padding: 4px 12px;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: .06em;
+    color: #fff;
+    letter-spacing: 0.06em;
+}
+.mv-hero-bottom {
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+    z-index: 2;
+}
+.mv-hero-type {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
-
-.myv-hero-footer {
-    bottom: 18px;
-}
-
-.myv-hero-title {
-    margin: 0 0 6px;
-    font-size: 38px;
+.mv-hero-plate {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 5px 16px;
+    font-size: 17px;
     font-weight: 800;
     color: #fff;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(4px);
 }
 
-.myv-hero-subtitle {
-    margin: 0;
-    color: rgba(255,255,255,.76);
-    font-size: 14px;
+/* Info section */
+.mv-info {
+    padding: 20px 22px;
 }
-
-.myv-hero-body {
-    padding: 20px 22px 22px;
-}
-
-.myv-meta-grid {
+.mv-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 16px;
     margin-bottom: 18px;
 }
-
-.myv-meta-box {
-    padding: 16px 18px;
-    border-radius: 14px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-}
-
-.myv-meta-label {
-    margin: 0 0 8px;
-    font-size: 11px;
+.mv-info-cell {}
+.mv-info-label {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--text-secondary);
+    margin-bottom: 6px;
 }
-
-.myv-meta-plate {
-    margin: 0;
-    padding-left: 10px;
-    border-left: 3px solid var(--primary);
-    font-size: 26px;
+.mv-info-plate {
+    font-size: 20px;
     font-weight: 800;
     color: var(--primary);
+    letter-spacing: 0.04em;
+    border-left: 3px solid var(--primary);
+    padding-left: 10px;
 }
-
-.myv-status-chip {
+.mv-info-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+.mv-info-status {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 9px 14px;
-    border-radius: 12px;
-    background: #eef4ff;
-    color: var(--text);
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 7px 14px;
     font-size: 13px;
     font-weight: 600;
+    color: var(--text);
 }
-
-.myv-status-dot {
+.mv-status-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
 }
+.mv-dot-green  { background: var(--success); }
+.mv-dot-orange { background: var(--warning); }
+.mv-dot-gray   { background: #94a3b8; }
 
-.myv-dot-green { background: var(--success); }
-.myv-dot-orange { background: var(--warning); }
-.myv-dot-gray { background: #94a3b8; }
-
-.myv-action-row {
+/* Action buttons */
+.mv-action-row {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
-
 .mv-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 7px;
-    border-radius: 12px;
-    padding: 11px 18px;
+    border-radius: 10px;
+    padding: 10px 18px;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
     text-decoration: none;
-    transition: all .16s ease;
+    transition: background 0.15s, border-color 0.15s, transform 0.13s, box-shadow 0.15s;
     flex: 1;
+    justify-content: center;
 }
-
-.mv-btn:hover {
-    text-decoration: none;
-    transform: translateY(-1px);
-}
-
+.mv-btn:hover { transform: translateY(-1px); text-decoration: none; }
 .mv-btn-outline {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--border);
     color: var(--text);
 }
-
 .mv-btn-outline:hover {
+    background: var(--bg);
     border-color: var(--primary);
     color: var(--primary);
-    box-shadow: 0 6px 16px rgba(26,60,143,.12);
+    box-shadow: 0 2px 8px rgba(26,60,143,0.12);
 }
 
-.myv-side-stack {
+/* ── Stat cards (right column) ── */
+.mv-stat-card {
+    border-radius: 16px;
+    padding: 20px 18px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
+    border: 1px solid transparent;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
 }
-
-.myv-stat-panel {
-    border-radius: 18px;
-    padding: 22px 20px;
+.mv-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.mv-stat-blue {
+    background: var(--primary);
+    border-color: var(--primary-dark);
+}
+.mv-stat-teal {
+    background: #0d9488;
+    border-color: #0f766e;
+}
+.mv-stat-icon-wrap {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #fff;
 }
-
-.myv-stat-panel-blue {
-    background: #dbe8ff;
-    color: #183b6b;
-}
-
-.myv-stat-panel-peach {
-    background: #ffe4d5;
-    color: #8c4b1f;
-}
-
-.myv-stat-number {
-    margin: 0;
+.mv-stat-num {
     font-size: 38px;
     font-weight: 900;
+    color: #fff;
+    letter-spacing: -2px;
     line-height: 1;
+    margin: 4px 0 0;
 }
-
-.myv-stat-label {
-    margin: 10px 0 0;
-    font-size: 12px;
+.mv-stat-label {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: .08em;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.65);
     text-transform: uppercase;
-    opacity: .85;
 }
 
-.myv-note-panel {
-    flex: 1;
-}
-
-.myv-note-title {
-    margin: 0 0 16px;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.myv-note-list {
-    display: grid;
-    gap: 14px;
-}
-
-.myv-note-label {
-    margin: 0 0 6px;
-    font-size: 11px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: .08em;
-}
-
-.myv-note-value {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-.myv-detail-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-    gap: 20px;
-    margin-bottom: 24px;
-    align-items: start;
-}
-
-.myv-manage-readonly {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 6px;
-}
-
-.myv-manage-item {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--bg);
-    padding: 16px;
-}
-
-.myv-manage-label {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: .08em;
-}
-
-.myv-manage-value {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.myv-manage-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 18px;
-}
-
-.myv-manage-actions form {
-    margin: 0;
-}
-
-.myv-other-header {
+/* ── Other vehicles ── */
+.mv-other-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 14px;
 }
-
-.myv-other-title {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 800;
-    color: #173a68;
-}
-
-.myv-other-link {
-    font-size: 13px;
+.mv-other-title {
+    font-size: 18px;
     font-weight: 700;
+    color: var(--text);
+}
+.mv-other-link {
+    font-size: 13px;
+    font-weight: 600;
     color: var(--primary);
     text-decoration: none;
 }
+.mv-other-link:hover { text-decoration: underline; }
 
-.myv-other-list {
+.mv-other-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-}
-
-.myv-other-row {
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) auto auto auto;
-    gap: 14px;
-    align-items: center;
-    padding: 18px 20px;
+    gap: 0;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 18px;
+    border-radius: 14px;
+    overflow: hidden;
     box-shadow: var(--shadow);
 }
-
-.myv-row-muted {
-    opacity: .78;
+.mv-other-row {
+    display: grid;
+    grid-template-columns: 52px 1fr auto auto 20px;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.13s;
 }
+.mv-other-row:last-child { border-bottom: none; }
+.mv-other-row:hover { background: #f8faff; }
+.mv-row-pending { opacity: 0.7; }
 
-.myv-other-icon {
+.mv-other-icon {
     width: 48px;
     height: 48px;
-    border-radius: 12px;
     background: var(--bg);
-    color: var(--text-secondary);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text-secondary);
     border: 1px solid var(--border);
+    flex-shrink: 0;
 }
-
-.myv-other-name {
-    margin: 0 0 4px;
-    font-size: 18px;
-    font-weight: 800;
-}
-
-.myv-other-sub {
-    margin: 0;
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-.myv-other-col-label {
-    margin: 0 0 6px;
-    font-size: 11px;
+.mv-other-name {
+    font-size: 14px;
     font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+.mv-other-sub {
+    font-size: 12px;
     color: var(--text-secondary);
-    letter-spacing: .08em;
+}
+.mv-other-col-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
     text-transform: uppercase;
 }
+.mv-other-plate-col { min-width: 110px; }
+.mv-other-status-col { min-width: 100px; text-align: right; }
 
-.myv-other-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-}
-
-@media (max-width: 1100px) {
-    .myv-top-grid,
-    .myv-detail-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .myv-side-stack {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .myv-note-panel {
-        grid-column: 1 / -1;
-    }
-}
-
+/* ── Responsive ── */
 @media (max-width: 860px) {
-    .myv-meta-grid,
-    .myv-manage-readonly {
+    .mv-layout {
         grid-template-columns: 1fr;
     }
-
-    .myv-other-row {
-        grid-template-columns: 48px 1fr;
+    .mv-right {
+        flex-direction: row;
     }
-
-    .myv-other-plate-col,
-    .myv-other-status-col,
-    .myv-other-actions {
-        grid-column: 2;
-        justify-content: flex-start;
-    }
+    .mv-stat-card { flex: 1; }
 }
-
-@media (max-width: 640px) {
-    .myv-side-stack {
-        grid-template-columns: 1fr;
+@media (max-width: 600px) {
+    .mv-other-row {
+        grid-template-columns: 44px 1fr;
+        grid-template-rows: auto auto;
     }
-
-    .myv-hero-title {
-        font-size: 30px;
+    .mv-other-plate-col,
+    .mv-other-status-col {
+        grid-column: 2;
+        text-align: left;
     }
+    .mv-info-grid { grid-template-columns: 1fr; }
 }
 </style>
+
 {% endblock %}

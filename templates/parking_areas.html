@@ -17,30 +17,58 @@
 
 {% if selected_area and area_stats %}
 <div class="parking-area-top-stats">
-    <article class="section-card parking-area-stat">
-        <p class="parking-area-stat-label">Bãi đang chọn</p>
-        <p class="parking-area-stat-value">{{ selected_area.name }}</p>
-        <p class="parking-area-stat-note">{{ selected_area.code }}</p>
+    <!-- Left: Bãi đang chọn, span 2 rows, background image -->
+    <article style="
+        grid-row: span 2;
+        position: relative; overflow: hidden; border-radius: 16px;
+        min-height: 180px; display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 24px 24px;
+        background-image:url('{{ url_for('static', filename='images/neu-beautiful-top.jpg') }}');
+        background-size: cover; background-position: center;
+        background-color: #1e293b;
+        box-shadow: 0 2px 12px rgba(0,0,0,.10);
+        height: 93%;
+    ">
+        <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(15,23,42,.75) 0%,rgba(30,41,59,.55) 100%);border-radius:16px;"></div>
+        <div style="position:relative;z-index:1;">
+            <p style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);margin:0 0 8px;">Bãi đang chọn</p>
+            <p style="font-size:28px;font-weight:800;margin:0 0 4px;color:#fff;line-height:1.15;">{{ selected_area.name }}</p>
+            <p style="font-size:13px;color:rgba(255,255,255,.5);margin:0;">{{ selected_area.code }}</p>
+        </div>
     </article>
-    <article class="section-card parking-area-stat">
-        <p class="parking-area-stat-label">Xe đang gửi</p>
-        <p class="parking-area-stat-value" style="color:var(--warning);">{{ area_stats.area.occupancy }}</p>
-        <p class="parking-area-stat-note">{{ area_stats.area.capacity }} chỗ tối đa</p>
-    </article>
+
+    <!-- Top-left: Lượt vào -->
     <article class="section-card parking-area-stat">
         <p class="parking-area-stat-label">Lượt vào hôm nay</p>
         <p class="parking-area-stat-value" style="color:var(--success);">{{ area_stats.stats.today_checkins }}</p>
         <p class="parking-area-stat-note">{{ area_stats.daily_chart.range_days }} ngày gần nhất</p>
     </article>
+
+    <!-- Top-right: Lượt ra -->
     <article class="section-card parking-area-stat">
         <p class="parking-area-stat-label">Lượt ra hôm nay</p>
         <p class="parking-area-stat-value" style="color:var(--primary);">{{ area_stats.stats.today_checkouts }}</p>
         <p class="parking-area-stat-note">{{ area_stats.daily_chart.total_checkouts }} lượt trong kỳ</p>
     </article>
+
+    <!-- Bottom-left: Xe đang gửi -->
     <article class="section-card parking-area-stat">
-        <p class="parking-area-stat-label">Doanh thu</p>
-        <p class="parking-area-stat-value" style="color:#0d9488;">{{ "{:,.0f}".format(area_stats.stats.total_revenue) }}</p>
-        <p class="parking-area-stat-note">Tỷ lệ lấp đầy {{ area_stats.area.occupancy_rate }}%</p>
+        <p class="parking-area-stat-label">Xe đang gửi</p>
+        <p class="parking-area-stat-value" style="color:var(--warning);">{{ area_stats.area.occupancy }}</p>
+        <p class="parking-area-stat-note">{{ area_stats.area.capacity }} chỗ tối đa</p>
+    </article>
+
+    <!-- Bottom-right: Doanh thu (blue card) -->
+    <article style="
+        background: linear-gradient(135deg,#2563eb 0%,#1d4ed8 60%,#1e40af 100%);
+        border-radius: 16px; padding: 18px 20px;
+        box-shadow: 0 4px 20px rgba(37,99,235,.3);
+        display: flex; flex-direction: column; justify-content: space-between;
+        height: 89%;
+    ">
+        <p style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);margin:0 0 10px;">Doanh thu</p>
+        <p style="font-size:28px;font-weight:800;margin:0;color:#fff;line-height:1.1;">{{ "{:,.0f}".format(area_stats.stats.total_revenue) }}</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.55);margin:8px 0 0;">Lấp đầy {{ area_stats.area.occupancy_rate }}%</p>
     </article>
 </div>
 
@@ -135,7 +163,7 @@
                 <label for="description">Mô tả</label>
                 <textarea id="description" name="description" rows="4">{{ parking_area_form.description }}</textarea>
             </div>
-            <label class="checkbox-row">
+            <label class="checkbox-row" style="justify-content:flex-start;gap:10px;">
                 <input type="checkbox" name="is_active" {% if parking_area_form.is_active %}checked{% endif %}>
                 <span>Bãi xe đang hoạt động</span>
             </label>
@@ -193,7 +221,8 @@
 <style>
 .parking-area-top-stats {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
     gap: 16px;
     margin-bottom: 18px;
 }
@@ -345,13 +374,13 @@
 
 @media (max-width: 1280px) {
     .parking-area-top-stats {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
 @media (max-width: 980px) {
     .parking-area-top-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr 1fr;
     }
 
     .parking-area-chart-grid {
