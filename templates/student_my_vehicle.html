@@ -8,12 +8,10 @@
 {% endblock %}
 
 {% block content %}
-
-<!-- ── Page header ── -->
 <div class="page-header">
     <div>
         <h1 class="page-title">Xe của tôi</h1>
-        <p class="page-subtitle">Quản lý các phương tiện đã đăng ký trong hệ thống bãi đỗ xe Đại học Kinh tế Quốc dân.</p>
+        <p class="page-subtitle">Quản lý từng phương tiện, theo dõi lịch sử ra vào và cập nhật thông tin xe ngay trên một màn hình.</p>
     </div>
     <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
@@ -21,535 +19,409 @@
     </a>
 </div>
 
-<!-- ── Main layout: left = vehicle, right = stats ── -->
 {% if main_vehicle %}
 {% set main_key = main_vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+{% set is_in_parking = active_map.get(main_key) %}
+{% set main_owner = main_vehicle.owner_name or user.full_name %}
 
-<div class="mv-layout">
+<div class="myv-layout">
+    <article class="section-card myv-top-overview">
+        <div class="myv-top-overview-head">
+            <div class="myv-top-overview-copy">
+                <span class="myv-side-kicker">Tổng quan</span>
+                <h2 class="section-title">Thông tin xe đang chọn</h2>
+                <p class="myv-card-note">Tất cả thông tin quan trọng của xe đang chọn được gom trên một hàng để theo dõi nhanh hơn.</p>
+            </div>
+            <div class="myv-top-overview-actions">
+                <a class="btn btn-primary" href="{{ url_for('self_history', plate=main_vehicle.plate) }}">Xem toàn bộ lịch sử</a>
+                <a class="btn btn-secondary" href="{{ url_for('my_new_vehicle') }}">Đăng ký xe mới</a>
+            </div>
+        </div>
 
-    <!-- ── LEFT: main vehicle card ── -->
-    <div class="mv-left">
-        <div class="mv-main-card">
+        <div class="myv-overview-strip myv-overview-strip-top">
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Đã đăng ký</span>
+                <strong class="myv-overview-value">{{ total_vehicle }}</strong>
+            </div>
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Trong bãi</span>
+                <strong class="myv-overview-value">{{ in_parking }}</strong>
+            </div>
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Lượt gửi xe</span>
+                <strong class="myv-overview-value">{{ selected_vehicle_summary.sessions_count }}</strong>
+            </div>
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Tổng chi phí</span>
+                <strong class="myv-overview-value">{{ "{:,.0f}".format(selected_vehicle_summary.total_spent) }}đ</strong>
+            </div>
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Chủ sở hữu</span>
+                <strong class="myv-overview-value">{{ main_owner }}</strong>
+            </div>
+            <div class="myv-overview-item">
+                <span class="myv-overview-label">Loại phương tiện</span>
+                <strong class="myv-overview-value">{{ translate_vehicle_type(main_vehicle.vehicle_type) }}</strong>
+            </div>
+        </div>
+    </article>
 
-            <!-- Image hero -->
-            <div class="mv-hero">
+    <div class="myv-main-column">
+        <article class="myv-hero-card">
+            <div class="myv-hero-media">
                 {% if main_vehicle.image_path %}
-                <img src="{{ url_for('static', filename=main_vehicle.image_path) }}"
-                     alt="{{ main_vehicle.plate }}" class="mv-hero-img">
+                <img src="{{ url_for('static', filename=main_vehicle.image_path) }}" alt="{{ main_vehicle.plate }}" class="myv-hero-image">
                 {% else %}
-                <div class="mv-hero-placeholder">
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2">
-                        <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                        <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                <div class="myv-hero-placeholder">
+                    <svg width="62" height="62" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
                     </svg>
+                    <span>Chưa có ảnh xe</span>
                 </div>
                 {% endif %}
-                <div class="mv-hero-overlay"></div>
-                <div class="mv-hero-bottom">
-                    <p class="mv-hero-type">
+                <div class="myv-hero-overlay"></div>
+                <div class="myv-hero-pills">
+                    <span class="myv-hero-pill">Xe đang chọn</span>
+                    <span class="myv-hero-pill myv-hero-pill-status {% if main_vehicle.is_active %}is-approved{% else %}is-pending{% endif %}">
+                        {% if main_vehicle.is_active %}Đã duyệt{% else %}Chờ duyệt{% endif %}
+                    </span>
+                </div>
+                <div class="myv-hero-content">
+                    <h2>{{ main_vehicle.brand or 'Phương tiện của tôi' }}</h2>
+                    <p>
                         {{ translate_vehicle_type(main_vehicle.vehicle_type) }}
-                        {% if main_vehicle.brand %}&bull; {{ main_vehicle.brand }}{% endif %}
+                        {% if main_vehicle.color %} • {{ main_vehicle.color }}{% endif %}
                     </p>
-                    <span class="mv-hero-plate">{{ main_vehicle.plate }}</span>
                 </div>
             </div>
 
-            <!-- Info below image -->
-            <div class="mv-info">
-                <div class="mv-info-grid">
-                    <div class="mv-info-cell">
-                        <p class="mv-info-label">BIỂN SỐ XE</p>
-                        <p class="mv-info-plate">{{ main_vehicle.plate }}</p>
+            <div class="myv-hero-body">
+                <div class="myv-summary-grid">
+                    <div class="myv-summary-card">
+                        <span class="myv-summary-label">Biển số xe</span>
+                        <strong class="myv-summary-plate">{{ main_vehicle.plate }}</strong>
                     </div>
-                    <div class="mv-info-cell">
-                        <p class="mv-info-label">TRẠNG THÁI HIỆN TẠI</p>
-                        <div class="mv-info-status">
-                            {% if active_map.get(main_key) %}
-                                <span class="mv-status-dot mv-dot-green"></span>
-                                <span>Đang trong bãi</span>
+                    <div class="myv-summary-card">
+                        <span class="myv-summary-label">Trạng thái hiện tại</span>
+                        <strong class="myv-summary-status {% if is_in_parking %}is-active{% elif not main_vehicle.is_active %}is-pending{% else %}is-ready{% endif %}">
+                            <span class="myv-status-dot"></span>
+                            {% if is_in_parking %}
+                            Đang trong bãi
                             {% elif not main_vehicle.is_active %}
-                                <span class="mv-status-dot mv-dot-orange"></span>
-                                <span>Chờ duyệt</span>
+                            Chờ duyệt
                             {% else %}
-                                <span class="mv-status-dot mv-dot-gray"></span>
-                                <span>Sẵn sàng</span>
+                            Sẵn sàng sử dụng
                             {% endif %}
-                        </div>
+                        </strong>
                     </div>
-                    {% if main_vehicle.color %}
-                    <div class="mv-info-cell">
-                        <p class="mv-info-label">MÀU XE</p>
-                        <p class="mv-info-value">{{ main_vehicle.color }}</p>
-                    </div>
-                    {% endif %}
                 </div>
 
-                <div class="mv-action-row">
-                    <a class="mv-btn mv-btn-outline" href="{{ url_for('self_history') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <div class="myv-action-row">
+                    <button class="btn btn-secondary {% if is_in_parking %}myv-btn-disabled{% endif %}" type="button" {% if is_in_parking %}disabled title="Không thể sửa khi xe đang ở trong bãi"{% else %}data-open-vehicle-modal{% endif %}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
+                        Sửa thông tin
+                    </button>
+                    <a class="btn btn-secondary" href="{{ url_for('self_history', plate=main_vehicle.plate) }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                         Lịch sử ra vào
                     </a>
-                    {% if active_map.get(main_key) %}
-                    <a class="mv-btn mv-btn-outline" href="{{ url_for('student_qr') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M21 16h-3v3"/><path d="M21 21v-1"/><path d="M16 16h1"/><path d="M16 21h1"/></svg>
-                        Xem QR
-                    </a>
-                    {% endif %}
                 </div>
             </div>
+        </article>
 
+        <div class="myv-lower-grid">
+            <article class="section-card myv-manage-card" id="vehicle-manage">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Quản lý xe {{ main_vehicle.plate }}</h2>
+                        <p class="myv-card-note">Bạn có thể cập nhật thông tin của xe này khi xe không ở trong bãi.</p>
+                    </div>
+                    <span class="myv-card-state {% if is_in_parking %}is-active{% elif not main_vehicle.is_active %}is-pending{% else %}is-ready{% endif %}">
+                        {% if is_in_parking %}
+                        Đang trong bãi
+                        {% elif not main_vehicle.is_active %}
+                        Chờ duyệt
+                        {% else %}
+                        Có thể chỉnh sửa
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="myv-detail-grid">
+                    <div class="myv-detail-item">
+                        <span class="myv-detail-label">Mã chủ xe</span>
+                        <strong>{{ main_vehicle.student_code }}</strong>
+                    </div>
+                    <div class="myv-detail-item">
+                        <span class="myv-detail-label">Ngày đăng ký</span>
+                        <strong>{{ main_vehicle.created_at or '—' }}</strong>
+                    </div>
+                    <div class="myv-detail-item">
+                        <span class="myv-detail-label">Loại xe</span>
+                        <strong>{{ translate_vehicle_type(main_vehicle.vehicle_type) }}</strong>
+                    </div>
+                    <div class="myv-detail-item">
+                        <span class="myv-detail-label">Màu xe</span>
+                        <strong>{{ main_vehicle.color or '—' }}</strong>
+                    </div>
+                </div>
+
+                {% if is_in_parking %}
+                <p class="myv-warning-note">Xe đang ở trong bãi nên tính năng sửa và xóa tạm thời bị khóa.</p>
+                {% endif %}
+
+                <div class="button-row">
+                    <button class="btn btn-primary {% if is_in_parking %}myv-btn-disabled{% endif %}" type="button" {% if is_in_parking %}disabled{% else %}data-open-vehicle-modal{% endif %}>Sửa thông tin</button>
+                    <form method="post" action="{{ url_for('student_delete_vehicle_route', vehicle_id=main_vehicle.id) }}" onsubmit="return confirm('Xóa phương tiện này?');">
+                        <button class="btn btn-danger {% if is_in_parking %}myv-btn-disabled{% endif %}" type="submit" {% if is_in_parking %}disabled{% endif %}>Xóa xe</button>
+                    </form>
+                </div>
+            </article>
+
+            <article class="section-card myv-history-card">
+                <div class="section-head">
+                    <div>
+                        <h2 class="section-title">Lịch sử của {{ main_vehicle.plate }}</h2>
+                        <p class="myv-card-note">{{ selected_vehicle_history|length }} lượt ra vào gần nhất của xe đang chọn.</p>
+                    </div>
+                    <a class="btn btn-secondary btn-small" href="{{ url_for('self_history', plate=main_vehicle.plate) }}">Xem tất cả</a>
+                </div>
+
+                <div class="myv-visit-list">
+                    {% for row in selected_vehicle_history %}
+                    <article class="myv-visit-item">
+                        <div class="myv-visit-main">
+                            <div class="myv-visit-top">
+                                <strong>{{ row.parking_area_name }}</strong>
+                                <span class="badge {% if row.status == 'IN_PARKING' %}badge-warning{% else %}badge-success{% endif %}">{{ translate_status(row.status) }}</span>
+                            </div>
+                            <div class="myv-visit-times">
+                                <div>
+                                    <span class="myv-visit-label">Vào</span>
+                                    <p>{{ row.time_in or '—' }}</p>
+                                </div>
+                                <div>
+                                    <span class="myv-visit-label">Ra</span>
+                                    <p>{{ row.time_out or '—' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="myv-visit-side">
+                            <div class="myv-visit-fee">{{ "{:,.0f}".format(row.fee) }}đ</div>
+                            <div class="myv-visit-gate">{{ row.gate_in or '—' }} / {{ row.gate_out or '—' }}</div>
+                        </div>
+                    </article>
+                    {% else %}
+                    <div class="myv-empty-table">Chưa có lịch sử ra vào cho xe này.</div>
+                    {% endfor %}
+                </div>
+            </article>
         </div>
     </div>
+</div>
 
-    <!-- ── RIGHT: stat cards stacked ── -->
-    <div class="mv-right">
-        <article class="mv-stat-card mv-stat-blue">
-            <div class="mv-stat-icon-wrap">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                    <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-                </svg>
-            </div>
-            <p class="mv-stat-num">{{ total_vehicle }}</p>
-            <p class="mv-stat-label">ĐÃ ĐĂNG KÝ</p>
-        </article>
-
-        <article class="mv-stat-card mv-stat-teal">
-            <div class="mv-stat-icon-wrap">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-            </div>
-            <p class="mv-stat-num">{{ in_parking }}</p>
-            <p class="mv-stat-label">TRONG BÃI</p>
-        </article>
+<div class="myv-other-header">
+    <div class="myv-other-heading">
+        <h2 class="myv-other-title">Phương tiện khác</h2>
+        <span class="myv-other-count">{{ other_vehicle_count }}</span>
     </div>
-
-</div>
-{% else %}
-
-<!-- No main vehicle: just stats + empty -->
-<div class="mv-layout" style="margin-bottom:22px;">
-    <div class="mv-right" style="flex-direction:row;gap:16px;">
-        <article class="mv-stat-card mv-stat-blue" style="flex:1;">
-            <div class="mv-stat-icon-wrap">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-            </div>
-            <p class="mv-stat-num">{{ total_vehicle }}</p>
-            <p class="mv-stat-label">ĐÃ ĐĂNG KÝ</p>
-        </article>
-        <article class="mv-stat-card mv-stat-teal" style="flex:1;">
-            <div class="mv-stat-icon-wrap">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            </div>
-            <p class="mv-stat-num">{{ in_parking }}</p>
-            <p class="mv-stat-label">TRONG BÃI</p>
-        </article>
-    </div>
-</div>
-{% endif %}
-
-<!-- ── Phương tiện khác ── -->
-<div class="mv-other-header">
-    <h2 class="mv-other-title">Phương tiện khác</h2>
-    <a class="mv-other-link" href="{{ url_for('my_new_vehicle') }}">+ Thêm xe</a>
+    <a class="myv-other-link" href="{{ url_for('my_new_vehicle') }}">+ Thêm xe</a>
 </div>
 
-{% if vehicles %}
-<div class="mv-other-list">
+{% if other_vehicle_count %}
+<div class="myv-other-list">
     {% for vehicle in vehicles %}
-    {% set key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
-    {% if not main_vehicle or vehicle.id != main_vehicle.id %}
-    <div class="mv-other-row {% if not vehicle.is_active %}mv-row-pending{% endif %}" 
-         onclick="window.location.href='{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}'"
-         style="cursor:pointer;" title="Xem {{ vehicle.plate }}">
-        <!-- Icon -->
-        <div class="mv-other-icon">
+    {% if vehicle.id != main_vehicle.id %}
+    {% set vehicle_key = vehicle.plate.upper().replace('-', '').replace(' ', '').replace('.', '') %}
+    <article class="myv-other-row">
+        <div class="myv-other-icon">
             {% if vehicle.vehicle_type == 'car' %}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
             {% elif vehicle.vehicle_type == 'electric' %}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M11 5h2l-1 7h3l-5 7 1-7H8z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"></circle><path d="M11 5h2l-1 7h3l-5 7 1-7H8z"></path></svg>
             {% else %}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6H2L2 14h13V6z"/><path d="M15 9h3l3 4v2h-6V9z"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6H2L2 14h13V6z"></path><path d="M15 9h3l3 4v2h-6V9z"></path></svg>
             {% endif %}
         </div>
-        <!-- Name & type -->
-        <div class="mv-other-meta">
-            <p class="mv-other-name">
-                {% if vehicle.brand %}{{ vehicle.brand }}{% else %}{{ translate_vehicle_type(vehicle.vehicle_type) }}{% endif %}
-            </p>
-            <p class="mv-other-sub">
-                {{ translate_vehicle_type(vehicle.vehicle_type) }}
-                {% if vehicle.color %}&bull; {{ vehicle.color }}{% endif %}
-            </p>
+
+        <div class="myv-other-meta">
+            <strong>{{ vehicle.brand or translate_vehicle_type(vehicle.vehicle_type) }}</strong>
+            <span>{{ translate_vehicle_type(vehicle.vehicle_type) }}{% if vehicle.color %} • {{ vehicle.color }}{% endif %}</span>
         </div>
-        <!-- Plate -->
-        <div class="mv-other-plate-col">
-            <p class="mv-other-col-label">BIỂN SỐ</p>
+
+        <div class="myv-other-column myv-other-plate">
+            <span class="myv-other-label">Biển số</span>
             <span class="plate-badge">{{ vehicle.plate }}</span>
         </div>
-        <!-- Status -->
-        <div class="mv-other-status-col">
-            <p class="mv-other-col-label">TRẠNG THÁI</p>
-            {% if active_map.get(key) %}
-                <span class="badge badge-success">Đang gửi</span>
+
+        <div class="myv-other-column myv-other-status">
+            <span class="myv-other-label">Trạng thái</span>
+            {% if active_map.get(vehicle_key) %}
+            <span class="badge badge-success">Trong bãi</span>
             {% elif not vehicle.is_active %}
-                <span class="badge badge-warning">Chờ duyệt</span>
+            <span class="badge badge-warning">Chờ duyệt</span>
             {% else %}
-                <span class="badge badge-secondary">Sẵn sàng</span>
+            <span class="badge badge-secondary">Sẵn sàng</span>
             {% endif %}
         </div>
-        <!-- Chevron -->
-        <div style="color:var(--text-secondary);flex-shrink:0;padding-left:4px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+
+        <div class="myv-other-actions">
+            <a class="btn btn-secondary btn-small" href="{{ url_for('my_vehicle', vehicle_id=vehicle.id) }}#vehicle-manage">Quản lý</a>
+            <a class="btn btn-secondary btn-small" href="{{ url_for('self_history', plate=vehicle.plate) }}">Lịch sử</a>
         </div>
-    </div>
+    </article>
     {% endif %}
     {% endfor %}
 </div>
 {% else %}
-<div class="empty-state">
-    <div class="empty-state-icon">🏍</div>
-    <p>Bạn chưa đăng ký xe nào.</p>
-    <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
-</div>
+<article class="section-card myv-empty-card">
+    <p>Bạn chưa có phương tiện nào khác.</p>
+</article>
 {% endif %}
 
-<style>
-/* ── Main layout ── */
-.mv-layout {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 20px;
-    align-items: stretch;
-    margin-bottom: 28px;
-}
-.mv-left { min-width: 0; display: flex; flex-direction: column; }
-.mv-right {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-/* Make stat cards grow to fill equal height */
-.mv-stat-card { flex: 1; }
+<div class="myv-modal" id="vehicleEditModal" aria-hidden="true">
+    <div class="myv-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="vehicleEditModalTitle">
+        <div class="myv-modal-head">
+            <div>
+                <p class="myv-modal-eyebrow">Cập nhật phương tiện</p>
+                <h2 id="vehicleEditModalTitle">Sửa thông tin {{ main_vehicle.plate }}</h2>
+            </div>
+            <button class="myv-modal-close" type="button" data-close-vehicle-modal aria-label="Đóng">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
 
-/* ── Main vehicle card ── */
-.mv-main-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('student_update_vehicle_route', vehicle_id=main_vehicle.id) }}" class="myv-modal-form">
+            <div class="myv-modal-fields">
+                <div class="form-group">
+                    <label for="vehicle_plate">Biển số xe</label>
+                    <input id="vehicle_plate" name="plate" type="text" required value="{{ vehicle_form.plate }}" placeholder="VD: 29A-123.45">
+                </div>
+                <div class="form-group">
+                    <label for="vehicle_type">Loại xe</label>
+                    <select id="vehicle_type" name="vehicle_type">
+                        <option value="motorbike" {% if vehicle_form.vehicle_type == 'motorbike' %}selected{% endif %}>Xe máy</option>
+                        <option value="car" {% if vehicle_form.vehicle_type == 'car' %}selected{% endif %}>Ô tô</option>
+                        <option value="electric" {% if vehicle_form.vehicle_type == 'electric' %}selected{% endif %}>Xe điện</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vehicle_brand">Hãng xe</label>
+                    <input id="vehicle_brand" name="brand" type="text" value="{{ vehicle_form.brand }}" placeholder="Honda, Yamaha...">
+                </div>
+                <div class="form-group">
+                    <label for="vehicle_color">Màu xe</label>
+                    <input id="vehicle_color" name="color" type="text" value="{{ vehicle_form.color }}" placeholder="Trắng, đen...">
+                </div>
+            </div>
 
-/* Hero image */
-.mv-hero {
-    position: relative;
-    height: 240px;
-    background: linear-gradient(135deg, #0f1f4a 0%, #1a3c8f 100%);
-    overflow: hidden;
-}
-.mv-hero-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.82;
-}
-.mv-hero-placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.mv-hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(10,20,50,0.72) 0%, transparent 55%);
-}
-.mv-hero-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    backdrop-filter: blur(4px);
-    border-radius: 999px;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.06em;
-}
-.mv-hero-bottom {
-    position: absolute;
-    bottom: 16px;
-    left: 20px;
-    z-index: 2;
-}
-.mv-hero-type {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.mv-hero-plate {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
-    border: 1.5px solid rgba(255,255,255,0.4);
-    border-radius: 8px;
-    padding: 5px 16px;
-    font-size: 17px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
-}
+            <div class="form-group">
+                <label for="vehicle_image">Ảnh phương tiện</label>
+                <label class="myv-upload-zone" for="vehicle_image">
+                    <input id="vehicle_image" name="image" type="file" accept="image/*">
+                    <div class="myv-upload-copy {% if main_vehicle.image_path %}is-hidden{% endif %}" id="myvUploadCopy">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <p>Tải ảnh xe mới</p>
+                        <span>PNG, JPG tối đa 5MB</span>
+                    </div>
+                    <img id="myvImagePreview" class="myv-upload-preview {% if main_vehicle.image_path %}is-visible{% endif %}" src="{% if main_vehicle.image_path %}{{ url_for('static', filename=main_vehicle.image_path) }}{% endif %}" alt="">
+                </label>
+            </div>
 
-/* Info section */
-.mv-info {
-    padding: 20px 22px;
-}
-.mv-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 18px;
-}
-.mv-info-cell {}
-.mv-info-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-}
-.mv-info-plate {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: 0.04em;
-    border-left: 3px solid var(--primary);
-    padding-left: 10px;
-}
-.mv-info-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-}
-.mv-info-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #f0f9ff;
-    border: 1px solid #bae6fd;
-    border-radius: 8px;
-    padding: 7px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-}
-.mv-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.mv-dot-green  { background: var(--success); }
-.mv-dot-orange { background: var(--warning); }
-.mv-dot-gray   { background: #94a3b8; }
+            <div class="myv-modal-actions">
+                <button class="btn btn-secondary" type="button" data-close-vehicle-modal>Hủy</button>
+                <button class="btn btn-primary" type="submit">Lưu cập nhật</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="myv-empty-layout">
+    <div class="myv-empty-stats">
+        <article class="myv-stat-card myv-stat-card-primary">
+            <strong class="myv-stat-number">{{ total_vehicle }}</strong>
+            <span class="myv-stat-label">Đã đăng ký</span>
+        </article>
+        <article class="myv-stat-card myv-stat-card-warm">
+            <strong class="myv-stat-number">{{ in_parking }}</strong>
+            <span class="myv-stat-label">Trong bãi</span>
+        </article>
+    </div>
 
-/* Action buttons */
-.mv-action-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.mv-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border-radius: 10px;
-    padding: 10px 18px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    text-decoration: none;
-    transition: background 0.15s, border-color 0.15s, transform 0.13s, box-shadow 0.15s;
-    flex: 1;
-    justify-content: center;
-}
-.mv-btn:hover { transform: translateY(-1px); text-decoration: none; }
-.mv-btn-outline {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    color: var(--text);
-}
-.mv-btn-outline:hover {
-    background: var(--bg);
-    border-color: var(--primary);
-    color: var(--primary);
-    box-shadow: 0 2px 8px rgba(26,60,143,0.12);
-}
+    <article class="section-card myv-empty-state">
+        <div class="empty-state-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5.5" cy="17.5" r="3.5"></circle><circle cx="18.5" cy="17.5" r="3.5"></circle><path d="M15 6H2L2 14h13V6z"></path><path d="M15 9h3l3 4v2h-6V9z"></path></svg>
+        </div>
+        <p>Bạn chưa đăng ký phương tiện nào.</p>
+        <a class="btn btn-primary" href="{{ url_for('my_new_vehicle') }}">Đăng ký phương tiện đầu tiên</a>
+    </article>
+</div>
+{% endif %}
+{% endblock %}
 
-/* ── Stat cards (right column) ── */
-.mv-stat-card {
-    border-radius: 16px;
-    padding: 20px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border: 1px solid transparent;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-    position: relative;
-    overflow: hidden;
-}
-.mv-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.mv-stat-blue {
-    background: var(--primary);
-    border-color: var(--primary-dark);
-}
-.mv-stat-teal {
-    background: #0d9488;
-    border-color: #0f766e;
-}
-.mv-stat-icon-wrap {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-}
-.mv-stat-num {
-    font-size: 38px;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -2px;
-    line-height: 1;
-    margin: 4px 0 0;
-}
-.mv-stat-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.65);
-    text-transform: uppercase;
-}
-
-/* ── Other vehicles ── */
-.mv-other-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-}
-.mv-other-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-}
-.mv-other-link {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--primary);
-    text-decoration: none;
-}
-.mv-other-link:hover { text-decoration: underline; }
-
-.mv-other-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-.mv-other-row {
-    display: grid;
-    grid-template-columns: 52px 1fr auto auto 20px;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.13s;
-}
-.mv-other-row:last-child { border-bottom: none; }
-.mv-other-row:hover { background: #f8faff; }
-.mv-row-pending { opacity: 0.7; }
-
-.mv-other-icon {
-    width: 48px;
-    height: 48px;
-    background: var(--bg);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-}
-.mv-other-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 3px;
-}
-.mv-other-sub {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-.mv-other-col-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    color: var(--text-secondary);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
-.mv-other-plate-col { min-width: 110px; }
-.mv-other-status-col { min-width: 100px; text-align: right; }
-
-/* ── Responsive ── */
-@media (max-width: 860px) {
-    .mv-layout {
-        grid-template-columns: 1fr;
+{% block extra_js %}
+{% if main_vehicle %}
+<script>
+(() => {
+    const modal = document.getElementById('vehicleEditModal');
+    if (!modal) {
+        return;
     }
-    .mv-right {
-        flex-direction: row;
-    }
-    .mv-stat-card { flex: 1; }
-}
-@media (max-width: 600px) {
-    .mv-other-row {
-        grid-template-columns: 44px 1fr;
-        grid-template-rows: auto auto;
-    }
-    .mv-other-plate-col,
-    .mv-other-status-col {
-        grid-column: 2;
-        text-align: left;
-    }
-    .mv-info-grid { grid-template-columns: 1fr; }
-}
-</style>
 
+    const openButtons = document.querySelectorAll('[data-open-vehicle-modal]');
+    const closeButtons = document.querySelectorAll('[data-close-vehicle-modal]');
+    const fileInput = document.getElementById('vehicle_image');
+    const preview = document.getElementById('myvImagePreview');
+    const uploadCopy = document.getElementById('myvUploadCopy');
+
+    const toggleModal = (open) => {
+        modal.classList.toggle('is-open', open);
+        modal.setAttribute('aria-hidden', open ? 'false' : 'true');
+        document.body.classList.toggle('modal-open', open);
+    };
+
+    openButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleModal(true));
+    });
+
+    closeButtons.forEach((button) => {
+        button.addEventListener('click', () => toggleModal(false));
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            toggleModal(false);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+            toggleModal(false);
+        }
+    });
+
+    if (fileInput && preview && uploadCopy) {
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                preview.src = event.target.result;
+                preview.classList.add('is-visible');
+                uploadCopy.classList.add('is-hidden');
+            };
+            reader.readAsDataURL(file);
+        });
+        if (preview.getAttribute('src')) {
+            uploadCopy.classList.add('is-hidden');
+        }
+    }
+})();
+</script>
+{% endif %}
 {% endblock %}

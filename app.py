@@ -241,6 +241,16 @@ def _vehicle_form_defaults(data: dict | None = None) -> dict:
     return payload
 
 
+def _owned_student_vehicle(vehicle_id: int) -> dict | None:
+    vehicle = get_vehicle_by_id(vehicle_id)
+    student_code = (g.user.get("student_code") or "").strip()
+    if not vehicle:
+        return None
+    if (vehicle.get("student_code") or "").strip() != student_code:
+        return None
+    return vehicle
+
+
 def _parking_area_form_defaults(data: dict | None = None) -> dict:
     payload = {
         "name": "",
@@ -1379,14 +1389,124 @@ def my_vehicle():
     selected_vehicle = next((row for row in vehicles_rows if str(row["id"]) == selected_vehicle_id), None)
     if not selected_vehicle:
         selected_vehicle = vehicles_rows[0] if vehicles_rows else None
+    vehicle_form = _vehicle_form_defaults(selected_vehicle)
+    selected_vehicle_summary = {"sessions_count": 0, "total_spent": 0}
+    selected_vehicle_history: list[dict] = []
+    if selected_vehicle:
+        plate_where = "replace(replace(replace(upper(pl.plate), '-', ''), ' ', ''), '.', '') = :plate"
+        plate_params = {"student_code": student_code, "plate": normalize_plate(selected_vehicle["plate"])}
+        selected_vehicle_summary = {
+            "sessions_count": int(
+                _fetch_scalar(
+                    f"SELECT COUNT(*) FROM parking_log pl WHERE pl.student_code = :student_code AND {plate_where}",
+                    plate_params,
+                )
+            ),
+            "total_spent": int(
+                _fetch_scalar(
+                    f"SELECT COALESCE(SUM(pl.fee), 0) FROM parking_log pl WHERE pl.student_code = :student_code AND {plate_where}",
+                    plate_params,
+                )
+            ),
+        }
+        selected_vehicle_history = [
+            {
+                "parking_area_name": row[0],
+                "time_in": row[1],
+                "time_out": row[2],
+                "gate_in": row[3],
+                "gate_out": row[4],
+                "fee": int(row[5] or 0),
+                "status": row[6],
+            }
+            for row in _fetch_all(
+                f"""
+                SELECT
+                    COALESCE(pa.name, 'Bãi xe mặc định') AS parking_area_name,
+                    pl.time_in,
+                    pl.time_out,
+                    pl.gate_in,
+                    pl.gate_out,
+                    pl.fee,
+                    pl.status
+                FROM parking_log pl
+                LEFT JOIN parking_areas pa ON pa.id = pl.parking_area_id
+                WHERE pl.student_code = :student_code AND {plate_where}
+                ORDER BY pl.id DESC
+                LIMIT 12
+                """,
+                plate_params,
+            )
+        ]
     return render_template(
         "student_my_vehicle.html",
+        user=g.user,
         total_vehicle=len(vehicles_rows),
         in_parking=in_parking,
         main_vehicle=selected_vehicle,
         vehicles=vehicles_rows,
         active_map=active_map,
+        other_vehicle_count=max(len(vehicles_rows) - (1 if selected_vehicle else 0), 0),
+        selected_vehicle_summary=selected_vehicle_summary,
+        selected_vehicle_history=selected_vehicle_history,
+        vehicle_form=vehicle_form,
     )
+
+
+@app.post("/my-vehicle/<int:vehicle_id>/update")
+@roles_required("student")
+def student_update_vehicle_route(vehicle_id: int):
+    current_vehicle = _owned_student_vehicle(vehicle_id)
+    if not current_vehicle:
+        flash("Không tìm thấy phương tiện của bạn.", "error")
+        return redirect(url_for("my_vehicle"))
+    if get_active_session_by_plate(current_vehicle["plate"]):
+        flash("Không thể chỉnh sửa phương tiện khi xe đang ở trong bãi.", "error")
+        return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+    image_path = None
+    try:
+        image_path, _ = _save_upload(request.files.get("image"), prefix="student_vehicle")
+        update_vehicle(
+            vehicle_id,
+            plate=(request.form.get("plate") or "").strip(),
+            student_code=(g.user.get("student_code") or "").strip(),
+            owner_name=(g.user.get("full_name") or "").strip() or current_vehicle.get("owner_name"),
+            vehicle_type=(request.form.get("vehicle_type") or "motorbike").strip(),
+            brand=(request.form.get("brand") or "").strip() or None,
+            color=(request.form.get("color") or "").strip() or None,
+            image_path=image_path,
+            is_active=bool(current_vehicle.get("is_active")),
+        )
+        if image_path and current_vehicle.get("image_path") and current_vehicle["image_path"] != image_path:
+            _delete_static_asset(current_vehicle["image_path"])
+        flash("Đã cập nhật thông tin xe.", "success")
+    except ValueError as exc:
+        message_map = {
+            "required": "Vui lòng nhập biển số xe.",
+            "conflict": "Biển số xe đã tồn tại trong hệ thống.",
+            "invalid_vehicle_type": "Loại xe không hợp lệ.",
+        }
+        _delete_static_asset(image_path)
+        flash(message_map.get(str(exc), "Không thể cập nhật phương tiện."), "error")
+    return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+
+@app.post("/my-vehicle/<int:vehicle_id>/delete")
+@roles_required("student")
+def student_delete_vehicle_route(vehicle_id: int):
+    vehicle = _owned_student_vehicle(vehicle_id)
+    if not vehicle:
+        flash("Không tìm thấy phương tiện của bạn.", "error")
+        return redirect(url_for("my_vehicle"))
+    if get_active_session_by_plate(vehicle["plate"]):
+        flash("Không thể xóa phương tiện đang ở trong bãi.", "error")
+        return redirect(url_for("my_vehicle", vehicle_id=vehicle_id))
+
+    delete_vehicle(vehicle_id)
+    _delete_static_asset(vehicle.get("image_path"))
+    flash("Đã xóa phương tiện.", "success")
+    return redirect(url_for("my_vehicle"))
 
 
 @app.route("/my-new-vehicle", methods=["GET", "POST"])
@@ -1560,11 +1680,15 @@ def self_dashboard():
 @roles_required("student")
 def self_history():
     student_code = g.user.get("student_code")
+    plate_filter = (request.args.get("plate") or "").strip()
     date_from = (request.args.get("date_from") or "").strip()
     date_to = (request.args.get("date_to") or "").strip()
 
     where = ["pl.student_code=:student_code"]
     params = {"student_code": student_code or ""}
+    if plate_filter:
+        where.append("replace(replace(replace(upper(pl.plate), '-', ''), ' ', ''), '.', '') = :plate")
+        params["plate"] = normalize_plate(plate_filter)
     if date_from:
         where.append("date(pl.time_in) >= :date_from")
         params["date_from"] = date_from
@@ -1598,6 +1722,7 @@ def self_history():
         histories=histories,
         total_sessions=len(histories),
         total_spent=sum(int(row[3] or 0) for row in histories),
+        plate_filter=plate_filter,
         date_from=date_from,
         date_to=date_to,
     )

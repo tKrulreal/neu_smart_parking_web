@@ -11,7 +11,10 @@
 <div class="page-header">
     <div>
         <h1 class="page-title">Lịch sử gửi xe</h1>
-        <p class="page-subtitle">Theo dõi các phiên gửi xe của bạn theo thời gian.</p>
+        <p class="page-subtitle">
+            Theo dõi các phiên gửi xe của bạn theo thời gian.
+            {% if plate_filter %}Đang lọc theo biển số {{ plate_filter }}.{% endif %}
+        </p>
     </div>
 </div>
 
@@ -32,6 +35,10 @@
 
 <article class="section-card" style="margin-bottom:16px;">
     <form method="get" action="{{ url_for('self_history') }}" class="filter-bar">
+        <div class="form-group">
+            <label for="plate">Biển số xe</label>
+            <input id="plate" type="text" name="plate" value="{{ plate_filter }}" placeholder="VD: 29A-123.45">
+        </div>
         <div class="form-group">
             <label for="date_from">Từ ngày</label>
             <input id="date_from" type="date" name="date_from" value="{{ date_from }}">
